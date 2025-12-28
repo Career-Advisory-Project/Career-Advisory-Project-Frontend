@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import { getCourseOverview } from "../../../services/course.service";
-
 import type { CourseOverviewResponse, SkillItem } from "../../../types/course";
-
 import "../../../assets/styles/dashboard.css";
 
-const CourseOverview = () => {
+type Props = {
+  lang: "en" | "th";
+  courseId: string;
+};
+
+const CourseOverview = ({ lang, courseId }: Props) => {
   const [data, setData] = useState<CourseOverviewResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +16,7 @@ const CourseOverview = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getCourseOverview();
+        const result = await getCourseOverview(courseId);
         console.log("Data from API:", result);
         setData(result);
       } catch (err) {
@@ -35,6 +37,12 @@ const CourseOverview = () => {
   if (!data || !data.course || !data.skillList)
     return <div className="p-10 text-center">No course data found</div>;
 
+  const title =
+    lang === "en" ? data.course.courseNameEN : data.course.courseNameTH;
+
+  const detail =
+    lang === "en" ? data.course.courseDetailEN : data.course.courseDetailTH;
+
   return (
     <div className="min-h-screen w-full flex items-center justify-end p-4 font-['CMU']">
       <div className="dashboard-card w-[819px] h-[793px]">
@@ -45,7 +53,7 @@ const CourseOverview = () => {
 
           {/* CourseName */}
           <h1 className="text-[#5b4085] font-bold mt-1 !text-[30px]">
-            {data.course.courseNameEN}
+            {title}
           </h1>
 
           <hr className="border-gray-300 w-[718px] my-4 mx-auto" />
@@ -54,7 +62,7 @@ const CourseOverview = () => {
         <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
           {/* courseDetail */}
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
-            {data.course.courseDetailEN}
+            {detail}
           </p>
         </div>
 
