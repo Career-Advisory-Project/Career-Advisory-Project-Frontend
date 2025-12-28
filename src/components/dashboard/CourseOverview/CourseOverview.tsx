@@ -32,7 +32,7 @@ const CourseOverview = () => {
     return <div className="p-10 text-center text-gray-500">Loading...</div>;
   if (error)
     return <div className="p-10 text-center text-red-500">Error: {error}</div>;
-  if (!data || !data.course)
+  if (!data || !data.course || !data.skillList)
     return <div className="p-10 text-center">No course data found</div>;
 
   return (
