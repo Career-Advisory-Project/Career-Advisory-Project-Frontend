@@ -54,7 +54,7 @@ const CourseOverview = () => {
         <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
           {/* courseDetail */}
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
-            {data.course.courseDetail}
+            {data.course.courseDetailEN}
           </p>
         </div>
 

@@ -11,7 +11,8 @@ export interface CourseInfo {
   courseNo: string;
   courseNameEN: string;
   courseNameTH: string;
-  courseDetail: string;
+  courseDetailEN: string;
+  courseDetailTH: string;
   credit: number;
 }
 
