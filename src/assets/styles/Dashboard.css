@@ -1,18 +1,19 @@
-/* ===== DASHBOARD ONLY STYLES (TEST) ===== */
+@import "tailwindcss";
 
-.dashboard-wrapper {
-  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
-}
+@layer components {
+  .dashboard-card {
+    @apply bg-white rounded-[8px] shadow-xl p-4;
+  }
 
-.dashboard-title {
-  color: #1d4ed8; /* blue-700 */
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+  .dashboard-panel {
+    @apply bg-gray-100 rounded-lg p-6 overflow-y-auto;
+  }
 
-.dashboard-box {
-  border: 2px dashed #3b82f6;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: white;
+  .skill-card {
+    @apply bg-white rounded shadow-sm p-4;
+  }
+
+  .primary-btn {
+    @apply bg-[#5b4085] hover:bg-[#4a3370] text-white font-bold py-2 px-8 rounded shadow-md transition-colors;
+  }
 }
