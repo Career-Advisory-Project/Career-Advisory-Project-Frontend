@@ -4,6 +4,8 @@ import { getCourseOverview } from "../../../services/course.service";
 
 import type { CourseOverviewResponse, SkillItem } from "../../../types/course";
 
+import "../../../assets/styles/dashboard.css";
+
 const CourseOverview = () => {
   const [data, setData] = useState<CourseOverviewResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +37,7 @@ const CourseOverview = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-end p-4 font-['CMU']">
-      <div className="bg-white rounded-[8px] shadow-xl w-[819px] h-[793px] p-4">
+      <div className="dashboard-card w-[819px] h-[793px]">
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
             Course Overview
@@ -49,7 +51,7 @@ const CourseOverview = () => {
           <hr className="border-gray-300 w-[718px] my-4 mx-auto" />
         </div>
 
-        <div className="bg-gray-100 rounded-lg p-6 w-[719px] h-[234px] mx-auto overflow-y-auto">
+        <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
           {/* courseDetail */}
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
             {data.course.courseDetail}
@@ -57,7 +59,7 @@ const CourseOverview = () => {
         </div>
 
         {/* skillList */}
-        <div className="bg-gray-100 rounded-lg w-[719px] h-[341px] p-6 mt-3 mx-auto overflow-y-auto">
+        <div className="dashboard-panel w-[719px] h-[341px] mt-3 mx-auto">
           <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
             Skill List
           </h3>
@@ -65,7 +67,7 @@ const CourseOverview = () => {
             {data.skillList.map((skill: SkillItem) => (
               <div
                 key={`${skill.no}-${skill.skillTitle}`}
-                className="bg-white rounded shadow-sm w-[669px] h-[53px] p-4  "
+                className="skill-card w-[669px] h-[53px]"
               >
                 <div className="flex justify-between items-center border-b-1 border-gray-300 pb-1">
                   {/* skillTitle */}

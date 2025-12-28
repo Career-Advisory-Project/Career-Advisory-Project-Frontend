@@ -2,7 +2,7 @@
 
 @layer components {
   .dashboard-card {
-    @apply bg-white rounded-lg shadow-xl p-4;
+    @apply bg-white rounded-[8px] shadow-xl p-4;
   }
 
   .dashboard-panel {
