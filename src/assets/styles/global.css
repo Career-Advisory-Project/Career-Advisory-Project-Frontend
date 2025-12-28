@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* ===== GLOBAL RANDOM STYLES (TEST) ===== */
+
+/* Global font + background */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8fafc; /* slate-50 */
+}
+
+/* Global card style */
+.global-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Global heading color */
+h1 {
+  color: #0f172a; /* slate-900 */
+}
