@@ -14,10 +14,20 @@ const CourseOverview = ({ lang, courseId }: Props) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!courseId) return;
+
+    console.log("Fetching course overview for:", courseId);
+
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setError(null);
+        setData(null);
+
         const result = await getCourseOverview(courseId);
-        console.log("Data from API:", result);
+        console.log("Course from API:", result.course.courseNo);
+        console.log("Full result:", result);
+
         setData(result);
       } catch (err) {
         setError("Failed to fetch data");
@@ -28,7 +38,7 @@ const CourseOverview = ({ lang, courseId }: Props) => {
     };
 
     fetchData();
-  }, []);
+  }, [courseId]);
 
   if (loading)
     return <div className="p-10 text-center text-gray-500">Loading...</div>;

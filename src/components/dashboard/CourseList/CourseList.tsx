@@ -6,9 +6,10 @@ import type { TeacherCourse } from "../../../types/course";
 type Props = {
   teacherId: string;
   lang: "en" | "th";
+  onSelectCourse: (courseId: string) => void;
 };
 
-const CourseList = ({ teacherId, lang }: Props) => {
+const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +44,15 @@ const CourseList = ({ teacherId, lang }: Props) => {
 
       <div className="flex flex-col gap-3">
         {courses.map((course) => (
-          <CourseItem key={course.courseNo} course={course} lang={lang} />
+          <CourseItem
+            key={course.courseNo}
+            course={course}
+            lang={lang}
+            onClick={() => {
+              onSelectCourse(course.courseNo);
+              console.log("Selected course:", course.courseNo);
+            }}
+          />
         ))}
       </div>
 
