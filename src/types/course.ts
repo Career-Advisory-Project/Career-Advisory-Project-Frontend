@@ -21,3 +21,18 @@ export interface CourseOverviewResponse {
   course: CourseInfo;
   skillList: SkillItem[];
 }
+
+export interface TeacherCourse {
+  courseNo: string;
+  courseNameEN: string;
+  courseNameTH: string;
+  courseDetailEN: string;
+  courseDetailTH: string;
+  credit: number;
+}
+
+export interface TeacherCourseResponse {
+  ok: boolean;
+  id: string;
+  teacherCourse: TeacherCourse[];
+}

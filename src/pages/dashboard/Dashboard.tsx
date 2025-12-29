@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../../components/layout/Navbar";
 import CourseOverview from "../../components/dashboard/CourseOverview/CourseOverview";
+import CourseList from "../../components/dashboard/CourseList/CourseList";
 
 const Dashboard = () => {
   const [lang, setLang] = useState<"en" | "th">(() => {
@@ -18,8 +19,11 @@ const Dashboard = () => {
   // TEMP: mock courseId until course selection is implemented
   return (
     <div className="min-h-screen">
-      <Navbar lang={lang} onToggleLang={toggleLang} />
-      <CourseOverview lang={lang} courseId="k5RZXfNFjcvTzM4B9xGZb" />
+      <div>
+        <Navbar lang={lang} onToggleLang={toggleLang} />
+        <CourseList teacherId="teacher123" lang={lang} />
+        <CourseOverview lang={lang} courseId="k5RZXfNFjcvTzM4B9xGZb" />
+      </div>
     </div>
   );
 };
