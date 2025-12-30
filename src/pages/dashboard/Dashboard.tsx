@@ -27,7 +27,7 @@ const Dashboard = () => {
       <Navbar lang={lang} onToggleLang={toggleLang} />
 
       <div className="flex justify-center px-6 py-8">
-        <div className="flex gap-6 max-w-[1200px] w-full">
+        <div className="flex gap-6 max-w-[1200px] w-full items-stretch">
           <aside className="w-[360px] min-w-[360px] flex-shrink-0">
             <CourseList
               teacherId="teacher123"

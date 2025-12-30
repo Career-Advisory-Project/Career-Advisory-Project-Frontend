@@ -54,16 +54,14 @@ const CourseOverview = ({ lang, courseId }: Props) => {
     fetchData();
   }, [courseId]);
 
-  if (loading)
-    return <div className="p-10 text-center text-gray-500">Loading...</div>;
-  if (error)
-    return <div className="p-10 text-center text-red-500">Error: {error}</div>;
-  if (!data || !data.course || !data.skillList)
-    return <div className="p-10 text-center">No course data found</div>;
-
-  const title = data.course.name;
-
-  const detail = lang === "en" ? data.course.descENG : data.course.descTH;
+  const title = data?.course?.name ?? "—";
+  const detail = loading
+    ? "Loading course details..."
+    : error
+    ? "Failed to load course details."
+    : lang === "en"
+    ? data?.course?.descENG
+    : data?.course?.descTH;
 
   return (
     <>
@@ -90,12 +88,20 @@ const CourseOverview = ({ lang, courseId }: Props) => {
           </div>
 
           {/* skillList */}
-          <div className="dashboard-panel w-[719px] h-[341px] mt-3 mx-auto">
+          <div className="dashboard-panel w-[719px] min-h-[341px] mt-3 mx-auto">
             <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
               Skill List
             </h3>
-            <div className="space-y-3 ">
-              {editableSkills.length === 0 ? (
+            <div className="space-y-3">
+              {loading ? (
+                <div className="text-center text-gray-400 text-sm py-10">
+                  Loading skills...
+                </div>
+              ) : error ? (
+                <div className="text-center text-red-500 text-sm py-10">
+                  Failed to load skills.
+                </div>
+              ) : editableSkills.length === 0 ? (
                 <div className="text-center text-gray-400 text-sm py-10">
                   {lang === "en"
                     ? "No skills have been defined for this course yet."
@@ -108,12 +114,9 @@ const CourseOverview = ({ lang, courseId }: Props) => {
                     className="skill-card w-[669px] h-[53px]"
                   >
                     <div className="flex justify-between items-center border-b-1 border-gray-300 pb-1">
-                      {/* skillTitle */}
-                      <span className="text-[#6a5acd] font-bold text-lg ">
+                      <span className="text-[#6a5acd] font-bold text-lg">
                         {skill.name}
                       </span>
-
-                      {/* skillLevel */}
                       <span className="text-gray-800 font-bold text-sm">
                         Level {skill.selectedLevel}
                       </span>

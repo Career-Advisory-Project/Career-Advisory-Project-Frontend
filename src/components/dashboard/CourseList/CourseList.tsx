@@ -57,7 +57,7 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
   );
 
   return (
-    <div className="w-[360px] min-w-[360px] flex-shrink-0 bg-[#f6f4fb] rounded-xl p-4 flex flex-col gap-4">
+    <div className="h-full w-[360px] min-w-[360px] flex-shrink-0 bg-[#f6f4fb] rounded-xl p-4 flex flex-col gap-4">
       <h2 className="text-center font-bold text-[#5b4085] text-lg">
         Course List
       </h2>
