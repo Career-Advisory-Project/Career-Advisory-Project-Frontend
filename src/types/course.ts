@@ -1,17 +1,26 @@
 export interface SkillItem {
   no: string;
-  skillTitle: string;
-  skillDescriptionEN: string;
-  skillDescriptionTH: string;
-  skillType: string;
-  skillLevel: number;
+  name: string;
+  descTH: string;
+  descENG: string;
+  tags: string[];
+  rubrics: SkillRubric[];
+
+  // 🔹 frontend-only selected level
+  selectedLevel?: number;
+}
+
+export interface SkillRubric {
+  level: number;
+  descTH: string;
+  descEN: string;
 }
 
 export interface CourseInfo {
   courseNo: string;
-  courseNameEN: string;
-  courseNameTH: string;
-  courseDetail: string;
+  name: string;
+  descTH: string;
+  descENG: string;
   credit: number;
 }
 
@@ -19,4 +28,18 @@ export interface CourseOverviewResponse {
   ok: boolean;
   course: CourseInfo;
   skillList: SkillItem[];
+}
+
+export interface TeacherCourse {
+  courseNo: string;
+  name: string;
+  descTH: string;
+  descENG: string;
+  credit: number;
+}
+
+export interface TeacherCourseResponse {
+  ok: boolean;
+  id: string;
+  teacherCourse: TeacherCourse[];
 }
