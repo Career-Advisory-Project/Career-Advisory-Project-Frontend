@@ -21,23 +21,30 @@ const Dashboard = () => {
   useEffect(() => {
     console.log("Dashboard selectedCourseId:", selectedCourseId);
   }, [selectedCourseId]);
-  // TEMP: mock courseId until course selection is implemented
+
   return (
     <div className="min-h-screen">
       <Navbar lang={lang} onToggleLang={toggleLang} />
-      <div className="flex gap-6 p-6">
-        <CourseList
-          teacherId="teacher123"
-          lang={lang}
-          onSelectCourse={setSelectedCourseId}
-        />
-        {selectedCourseId ? (
-          <CourseOverview lang={lang} courseId={selectedCourseId} />
-        ) : (
-          <div className="flex-1 flex items-center justify-center text-gray-400">
-            Select a course to view details
-          </div>
-        )}
+
+      <div className="flex justify-center px-6 py-8">
+        <div className="flex gap-6 max-w-[1200px] w-full">
+          <aside className="w-[360px] min-w-[360px] flex-shrink-0">
+            <CourseList
+              teacherId="teacher123"
+              lang={lang}
+              onSelectCourse={setSelectedCourseId}
+            />
+          </aside>
+          <main className="flex-1">
+            {selectedCourseId ? (
+              <CourseOverview lang={lang} courseId={selectedCourseId} />
+            ) : (
+              <div className="h-full flex items-center justify-center text-gray-400">
+                Select a course to view details
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
