@@ -65,7 +65,7 @@ const CourseOverview = ({ lang, courseId }: Props) => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-end p-4 font-['CMU']">
+      <div className="flex items-center justify-end font-['CMU']">
         <div className="dashboard-card w-[819px] h-[793px]">
           <div className="text-center mb-6">
             <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
