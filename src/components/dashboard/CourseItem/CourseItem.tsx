@@ -6,7 +6,7 @@ type Props = {
   onClick: () => void;
 };
 
-const CourseItem = ({ course, lang, onClick }: Props) => {
+const CourseItem = ({ course, onClick }: Props) => {
   const name = course.name;
 
   return (
