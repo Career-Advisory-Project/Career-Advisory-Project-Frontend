@@ -4,6 +4,7 @@
   .dashboard-card {
     @apply bg-white rounded-[8px] shadow-xl p-4;
   }
+  
 
   .dashboard-panel {
     @apply bg-gray-100 rounded-lg p-6 overflow-y-auto;
