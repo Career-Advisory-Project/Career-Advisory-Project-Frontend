@@ -21,7 +21,7 @@ const CourseItem = ({ course, lang, onClick }: Props) => {
       </div>
 
       <div className="text-sm font-medium text-[#5b4085]">
-        {course.credit} Credits
+        {course.credit.credits} Credits
       </div>
     </div>
   );

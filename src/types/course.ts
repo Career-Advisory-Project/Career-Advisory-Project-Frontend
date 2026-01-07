@@ -30,12 +30,19 @@ export interface CourseOverviewResponse {
   skillList: SkillItem[];
 }
 
+export interface CourseCredit {
+  credits: number;
+  lecture: number;
+  practice: number;
+  selfStudy: number;
+}
+
 export interface TeacherCourse {
   courseNo: string;
   name: string;
   descTH: string;
   descENG: string;
-  credit: number;
+  credit: CourseCredit;
 }
 
 export interface TeacherCourseResponse {
