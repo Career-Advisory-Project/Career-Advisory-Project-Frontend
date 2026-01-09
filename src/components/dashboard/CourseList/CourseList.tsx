@@ -8,7 +8,12 @@ const MOCK_NO_SKILL_COURSE: TeacherCourse = {
   name: "🧪 Mock Course (No Skills)",
   descENG: "This course is used to test empty skill list behavior.",
   descTH: "รายวิชานี้ใช้สำหรับทดสอบกรณีไม่มีทักษะ",
-  credit: 3,
+  credit: {
+    credits: 67,
+    lecture: 2,
+    practice: 1,
+    selfStudy: 4,
+  },
 };
 
 type Props = {
