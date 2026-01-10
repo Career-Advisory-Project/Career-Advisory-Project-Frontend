@@ -30,7 +30,7 @@ const Dashboard = () => {
         <div className="flex gap-6 max-w-[1200px] w-full items-stretch">
           <aside className="w-[360px] min-w-[360px] flex-shrink-0">
             <CourseList
-              teacherId="teacher123"
+              teacherId="61a82ed2e1d2b69f983664f9"
               lang={lang}
               onSelectCourse={setSelectedCourseId}
             />
