@@ -7,7 +7,7 @@ type Props = {
 };
 
 const CourseItem = ({ course, lang, onClick }: Props) => {
-  const name = course.name;
+  const name = lang === "en" ? course.courseNameEN : course.courseNameTH;
 
   return (
     <div

@@ -18,10 +18,11 @@ export interface SkillRubric {
 
 export interface CourseInfo {
   courseNo: string;
-  name: string;
-  descTH: string;
-  descENG: string;
-  credit: number;
+  courseNameTH: string;
+  courseNameEN: string;
+  detailTH: string;
+  detailEN: string;
+  credit: CourseCredit;
 }
 
 export interface CourseOverviewResponse {
@@ -39,14 +40,22 @@ export interface CourseCredit {
 
 export interface TeacherCourse {
   courseNo: string;
-  name: string;
-  descTH: string;
-  descENG: string;
+  courseNameTH: string;
+  courseNameEN: string;
+  detailTH: string;
+  detailEN: string;
   credit: CourseCredit;
 }
 
 export interface TeacherCourseResponse {
   ok: boolean;
   id: string;
-  teacherCourse: TeacherCourse[];
+  titleTH: string;
+  titleEN: string;
+  firstNameTH: string;
+  firstNameEN: string;
+  lastNameTH: string;
+  lastNameEN: string;
+  courses: TeacherCourse[];
+  // teacherCourse: TeacherCourse[];
 }

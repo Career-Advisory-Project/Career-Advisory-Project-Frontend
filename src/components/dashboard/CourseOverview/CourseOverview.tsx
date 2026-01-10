@@ -54,14 +54,20 @@ const CourseOverview = ({ lang, courseId }: Props) => {
     fetchData();
   }, [courseId]);
 
-  const title = data?.course?.name ?? "—";
+  const title = loading
+    ? "Loading..."
+    : error
+    ? "—"
+    : lang === "en"
+    ? data?.course?.courseNameEN ?? "—"
+    : data?.course?.courseNameTH ?? "—";
   const detail = loading
     ? "Loading course details..."
     : error
     ? "Failed to load course details."
     : lang === "en"
-    ? data?.course?.descENG
-    : data?.course?.descTH;
+    ? data?.course?.detailEN
+    : data?.course?.detailTH;
 
   return (
     <>

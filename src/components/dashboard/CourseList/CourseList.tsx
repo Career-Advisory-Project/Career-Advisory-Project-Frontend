@@ -5,9 +5,10 @@ import type { TeacherCourse } from "../../../types/course";
 
 const MOCK_NO_SKILL_COURSE: TeacherCourse = {
   courseNo: "__MOCK_NO_SKILL__",
-  name: "🧪 Mock Course (No Skills)",
-  descENG: "This course is used to test empty skill list behavior.",
-  descTH: "รายวิชานี้ใช้สำหรับทดสอบกรณีไม่มีทักษะ",
+  courseNameEN: "🧪 Mock Course (No Skills)",
+  courseNameTH: "🧪 รายวิชาทดสอบ (ไม่มีทักษะ)",
+  detailEN: "This course is used to test empty skill list behavior.",
+  detailTH: "รายวิชานี้ใช้สำหรับทดสอบกรณีไม่มีทักษะ",
   credit: {
     credits: 67,
     lecture: 2,
@@ -34,7 +35,7 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
         console.log("API data (teacher courses):", result);
         // setCourses(result.teacherCourse);
         setCourses([
-          ...result.teacherCourse,
+          ...result.courses,
           MOCK_NO_SKILL_COURSE, // 👈 TEMP MOCK
         ]);
       } catch (err) {
