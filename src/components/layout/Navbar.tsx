@@ -1,3 +1,18 @@
+'use client' // ต้องใส่เพื่อให้ใช้ useState, useEffect ได้
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+// กำหนด Type ของข้อมูล User ให้ตรงกับที่ Backend ส่งมา
+type UserInfo = {
+  cmuitaccount_name: string;
+  cmuitaccount: string;
+  firstname_EN: string;
+  lastname_EN: string;
+  firstname_TH: String;
+  lastname_TH:String;
+  organization_name_EN: string;
+};
+
 const Navbar = ({
   lang,
   onToggleLang,
@@ -5,7 +20,30 @@ const Navbar = ({
   lang: "en" | "th";
   onToggleLang: () => void;
 }) => {
-  const user = { username: "YourUser IsNameWhat" };
+  // สร้าง State ไว้เก็บข้อมูล User
+  const [userData, setUserData] = useState<UserInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // ดึงข้อมูล User เมื่อ Component โหลดเสร็จ
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        // เรียก API ที่เราเตรียมไว้ (ต้องแน่ใจว่าสร้างไฟล์ api/auth/me แล้ว)
+        const response = await axios.get("/api/auth/me");
+        
+        if (response.data.ok && response.data.user) {
+          setUserData(response.data.user);
+        }
+      } catch (error) {
+        console.error("User not logged in or session expired");
+        setUserData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <nav className="w-full h-[72px] flex items-center justify-between px-8 border-b border-gray-300 bg-white">
@@ -23,7 +61,22 @@ const Navbar = ({
 
       <div className="text-[#5b4085] font-semibold">Dashboard</div>
 
-      <div className="text-gray-700 font-medium">{user.username}</div>
+      {/* แสดงชื่อ User */}
+      <div className="text-gray-700 font-medium">
+        {loading ? (
+          <span>Loading...</span>
+        ) : userData ? (
+          <div className="flex flex-col items-end leading-tight">
+             {lang === "th" 
+                  ? `${userData.firstname_TH} ${userData.lastname_TH}` 
+                  : `${userData.firstname_EN} ${userData.lastname_EN}`
+               }
+             {/* <span className="text-xs text-gray-500">{userData.cmuitaccount}</span> */}
+          </div>
+        ) : (
+          <a href="/" className="text-blue-600 hover:underline">Sign In</a>
+        )}
+      </div>
     </nav>
   );
 };

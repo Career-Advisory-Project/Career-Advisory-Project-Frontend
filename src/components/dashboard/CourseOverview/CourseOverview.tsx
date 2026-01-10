@@ -36,9 +36,15 @@ const CourseOverview = ({ lang, courseId }: Props) => {
         // setData(result);
 
         // 🔹 copy skills for editing
-        const normalizedSkills = (result.skillList ?? []).map((skill) => ({
+        const rawSkillList = Array.isArray(result.skillList)
+          ? result.skillList
+          : result.skillList
+          ? [result.skillList]
+          : [];
+
+        const normalizedSkills = rawSkillList.map((skill) => ({
           ...skill,
-          selectedLevel: skill.rubrics[0]?.level ?? 1,
+          selectedLevel: skill.rubrics?.[0]?.level ?? 1,
         }));
 
         setEditableSkills(normalizedSkills);
