@@ -5,16 +5,9 @@ import type { TeacherCourse } from "../../../types/course";
 
 const MOCK_NO_SKILL_COURSE: TeacherCourse = {
   courseNo: "__MOCK_NO_SKILL__",
-  courseNameEN: "🧪 Mock Course (No Skills)",
-  courseNameTH: "🧪 รายวิชาทดสอบ (ไม่มีทักษะ)",
-  detailEN: "This course is used to test empty skill list behavior.",
-  detailTH: "รายวิชานี้ใช้สำหรับทดสอบกรณีไม่มีทักษะ",
-  credit: {
-    credits: 67,
-    lecture: 2,
-    practice: 1,
-    selfStudy: 4,
-  },
+  descENG: "This is descENG",
+  descTH: "นี่คือ descTH",
+  name: "Phantom Course",
 };
 
 type Props = {
