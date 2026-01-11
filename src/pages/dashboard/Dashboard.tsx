@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../../components/layout/Navbar";
 import CourseOverview from "../../components/dashboard/CourseOverview/CourseOverview";
 import CourseList from "../../components/dashboard/CourseList/CourseList";
-import type { TeacherCourseResponse } from "../../types/course";
-import { getTeacherCourses } from "../../services/course.service";
+import type { TeacherCourse } from "../../types/course";
 
 const Dashboard = () => {
   const [lang, setLang] = useState<"en" | "th">(
     () => (localStorage.getItem("lang") as "en" | "th") || "en"
   );
 
-  const [teacher, setTeacher] = useState<TeacherCourseResponse | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-
-  const selectedCourse = teacher?.courses.find(
-    (c) => c.courseNo === selectedCourseId
+  const [selectedCourse, setSelectedCourse] = useState<TeacherCourse | null>(
+    null
   );
 
   const toggleLang = () => {
@@ -24,19 +20,6 @@ const Dashboard = () => {
       return next;
     });
   };
-
-  useEffect(() => {
-    const fetchTeacher = async () => {
-      try {
-        const res = await getTeacherCourses("63aa69183bb80ed3492d3083");
-        setTeacher(res);
-      } catch (err) {
-        console.error("Failed to load teacher courses", err);
-      }
-    };
-
-    fetchTeacher();
-  }, []);
 
   return (
     <div className="min-h-screen">
@@ -48,7 +31,7 @@ const Dashboard = () => {
             <CourseList
               teacherId="63aa69183bb80ed3492d3083"
               lang={lang}
-              onSelectCourse={setSelectedCourseId}
+              onSelectCourse={setSelectedCourse}
             />
           </aside>
 

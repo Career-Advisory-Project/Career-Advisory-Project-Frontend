@@ -13,7 +13,8 @@ const MOCK_NO_SKILL_COURSE: TeacherCourse = {
 type Props = {
   teacherId: string;
   lang: "en" | "th";
-  onSelectCourse: (courseId: string | null) => void;
+  // onSelectCourse: (courseId: string | null) => void;
+  onSelectCourse: (course: TeacherCourse | null) => void;
 };
 
 const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
@@ -76,7 +77,7 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
                   course={course}
                   lang={lang}
                   onClick={() => {
-                    onSelectCourse(course.courseNo);
+                    onSelectCourse(course);
                     console.log("Selected unfinished course:", course.courseNo);
                   }}
                 />
@@ -99,7 +100,7 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
                   course={course}
                   lang={lang}
                   onClick={() => {
-                    onSelectCourse(course.courseNo);
+                    onSelectCourse(course);
                     console.log("Selected finished course:", course.courseNo);
                   }}
                 />
