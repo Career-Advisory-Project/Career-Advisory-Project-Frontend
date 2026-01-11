@@ -36,30 +36,6 @@ export default function MePage() {
   const [cmuBasicInfo, setCmuBasicInfo] = useState<CmuBasicInfo | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
-    axios
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", { 
-      withCredentials: true // <--- ADD THIS
-    }) 
-      .then((response) => {
-        if (response.data.ok && response.data.user) {
-          setCmuBasicInfo(response.data.user);
-        } else {
-            setErrorMessage("Failed to fetch user info");}
-      })
-      .catch((error: AxiosError<WhoAmIResponse>) => {
-        if (!error.response) {
-          setErrorMessage("Cannot connect to the network.");
-        } else if (error.response.status === 401) {
-          setErrorMessage("Authentication failed");
-          // Optional: Redirect to login automatically
-          // router.push("/"); 
-        } else {
-          setErrorMessage("An unknown error occurred");}
-      });
-  }, []); // Empty dependency array = run once on mount
-
   function signOut() {
     // FIX 2: Use absolute path
     axios.post("http://localhost:3000/auth/me").then((response) => {   
@@ -78,6 +54,42 @@ export default function MePage() {
       navigate('/');
     });
   }
+
+  useEffect(() => {
+    // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
+    axios
+      .get<WhoAmIResponse>("http://localhost:3000/auth/me", { 
+      withCredentials: true // <--- ADD THIS
+    }) 
+      .then((response) => {
+        if (response.data.ok && response.data.user) {
+          setCmuBasicInfo(response.data.user);
+           // ดักจับ Student / Alumni 
+          // const user = response.data.user;
+          // const userType = (user.itaccounttype_EN || "").toLowerCase();
+          // if (userType.includes("student") || userType.includes("alumni")) {
+          //    // 1. แจ้งเตือน
+          //    alert("⛔ Access Denied: This system is for Instructors only.");
+          //    // 2. สั่ง Logout 
+          //    signOut();
+          //    return; 
+          // }
+          //  ถ้าไม่ใช่ Student ค่อยเอาข้อมูลใส่ State เพื่อแสดงผล
+          // setCmuBasicInfo(user);
+        } else {
+            setErrorMessage("Failed to fetch user info");}
+      })
+      .catch((error: AxiosError<WhoAmIResponse>) => {
+        if (!error.response) {
+          setErrorMessage("Cannot connect to the network.");
+        } else if (error.response.status === 401) {
+          setErrorMessage("Authentication failed");
+          // Optional: Redirect to login automatically
+          // router.push("/"); 
+        } else {
+          setErrorMessage("An unknown error occurred");}
+      });
+  }, []); // Empty dependency array = run once on mount
 
   return (
     <div className="p-10 font-sans text-gray-800">

@@ -1,16 +1,16 @@
-"use client"; // ต้องใส่เพื่อให้ใช้ useState, useEffect ได้
+"use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-// กำหนด Type ของข้อมูล User ให้ตรงกับที่ Backend ส่งมา
 type UserInfo = {
   cmuitaccount_name: string;
   cmuitaccount: string;
   firstname_EN: string;
   lastname_EN: string;
-  firstname_TH: String;
-  lastname_TH: String;
+  firstname_TH: string; // แก้ String -> string (TS convention)
+  lastname_TH: string;  // แก้ String -> string
   organization_name_EN: string;
+  itaccounttype_EN: string; 
 };
 
 const Navbar = ({
@@ -20,21 +20,40 @@ const Navbar = ({
   lang: "en" | "th";
   onToggleLang: () => void;
 }) => {
-  // สร้าง State ไว้เก็บข้อมูล User
   const [userData, setUserData] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // ดึงข้อมูล User เมื่อ Component โหลดเสร็จ
   useEffect(() => {
+    // ใช้ AbortController ป้องกัน Error ถ้า Component ถูกปิดก่อนโหลดเสร็จ
+    const controller = new AbortController();
+
     const fetchUser = async () => {
       try {
-        // เรียก API ที่เราเตรียมไว้ (ต้องแน่ใจว่าสร้างไฟล์ api/auth/me แล้ว)
-        const response = await axios.get("/api/auth/me");
+        const response = await axios.get("/api/auth/me", {
+           signal: controller.signal 
+        });
 
         if (response.data.ok && response.data.user) {
-          setUserData(response.data.user);
+          const user = response.data.user;
+          
+          // Logic การบล็อก Student/Alumni
+          // const userType = (user.itaccounttype_EN || "").toLowerCase();
+          // if (userType.includes("student") || userType.includes("alumni")) {
+          //   console.warn("Unauthorized access attempt by student/alumni.");
+          //   // แจ้งเตือนผู้ใช้
+          //   alert("⛔ Access Denied: This system is for Instructors only.");
+          //   // สั่ง Logout ที่ Backend เพื่อลบ Cookie
+          //   await axios.post("/api/auth/signout");
+          //   // ดีดกลับหน้าแรกทันที 
+          //   window.location.href = "/";
+          //   return;
+          // }
+          
+          // ถ้าไม่ใช่ Student ค่อยแสดงข้อมูล
+          setUserData(user);
         }
       } catch (error) {
+        if (axios.isCancel(error)) return; 
         console.error("User not logged in or session expired");
         setUserData(null);
       } finally {
@@ -43,6 +62,8 @@ const Navbar = ({
     };
 
     fetchUser();
+
+    return () => controller.abort(); // Cleanup function
   }, []);
 
   return (
@@ -72,7 +93,7 @@ const Navbar = ({
             {lang === "th"
               ? `${userData.firstname_TH} ${userData.lastname_TH}`
               : `${userData.firstname_EN} ${userData.lastname_EN}`}
-            {/* <span className="text-xs text-gray-500">{userData.cmuitaccount}</span> */}
+            <span className="text-xs text-gray-500">{userData.itaccounttype_EN}</span> 
           </div>
         ) : (
           <a href="/" className="text-blue-600 hover:underline">
