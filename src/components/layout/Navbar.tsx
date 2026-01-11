@@ -1,4 +1,4 @@
-'use client' // ต้องใส่เพื่อให้ใช้ useState, useEffect ได้
+"use client"; // ต้องใส่เพื่อให้ใช้ useState, useEffect ได้
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ type UserInfo = {
   firstname_EN: string;
   lastname_EN: string;
   firstname_TH: String;
-  lastname_TH:String;
+  lastname_TH: String;
   organization_name_EN: string;
 };
 
@@ -30,7 +30,7 @@ const Navbar = ({
       try {
         // เรียก API ที่เราเตรียมไว้ (ต้องแน่ใจว่าสร้างไฟล์ api/auth/me แล้ว)
         const response = await axios.get("/api/auth/me");
-        
+
         if (response.data.ok && response.data.user) {
           setUserData(response.data.user);
         }
@@ -46,8 +46,8 @@ const Navbar = ({
   }, []);
 
   return (
-    <nav className="w-full h-[72px] flex items-center justify-between px-8 border-b border-gray-300 bg-white">
-      <div className="flex items-center gap-6">
+    <nav className="relative w-full h-[72px] flex items-center justify-between px-8 border-b border-gray-300 bg-white">
+      <div className="flex items-center gap-6 z-10">
         <div className="text-[#5b4085] font-bold italic text-lg">
           Career <br /> Advisory
         </div>
@@ -59,22 +59,25 @@ const Navbar = ({
         </button>
       </div>
 
-      <div className="text-[#5b4085] font-semibold">Dashboard</div>
+      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#5b4085] font-semibold">
+        Dashboard
+      </div>
 
       {/* แสดงชื่อ User */}
-      <div className="text-gray-700 font-medium">
+      <div className="text-gray-700 font-medium z-10">
         {loading ? (
           <span>Loading...</span>
         ) : userData ? (
           <div className="flex flex-col items-end leading-tight">
-             {lang === "th" 
-                  ? `${userData.firstname_TH} ${userData.lastname_TH}` 
-                  : `${userData.firstname_EN} ${userData.lastname_EN}`
-               }
-             {/* <span className="text-xs text-gray-500">{userData.cmuitaccount}</span> */}
+            {lang === "th"
+              ? `${userData.firstname_TH} ${userData.lastname_TH}`
+              : `${userData.firstname_EN} ${userData.lastname_EN}`}
+            {/* <span className="text-xs text-gray-500">{userData.cmuitaccount}</span> */}
           </div>
         ) : (
-          <a href="/" className="text-blue-600 hover:underline">Sign In</a>
+          <a href="/" className="text-blue-600 hover:underline">
+            Sign In
+          </a>
         )}
       </div>
     </nav>
