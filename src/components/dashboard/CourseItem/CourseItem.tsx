@@ -7,11 +7,6 @@ type Props = {
 };
 
 const CourseItem = ({ course, lang, onClick }: Props) => {
-<<<<<<< HEAD
-  const name = lang === "en" ? course.courseNameEN : course.courseNameTH;
-
-=======
->>>>>>> cd55837e4f3775b7f05d123006a9b81bafa8b793
   return (
     <div
       onClick={onClick}
