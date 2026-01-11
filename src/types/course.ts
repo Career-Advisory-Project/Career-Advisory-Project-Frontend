@@ -1,5 +1,14 @@
+export interface CourseSkillResponse {
+  id: string;
+  courseNo: string;
+  name: string;
+  descTH: string;
+  descENG: string;
+  skills: SkillItem[];
+}
+
 export interface SkillItem {
-  no: string;
+  id: string;
   name: string;
   descTH: string;
   descENG: string;
@@ -40,11 +49,9 @@ export interface CourseCredit {
 
 export interface TeacherCourse {
   courseNo: string;
-  courseNameTH: string;
-  courseNameEN: string;
-  detailTH: string;
-  detailEN: string;
-  credit: CourseCredit;
+  descENG: string;
+  descTH: string;
+  name: string;
 }
 
 export interface TeacherCourseResponse {

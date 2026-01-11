@@ -7,8 +7,11 @@ type Props = {
 };
 
 const CourseItem = ({ course, lang, onClick }: Props) => {
+<<<<<<< HEAD
   const name = lang === "en" ? course.courseNameEN : course.courseNameTH;
 
+=======
+>>>>>>> cd55837e4f3775b7f05d123006a9b81bafa8b793
   return (
     <div
       onClick={onClick}
@@ -17,12 +20,12 @@ const CourseItem = ({ course, lang, onClick }: Props) => {
     >
       <div>
         <p className="text-sm text-gray-500">{course.courseNo}</p>
-        <p className="font-semibold text-gray-800">{name}</p>
+        <p className="font-semibold text-gray-800">{course.name}</p>
       </div>
 
-      <div className="text-sm font-medium text-[#5b4085]">
-        {course.credit.credits} Credits
-      </div>
+      {/* <div className="text-sm font-medium text-[#5b4085]">
+        {course.credit?.credits || "0"} Credits
+      </div> */}
     </div>
   );
 };
