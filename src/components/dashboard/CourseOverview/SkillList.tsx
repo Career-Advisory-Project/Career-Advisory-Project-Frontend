@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { SkillItem } from "../../../types/course";
-import { getCourseSkills } from "../../../services/course.service";
+import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 
 type Props = {
   courseNo: string;
@@ -16,11 +16,10 @@ const SkillList = ({ courseNo, lang }: Props) => {
     const fetchSkills = async () => {
       try {
         setLoading(true);
-        const allCourseSkills = await getCourseSkills();
+        setError(false);
 
-        const matched = allCourseSkills.find((c) => c.courseNo === courseNo);
-
-        setSkills(matched?.skills ?? []);
+        const courseSkill = await getCourseSkillsByCourseNo(courseNo);
+        setSkills(courseSkill.skills ?? []);
       } catch (err) {
         console.error("Failed to load skills", err);
         setError(true);

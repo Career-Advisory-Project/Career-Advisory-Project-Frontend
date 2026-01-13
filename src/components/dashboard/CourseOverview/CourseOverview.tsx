@@ -8,10 +8,13 @@ type Props = {
 };
 
 const CourseOverview = ({ lang, course }: Props) => {
-  if (!course) return;
-  <div className="h-full flex items-center justify-center text-gray-400">
-    Select a course to view details
-  </div>;
+  if (!course) {
+    return (
+      <div className="h-full flex items-center justify-center text-gray-400">
+        Select a course to view details
+      </div>
+    );
+  }
 
   const title = course.name;
   const detail = lang === "en" ? course.descENG : course.descTH;

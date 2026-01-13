@@ -36,3 +36,27 @@ export const getCourseSkills = async (): Promise<CourseSkillResponse[]> => {
   }
   return response.json();
 };
+
+export const getCourseSkillsByCourseNo = async (
+  courseNo: string
+): Promise<CourseSkillResponse> => {
+  const response = await fetch(`/api/courseskills/${courseNo}`);
+
+  //this is a patch naja wait for backend
+  if (response.status === 404) {
+    return {
+      courseNo,
+      id: "",
+      name: "",
+      descTH: "",
+      descENG: "",
+      skills: [],
+    };
+  }
+  //end of comment wooho
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch course skills by course ID");
+  }
+  return response.json();
+};
