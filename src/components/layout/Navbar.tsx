@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAppContext } from "../../context/AppContext";
 
 type UserInfo = {
   cmuitaccount_name: string;
@@ -13,13 +14,9 @@ type UserInfo = {
   itaccounttype_EN: string;
 };
 
-const Navbar = ({
-  lang,
-  onToggleLang,
-}: {
-  lang: "en" | "th";
-  onToggleLang: () => void;
-}) => {
+const Navbar = () => {
+  const { lang, setLang } = useAppContext();
+
   const [userData, setUserData] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -66,6 +63,10 @@ const Navbar = ({
     return () => controller.abort(); // Cleanup function
   }, []);
 
+  const toggleLang = () => {
+    setLang(lang === "en" ? "th" : "en");
+  };
+
   return (
     <nav className="relative w-full h-[72px] flex items-center justify-between px-8 border-b border-gray-300 bg-white">
       <div className="flex items-center gap-6 z-10">
@@ -73,7 +74,7 @@ const Navbar = ({
           Career <br /> Advisory
         </div>
         <button
-          onClick={onToggleLang}
+          onClick={toggleLang}
           className="flex items-center gap-2 text-[#5b4085] font-medium hover:underline"
         >
           🌐 {lang === "en" ? "TH" : "EN"}

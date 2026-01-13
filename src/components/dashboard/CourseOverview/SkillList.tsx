@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import type { SkillItem } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
+import { useAppContext } from "../../../context/AppContext";
 
 type Props = {
   courseNo: string;
-  lang: "en" | "th";
 };
 
-const SkillList = ({ courseNo, lang }: Props) => {
+const SkillList = ({ courseNo }: Props) => {
+  const { lang } = useAppContext();
   const [skills, setSkills] = useState<SkillItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

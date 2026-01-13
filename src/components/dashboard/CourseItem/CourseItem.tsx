@@ -2,7 +2,6 @@ import type { TeacherCourse } from "../../../types/course";
 
 type Props = {
   course: TeacherCourse;
-  lang: "en" | "th";
   onClick: () => void;
 };
 

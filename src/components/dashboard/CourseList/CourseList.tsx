@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getTeacherCourses } from "../../../services/course.service";
 import CourseItem from "../CourseItem/CourseItem";
 import type { TeacherCourse } from "../../../types/course";
+import { useAppContext } from "../../../context/AppContext";
 
 const MOCK_NO_SKILL_COURSE: TeacherCourse = {
   courseNo: "__MOCK_NO_SKILL__",
@@ -12,12 +13,12 @@ const MOCK_NO_SKILL_COURSE: TeacherCourse = {
 
 type Props = {
   teacherId: string;
-  lang: "en" | "th";
   // onSelectCourse: (courseId: string | null) => void;
   onSelectCourse: (course: TeacherCourse | null) => void;
 };
 
-const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
+const CourseList = ({ teacherId, onSelectCourse }: Props) => {
+  const { lang } = useAppContext();
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +76,6 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
                 <CourseItem
                   key={course.courseNo}
                   course={course}
-                  lang={lang}
                   onClick={() => {
                     onSelectCourse(course);
                     console.log("Selected unfinished course:", course.courseNo);
@@ -98,7 +98,6 @@ const CourseList = ({ teacherId, lang, onSelectCourse }: Props) => {
                 <CourseItem
                   key={course.courseNo}
                   course={course}
-                  lang={lang}
                   onClick={() => {
                     onSelectCourse(course);
                     console.log("Selected finished course:", course.courseNo);

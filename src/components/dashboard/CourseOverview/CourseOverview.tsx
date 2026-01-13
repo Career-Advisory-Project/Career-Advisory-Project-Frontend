@@ -1,13 +1,15 @@
 import type { TeacherCourse } from "../../../types/course";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
+import { useAppContext } from "../../../context/AppContext";
 
 type Props = {
-  lang: "en" | "th";
   course: TeacherCourse | null;
 };
 
-const CourseOverview = ({ lang, course }: Props) => {
+const CourseOverview = ({ course }: Props) => {
+  const { lang } = useAppContext();
+
   if (!course) {
     return (
       <div className="h-full flex items-center justify-center text-gray-400">
@@ -51,7 +53,7 @@ const CourseOverview = ({ lang, course }: Props) => {
             Skill List
           </h3>
 
-          <SkillList courseNo={course.courseNo} lang={lang} />
+          <SkillList courseNo={course.courseNo} />
         </div>
 
         {/* Config Button (still disabled) */}
