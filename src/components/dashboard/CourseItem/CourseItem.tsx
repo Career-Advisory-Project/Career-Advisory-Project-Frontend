@@ -17,10 +17,6 @@ const CourseItem = ({ course, onClick }: Props) => {
         <p className="text-sm text-gray-500">{course.courseNo}</p>
         <p className="font-semibold text-gray-800">{course.name}</p>
       </div>
-
-      {/* <div className="text-sm font-medium text-[#5b4085]">
-        {course.credit?.credits || "0"} Credits
-      </div> */}
     </div>
   );
 };
