@@ -12,9 +12,9 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLangState] = useState<Lang>(() => {
-    return (localStorage.getItem("lang") as Lang) || "en";
+    const stored = localStorage.getItem("lang");
+    return stored === "en" || stored === "th" ? stored : "en";
   });
-
   const setLang = (newLang: Lang) => {
     localStorage.setItem("lang", newLang);
     setLangState(newLang);

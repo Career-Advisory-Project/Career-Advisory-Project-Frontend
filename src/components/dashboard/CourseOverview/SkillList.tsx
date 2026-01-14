@@ -20,7 +20,7 @@ const SkillList = ({ courseNo }: Props) => {
         setError(false);
 
         const courseSkill = await getCourseSkillsByCourseNo(courseNo);
-        setSkills(courseSkill.skills ?? []);
+        setSkills(courseSkill?.skills ?? []);
       } catch (err) {
         console.error("Failed to load skills", err);
         setError(true);
@@ -67,7 +67,9 @@ const SkillList = ({ courseNo }: Props) => {
               {skill.name}
             </span>
             <span className="text-gray-800 font-bold text-sm">
-              Level {skill.rubrics[0]?.level}
+              {skill.rubrics[0]?.level != null
+                ? `Level ${skill.rubrics[0].level}`
+                : "No level assigned"}
             </span>
           </div>
         </div>
