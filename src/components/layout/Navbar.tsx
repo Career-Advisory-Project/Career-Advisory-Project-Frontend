@@ -9,20 +9,6 @@ type UserInfo = {
   firstname_EN: string;
   lastname_EN: string;
   firstname_TH: string; // แก้ String -> string (TS convention)
-<<<<<<< HEAD
-  lastname_TH: string;  // แก้ String -> string
-  organization_name_EN: string;
-  itaccounttype_EN: string; 
-};
-
-const Navbar = ({
-  lang,
-  onToggleLang,
-}: {
-  lang: "en" | "th";
-  onToggleLang: () => void;
-}) => {
-=======
   lastname_TH: string; // แก้ String -> string
   organization_name_EN: string;
   itaccounttype_EN: string;
@@ -31,7 +17,6 @@ const Navbar = ({
 const Navbar = () => {
   const { lang, setLang } = useAppContext();
 
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
   const [userData, setUserData] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,20 +27,12 @@ const Navbar = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get("/api/auth/me", {
-<<<<<<< HEAD
-           signal: controller.signal 
-=======
           signal: controller.signal,
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
         });
 
         if (response.data.ok && response.data.user) {
           const user = response.data.user;
-<<<<<<< HEAD
-          
-=======
 
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
           // Logic การบล็อก Student/Alumni
           // const userType = (user.itaccounttype_EN || "").toLowerCase();
           // if (userType.includes("student") || userType.includes("alumni")) {
@@ -64,28 +41,16 @@ const Navbar = () => {
           //   alert("⛔ Access Denied: This system is for Instructors only.");
           //   // สั่ง Logout ที่ Backend เพื่อลบ Cookie
           //   await axios.post("/api/auth/signout");
-<<<<<<< HEAD
-          //   // ดีดกลับหน้าแรกทันที 
-          //   window.location.href = "/";
-          //   return;
-          // }
-          
-=======
           //   // ดีดกลับหน้าแรกทันที
           //   window.location.href = "/";
           //   return;
           // }
 
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
           // ถ้าไม่ใช่ Student ค่อยแสดงข้อมูล
           setUserData(user);
         }
       } catch (error) {
-<<<<<<< HEAD
-        if (axios.isCancel(error)) return; 
-=======
         if (axios.isCancel(error)) return;
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
         console.error("User not logged in or session expired");
         setUserData(null);
       } finally {
@@ -129,13 +94,9 @@ const Navbar = () => {
             {lang === "th"
               ? `${userData.firstname_TH} ${userData.lastname_TH}`
               : `${userData.firstname_EN} ${userData.lastname_EN}`}
-<<<<<<< HEAD
-            <span className="text-xs text-gray-500">{userData.itaccounttype_EN}</span> 
-=======
             <span className="text-xs text-gray-500">
               {userData.itaccounttype_EN}
             </span>
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
           </div>
         ) : (
           <a href="/" className="text-blue-600 hover:underline">

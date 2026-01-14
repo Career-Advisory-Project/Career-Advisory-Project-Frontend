@@ -37,7 +37,6 @@ export default function MePage() {
 
   function signOut() {
     // FIX 2: Use absolute path
-<<<<<<< HEAD
     axios.post("http://localhost:3000/auth/me").then((response) => {   
       if (response.data.ok) {
          // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
@@ -53,33 +52,11 @@ export default function MePage() {
       // router.push('/');
       navigate('/');
     });
-=======
-    axios
-      .post("http://localhost:3000/auth/me")
-      .then((response) => {
-        if (response.data.ok) {
-          // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
-          // Or you can hardcode the URL if the env var isn't working
-          const logoutUrl =
-            process.env.NEXT_PUBLIC_CMU_ENTRAID_LOGOUT_URL || "/";
-          //  router.push(logoutUrl);
-          navigate(logoutUrl);
-        } else {
-          //  router.push('/');
-          navigate("/");
-        }
-      })
-      .catch(() => {
-        // router.push('/');
-        navigate("/");
-      });
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
   }
 
   useEffect(() => {
     // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
     axios
-<<<<<<< HEAD
       .get<WhoAmIResponse>("http://localhost:3000/auth/me", { 
       withCredentials: true // <--- ADD THIS
     }) 
@@ -100,29 +77,6 @@ export default function MePage() {
           // setCmuBasicInfo(user);
         } else {
             setErrorMessage("Failed to fetch user info");}
-=======
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", {
-        withCredentials: true, // <--- ADD THIS
-      })
-      .then((response) => {
-        if (response.data.ok && response.data.user) {
-          setCmuBasicInfo(response.data.user);
-          // // ดักจับ Student / Alumni
-          // const user = response.data.user;
-          // const userType = (user.itaccounttype_EN || "").toLowerCase();
-          // if (userType.includes("student") || userType.includes("alumni")) {
-          //   // 1. แจ้งเตือน
-          //   alert("⛔ Access Denied: This system is for Instructors only.");
-          //   // 2. สั่ง Logout
-          //   signOut();
-          //   return;
-          // }
-          // //  ถ้าไม่ใช่ Student ค่อยเอาข้อมูลใส่ State เพื่อแสดงผล
-          // setCmuBasicInfo(user);
-        } else {
-          setErrorMessage("Failed to fetch user info");
-        }
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
         if (!error.response) {
@@ -130,16 +84,9 @@ export default function MePage() {
         } else if (error.response.status === 401) {
           setErrorMessage("Authentication failed");
           // Optional: Redirect to login automatically
-<<<<<<< HEAD
           // router.push("/"); 
         } else {
           setErrorMessage("An unknown error occurred");}
-=======
-          // router.push("/");
-        } else {
-          setErrorMessage("An unknown error occurred");
-        }
->>>>>>> b240df1a880973138695aff74474afb1a14f9b04
       });
   }, []); // Empty dependency array = run once on mount
 

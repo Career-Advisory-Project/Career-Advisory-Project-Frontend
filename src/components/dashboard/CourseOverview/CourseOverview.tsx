@@ -23,7 +23,7 @@ const CourseOverview = ({ course }: Props) => {
 
   return (
     <div className="flex items-center justify-end font-['CMU']">
-      <div className="dashboard-card w-[819px] h-[793px]">
+      <div className="dashboard-card w-[819px] h-[793px] overflow-auto">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
