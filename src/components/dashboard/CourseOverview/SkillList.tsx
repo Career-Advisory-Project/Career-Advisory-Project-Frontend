@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import type { SkillItem } from "../../../types/course";
-import { getCourseSkills } from "../../../services/course.service";
+import { getCourseSkillsByCourseNo } from "../../../services/course.service";
+import { useAppContext } from "../../../context/AppContext";
 
 type Props = {
   courseNo: string;
-  lang: "en" | "th";
 };
 
-const SkillList = ({ courseNo, lang }: Props) => {
+const SkillList = ({ courseNo }: Props) => {
+  const { lang } = useAppContext();
   const [skills, setSkills] = useState<SkillItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -16,11 +17,10 @@ const SkillList = ({ courseNo, lang }: Props) => {
     const fetchSkills = async () => {
       try {
         setLoading(true);
-        const allCourseSkills = await getCourseSkills();
+        setError(false);
 
-        const matched = allCourseSkills.find((c) => c.courseNo === courseNo);
-
-        setSkills(matched?.skills ?? []);
+        const courseSkill = await getCourseSkillsByCourseNo(courseNo);
+        setSkills(courseSkill?.skills ?? []);
       } catch (err) {
         console.error("Failed to load skills", err);
         setError(true);
@@ -67,7 +67,9 @@ const SkillList = ({ courseNo, lang }: Props) => {
               {skill.name}
             </span>
             <span className="text-gray-800 font-bold text-sm">
-              Level {skill.rubrics[0]?.level}
+              {skill.rubrics[0]?.level != null
+                ? `Level ${skill.rubrics[0].level}`
+                : "No level assigned"}
             </span>
           </div>
         </div>

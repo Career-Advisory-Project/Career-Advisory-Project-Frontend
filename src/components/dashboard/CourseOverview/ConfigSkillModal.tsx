@@ -1,11 +1,13 @@
+import { useAppContext } from "../../../context/AppContext";
+
 type Props = {
   open: boolean;
-  lang: "en" | "th";
   onClose: () => void;
 };
 
-const ConfigSkillModal = ({ open, lang, onClose }: Props) => {
+const ConfigSkillModal = ({ open, onClose }: Props) => {
   if (!open) return null;
+  const { lang } = useAppContext();
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">

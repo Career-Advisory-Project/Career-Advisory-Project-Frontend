@@ -14,15 +14,12 @@ export interface SkillItem {
   descENG: string;
   tags: string[];
   rubrics: SkillRubric[];
-
-  // 🔹 frontend-only selected level
-  selectedLevel?: number;
 }
 
 export interface SkillRubric {
   level: number;
   descTH: string;
-  descEN: string;
+  descENG: string;
 }
 
 export interface CourseInfo {

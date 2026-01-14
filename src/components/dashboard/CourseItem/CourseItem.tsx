@@ -2,11 +2,10 @@ import type { TeacherCourse } from "../../../types/course";
 
 type Props = {
   course: TeacherCourse;
-  lang: "en" | "th";
   onClick: () => void;
 };
 
-const CourseItem = ({ course, lang, onClick }: Props) => {
+const CourseItem = ({ course, onClick }: Props) => {
   return (
     <div
       onClick={onClick}
@@ -17,10 +16,6 @@ const CourseItem = ({ course, lang, onClick }: Props) => {
         <p className="text-sm text-gray-500">{course.courseNo}</p>
         <p className="font-semibold text-gray-800">{course.name}</p>
       </div>
-
-      {/* <div className="text-sm font-medium text-[#5b4085]">
-        {course.credit?.credits || "0"} Credits
-      </div> */}
     </div>
   );
 };
