@@ -13,6 +13,12 @@ const SkillList = ({ courseNo }: Props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // useEffect(() => {
+  //   if (skills.length > 0) {
+  //     console.log(`Current Skills for ${courseNo}:`, skills);
+  //   }
+  // }, [skills, courseNo]);
+
   useEffect(() => {
     const fetchSkills = async () => {
       try {
