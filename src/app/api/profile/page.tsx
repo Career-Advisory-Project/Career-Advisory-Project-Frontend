@@ -112,6 +112,14 @@ export default function MePage() {
             Student Info
           </h3>
           <p>
+            <strong>Name (EN):</strong> {cmuBasicInfo.prename_EN}{" "}
+            {cmuBasicInfo.firstname_EN} {cmuBasicInfo.lastname_EN}
+          </p>
+          <p>
+            <strong>Name (TH):</strong> {cmuBasicInfo.prename_TH}{" "}
+            {cmuBasicInfo.firstname_TH} {cmuBasicInfo.lastname_TH}
+          </p>
+          <p>
             <strong>Account Name:</strong> {cmuBasicInfo.cmuitaccount_name}
           </p>
           <p>
@@ -122,10 +130,27 @@ export default function MePage() {
             {cmuBasicInfo.student_id || "No Student ID"}
           </p>
           <p>
-            <strong>Organization:</strong> {cmuBasicInfo.organization_name_EN}
+            <strong>Organization_code : </strong>
+            {cmuBasicInfo.organization_code}
           </p>
           <p>
-            <strong>Account Type:</strong> {cmuBasicInfo.itaccounttype_EN}
+            <strong>Organization (EN):</strong>{" "}
+            {cmuBasicInfo.organization_name_EN}
+          </p>
+          <p>
+            <strong>Organization (TH):</strong>{" "}
+            {cmuBasicInfo.organization_name_TH}
+          </p>
+
+          <p>
+            <strong>Itaccounttype_id : </strong>
+            {cmuBasicInfo.itaccounttype_id}
+          </p>
+          <p>
+            <strong>Account Type (EN):</strong> {cmuBasicInfo.itaccounttype_EN}
+          </p>
+          <p>
+            <strong>Account Type (TH):</strong> {cmuBasicInfo.itaccounttype_TH}
           </p>
         </div>
       )}

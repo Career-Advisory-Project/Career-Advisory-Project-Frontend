@@ -3,6 +3,7 @@ import { getTeacherCourses } from "../../../services/course.service";
 import CourseItem from "../CourseItem/CourseItem";
 import type { TeacherCourse } from "../../../types/course";
 import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const MOCK_NO_SKILL_COURSE: TeacherCourse = {
   courseNo: "__MOCK_NO_SKILL__",
@@ -22,6 +23,7 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -63,7 +65,7 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
         Course List
       </h2>
 
-      <div className="flex flex-col gap-4 overflow-auto">
+      <div className="flex flex-col gap-4 overflow-auto no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {/* ===== UNFINISHED ===== */}
         {unfinishedCourses.length > 0 && (
           <>
@@ -108,7 +110,11 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
           </>
         )}
       </div>
-        <button className="mt-auto bg-[#5b4085] text-white font-semibold py-2 rounded-lg hover:bg-[#4a3370] transition">
+
+      <button
+        onClick={() => navigate("/addcourse")}
+        className="mt-auto bg-[#5b4085] text-white font-semibold py-2 rounded-lg hover:bg-[#4a3370] transition"
+      >
         Add Course
       </button>
     </div>

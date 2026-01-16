@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 type UserInfo = {
   cmuitaccount_name: string;
@@ -19,6 +20,7 @@ const Navbar = () => {
 
   const [userData, setUserData] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // ใช้ AbortController ป้องกัน Error ถ้า Component ถูกปิดก่อนโหลดเสร็จ
@@ -80,13 +82,18 @@ const Navbar = () => {
           🌐 {lang === "en" ? "TH" : "EN"}
         </button>
       </div>
-
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#5b4085] font-semibold">
+      <button
+        type="button"
+        onClick={() => navigate("/dashboard")}
+        className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#5b4085] font-semibold cursor-pointer bg-transparent border-none"
+      >
         Dashboard
-      </div>
-
+      </button>{" "}
       {/* แสดงชื่อ User */}
-      <div className="text-gray-700 font-medium z-10">
+      <div
+        onClick={() => navigate("/me")}
+        className="text-gray-700 font-medium z-10"
+      >
         {loading ? (
           <span>Loading...</span>
         ) : userData ? (

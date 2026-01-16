@@ -1,5 +1,6 @@
 //This page is ai gen
 import { useState } from "react";
+import Navbar from "../../components/layout/Navbar";
 
 type Course = {
   courseNo: string;
@@ -18,6 +19,7 @@ const AddCoursePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
+      <Navbar />
       {/* CONTENT */}
       <div className="flex-1 flex justify-center px-6 py-8">
         <div className="flex gap-6 max-w-[1200px] w-full h-full">

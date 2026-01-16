@@ -61,5 +61,4 @@ export interface TeacherCourseResponse {
   lastNameTH: string;
   lastNameEN: string;
   courses: TeacherCourse[];
-  // teacherCourse: TeacherCourse[];
 }
