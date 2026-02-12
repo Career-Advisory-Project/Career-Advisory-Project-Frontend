@@ -1,94 +1,100 @@
 //This page is ai gen
 import { useState } from "react";
 import Navbar from "../../components/layout/Navbar";
+import CourseCard from "../../components/addcourse/CourseCard";
+import SkillItem from "../../components/addcourse/SkillItem";
+import SearchInput from "../../components/common/SearchInput";
 
 type Course = {
   courseNo: string;
   name: string;
   credits?: number;
+  skills?: { name: string; level: number }[]; // Added skills to mock data structure
 };
 
-const MOCK_COURSES: Course[] = Array.from({ length: 12 }).map((_, i) => ({
-  courseNo: `2610${i}`,
-  name: "Course Name",
+const MOCK_COURSES: Course[] = Array.from({ length: 4 }).map((_, i) => ({
+  courseNo: `261XXX`,
+  name: i === 0 ? "Computer Programming" : "Course Name",
   credits: 3,
+  skills: [
+    { name: "Programming", level: 3 },
+  ],
 }));
 
 const AddCoursePage = () => {
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(MOCK_COURSES[0]); // Default select first one to match design
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
       <Navbar />
+      
       {/* CONTENT */}
       <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="flex gap-6 max-w-[1200px] w-full h-full">
-          {/* LEFT: ALL COURSE */}
-          <div className="w-[420px] bg-white rounded-xl shadow p-4 flex flex-col">
-            <h2 className="text-center font-bold text-lg mb-3">All Course</h2>
+        <div className="flex gap-8 max-w-[1200px] w-full h-[80vh]">
+          
+          {/* LEFT: ALL COURSE LIST */}
+          <div className="w-[45%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+            <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
 
-            <input
-              type="text"
-              placeholder="Search Course ..."
-              className="mb-4 px-3 py-2 border rounded text-sm"
+            <SearchInput 
+              placeholder="Search Course ..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mb-4"
             />
 
             {/* Scrollable list */}
-            <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-              {MOCK_COURSES.map((course) => (
-                <div
-                  key={course.courseNo}
+            <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-300">
+              {MOCK_COURSES.map((course, index) => (
+                <CourseCard
+                  key={index}
+                  courseNo={course.courseNo}
+                  name={course.name}
+                  credits={course.credits}
+                  isSelected={selectedCourse?.courseNo === course.courseNo && selectedCourse?.name === course.name}
                   onClick={() => setSelectedCourse(course)}
-                  className={`border rounded-lg p-3 cursor-pointer transition
-                    ${
-                      selectedCourse?.courseNo === course.courseNo
-                        ? "border-[#5b4085] bg-[#f4f1fa]"
-                        : "hover:bg-gray-50"
-                    }`}
-                >
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-xs text-gray-500">{course.courseNo}</p>
-                      <p className="font-semibold text-sm">{course.name}</p>
-                    </div>
-                    <span className="text-xs text-purple-600">
-                      {course.credits} Credits
-                    </span>
-                  </div>
-                </div>
+                />
               ))}
             </div>
           </div>
 
-          {/* RIGHT: COURSE DETAIL */}
-          <div className="flex-1 bg-white rounded-xl shadow p-6 flex flex-col">
-            {selectedCourse ? (
-              <>
-                <h2 className="text-center text-[#5b4085] font-bold text-xl mb-6">
-                  {selectedCourse.name}
-                </h2>
+          {/* RIGHT: COURSE DETAIL & SKILLS */}
+          <div className="w-[55%] flex flex-col">
+              
+            {/* White Container for Details */}
+            <div className="flex-1 bg-white rounded-xl shadow-sm p-8 flex flex-col mb-4">
+              {selectedCourse ? (
+                <>
+                  <h2 className="text-center text-[#5b4085] font-bold text-xl mb-8">
+                    {selectedCourse.name}
+                  </h2>
 
-                <h3 className="text-center font-semibold mb-3">Skill List</h3>
-
-                <div className="border rounded-lg p-3 flex justify-between text-sm">
-                  <span className="text-purple-600 font-semibold">
-                    Programming
-                  </span>
-                  <span className="text-gray-600">Level 3</span>
+                  <div className="bg-[#fcfbfc] rounded-lg p-6 flex-1">
+                    <h3 className="text-center font-bold text-[#5b4085] mb-4">Skill List</h3>
+                    
+                    <div className="space-y-3">
+                      {selectedCourse.skills?.map((skill, idx) => (
+                        <SkillItem key={idx} name={skill.name} level={skill.level} />
+                      ))}
+                      {/* Add more mock skills if needed to verify list look */}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-gray-400">
+                  Select a course to view details
                 </div>
+              )}
+            </div>
 
-                {/* push button to bottom */}
-                <div className="mt-auto flex justify-center">
-                  <button className="bg-[#5b4085] text-white font-semibold px-10 py-2 rounded-lg hover:bg-[#4a3370] transition">
-                    Finish
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex-1 flex items-center justify-center text-gray-400">
-                Select a course to view details
-              </div>
-            )}
+            {/* Finish Button Area */}
+            <div className="flex justify-end">
+                <button className="bg-[#5b4085] text-white font-bold px-12 py-3 rounded-lg hover:bg-[#4a3370] transition shadow-md">
+                  Finish
+                </button>
+            </div>
+
           </div>
         </div>
       </div>
