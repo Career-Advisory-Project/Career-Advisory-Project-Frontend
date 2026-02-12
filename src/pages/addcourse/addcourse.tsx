@@ -12,21 +12,30 @@ type Course = {
   skills?: { name: string; level: number }[]; // Added skills to mock data structure
 };
 
-const MOCK_COURSES: Course[] = Array.from({ length: 4 }).map((_, i) => ({
-  courseNo: `261XXX`,
-  name: i === 0 ? "Computer Programming" : "Course Name",
+const MOCK_COURSES: Course[] = Array.from({ length: 8 }).map((_, i) => ({
+  courseNo: `26110${i + 1}`,
+  name: i === 0 ? "Computer Programming" : `Course Name ${i + 1}`,
   credits: 3,
-  skills: [
+  skills: i === 0 ? [
     { name: "Programming", level: 3 },
-  ],
+  ] : [], // Only first course has skills, others have empty array
 }));
 
 const AddCoursePage = () => {
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(MOCK_COURSES[0]); // Default select first one to match design
+  const [viewedCourse, setViewedCourse] = useState<Course | null>(MOCK_COURSES[0]); 
+  const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]); // Store IDs of selected courses
   const [searchQuery, setSearchQuery] = useState("");
 
+  const handleToggleCourse = (course: Course) => {
+    setSelectedCourseIds(prev => 
+      prev.includes(course.courseNo) 
+        ? prev.filter(id => id !== course.courseNo)
+        : [...prev, course.courseNo]
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col ">
       <Navbar />
       
       {/* CONTENT */}
@@ -52,8 +61,9 @@ const AddCoursePage = () => {
                   courseNo={course.courseNo}
                   name={course.name}
                   credits={course.credits}
-                  isSelected={selectedCourse?.courseNo === course.courseNo && selectedCourse?.name === course.name}
-                  onClick={() => setSelectedCourse(course)}
+                  isChecked={selectedCourseIds.includes(course.courseNo)}
+                  onToggle={() => handleToggleCourse(course)}
+                  onClick={() => setViewedCourse(course)}
                 />
               ))}
             </div>
@@ -63,21 +73,26 @@ const AddCoursePage = () => {
           <div className="w-[55%] flex flex-col">
               
             {/* White Container for Details */}
-            <div className="flex-1 bg-white rounded-xl shadow-sm p-8 flex flex-col mb-4">
-              {selectedCourse ? (
+            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
+              {viewedCourse ? (
                 <>
-                  <h2 className="text-center text-[#5b4085] font-bold text-xl mb-8">
-                    {selectedCourse.name}
+                  <h2 className="text-center text-[#5b4085] font-bold text-xl p-8">
+                    {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-[#fcfbfc] rounded-lg p-6 flex-1">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">Skill List</h3>
                     
-                    <div className="space-y-3">
-                      {selectedCourse.skills?.map((skill, idx) => (
-                        <SkillItem key={idx} name={skill.name} level={skill.level} />
-                      ))}
-                      {/* Add more mock skills if needed to verify list look */}
+                    <div className="space-y-3 flex-1">
+                      {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
+                        viewedCourse.skills.map((skill, idx) => (
+                          <SkillItem key={idx} name={skill.name} level={skill.level} />
+                        ))
+                      ) : (
+                        <div className="h-full flex items-center justify-center">
+                          <p className="text-black text-lg">No Skill Config</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </>
