@@ -6,6 +6,7 @@ import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to
 import MePage from "../app/api/profile/page";
 import AddCoursePage from "../pages/addcourse/addcourse";
 import ConfigSkillPage from "../pages/configskill/configskill";
+import CurriculumPage from "../pages/curriculum/CurriculumPage";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
 
       <Route path="/addcourse" element={<AddCoursePage />} />
       <Route path="/configskill" element={<ConfigSkillPage />} />
+      <Route path="/curriculum" element={<CurriculumPage />} />
     </Routes>
   );
 };
