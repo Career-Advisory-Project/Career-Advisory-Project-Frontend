@@ -7,6 +7,7 @@ import MePage from "../app/api/profile/page";
 import AddCoursePage from "../pages/addcourse/addcourse";
 import ConfigSkillPage from "../pages/configskill/configskill";
 import CurriculumPage from "../pages/curriculum/CurriculumPage";
+import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,10 @@ const AppRoutes = () => {
       <Route path="/addcourse" element={<AddCoursePage />} />
       <Route path="/configskill" element={<ConfigSkillPage />} />
       <Route path="/curriculum" element={<CurriculumPage />} />
+      <Route
+        path="/curriculum/:program/:curriculum_year"
+        element={<CurriculumDetailPage />}
+      />
     </Routes>
   );
 };

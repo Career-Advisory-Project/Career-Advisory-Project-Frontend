@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import SearchInput from "../../components/common/SearchInput";
 import CurriculumCard from "../../components/curriculum/CurriculumCard";
@@ -8,6 +9,7 @@ import type { Curriculum } from "../../types/curriculum";
 const CurriculumPage = () => {
   const [curriculums, setCurriculums] = useState<Curriculum[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +54,13 @@ const CurriculumPage = () => {
                 <CurriculumCard
                   key={index}
                   curriculum={curriculum}
+                  onClick={() =>
+                    navigate(
+                      `/curriculum/${encodeURIComponent(curriculum.program)}/${
+                        curriculum.curriculum_year
+                      }`
+                    )
+                  }
                 />
               ))}
 
