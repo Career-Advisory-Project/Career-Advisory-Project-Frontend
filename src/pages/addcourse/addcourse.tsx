@@ -3,7 +3,7 @@ import Navbar from "../../components/layout/Navbar";
 import CourseCard from "../../components/addcourse/CourseCard";
 import SkillItem from "../../components/addcourse/SkillItem";
 import SearchInput from "../../components/common/SearchInput";
-import { getCourseSkills } from "../../services/course.service";
+import { getCourseSkills, getTeacherCourses } from "../../services/course.service";
 import type { CourseSkillResponse } from "../../types/course";
 
 const AddCoursePage = () => {
@@ -14,11 +14,22 @@ const AddCoursePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
+        // Fetch all courses
         const data = await getCourseSkills();
         setAllCourses(data);
+
+        // Fetch teacher's courses and pre-select them (purple)
+        const teacherId = import.meta.env.VITE_EXAMPLE_TEACHER_ID;
+        if (teacherId) {
+          const teacherData = await getTeacherCourses(teacherId);
+          const teacherCourseNos = (teacherData.courses || []).map(
+            (c) => c.courseNo
+          );
+          setSelectedCourseIds(teacherCourseNos);
+        }
       } catch (error) {
         console.error("Failed to fetch courses:", error);
       } finally {
@@ -26,7 +37,7 @@ const AddCoursePage = () => {
       }
     };
 
-    fetchCourses();
+    fetchData();
   }, []);
 
   const handleToggleCourse = (course: CourseSkillResponse) => {
