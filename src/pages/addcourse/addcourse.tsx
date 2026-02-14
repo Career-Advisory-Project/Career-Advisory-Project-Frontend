@@ -1,38 +1,47 @@
-//This page is ai gen
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../components/layout/Navbar";
 import CourseCard from "../../components/addcourse/CourseCard";
 import SkillItem from "../../components/addcourse/SkillItem";
 import SearchInput from "../../components/common/SearchInput";
-
-type Course = {
-  courseNo: string;
-  name: string;
-  credits?: number;
-  skills?: { name: string; level: number }[]; // Added skills to mock data structure
-};
-
-const MOCK_COURSES: Course[] = Array.from({ length: 8 }).map((_, i) => ({
-  courseNo: `26110${i + 1}`,
-  name: i === 0 ? "Computer Programming" : `Course Name ${i + 1}`,
-  credits: 3,
-  skills: i === 0 ? [
-    { name: "Programming", level: 3 },
-  ] : [], // Only first course has skills, others have empty array
-}));
+import { getCourseSkills } from "../../services/course.service";
+import type { CourseSkillResponse } from "../../types/course";
 
 const AddCoursePage = () => {
-  const [viewedCourse, setViewedCourse] = useState<Course | null>(MOCK_COURSES[0]); 
-  const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]); // Store IDs of selected courses
+  const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
+  const [viewedCourse, setViewedCourse] = useState<CourseSkillResponse | null>(null);
+  const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const handleToggleCourse = (course: Course) => {
-    setSelectedCourseIds(prev => 
-      prev.includes(course.courseNo) 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      setLoading(true);
+      try {
+        const data = await getCourseSkills();
+        setAllCourses(data);
+      } catch (error) {
+        console.error("Failed to fetch courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  const handleToggleCourse = (course: CourseSkillResponse) => {
+    setSelectedCourseIds(prev =>
+      prev.includes(course.courseNo)
         ? prev.filter(id => id !== course.courseNo)
         : [...prev, course.courseNo]
     );
   };
+
+  const filteredCourses = allCourses.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.courseNo.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col ">
@@ -55,17 +64,22 @@ const AddCoursePage = () => {
 
             {/* Scrollable list */}
             <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-gray-300">
-              {MOCK_COURSES.map((course, index) => (
-                <CourseCard
-                  key={index}
-                  courseNo={course.courseNo}
-                  name={course.name}
-                  credits={course.credits}
-                  isChecked={selectedCourseIds.includes(course.courseNo)}
-                  onToggle={() => handleToggleCourse(course)}
-                  onClick={() => setViewedCourse(course)}
-                />
-              ))}
+              {loading ? (
+                <div className="text-center py-12 text-gray-500">
+                  Loading courses...
+                </div>
+              ) : (
+                filteredCourses.map((course, index) => (
+                  <CourseCard
+                    key={index}
+                    courseNo={course.courseNo}
+                    name={course.name}
+                    isChecked={selectedCourseIds.includes(course.courseNo)}
+                    onToggle={() => handleToggleCourse(course)}
+                    onClick={() => setViewedCourse(course)}
+                  />
+                ))
+              )}
             </div>
           </div>
 
@@ -86,7 +100,11 @@ const AddCoursePage = () => {
                     <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
                         viewedCourse.skills.map((skill, idx) => (
-                          <SkillItem key={idx} name={skill.name} level={skill.level} />
+                          <SkillItem
+                            key={idx}
+                            name={skill.name}
+                            level={skill.rubrics[0]?.level ?? "?"}
+                          />
                         ))
                       ) : (
                         <div className="h-full flex items-center justify-center">

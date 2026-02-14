@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import CurriculumHeader from "../../components/curriculum/CurriculumHeader";
 import SkillList from "../../components/curriculum/SkillListTab";
@@ -12,6 +12,7 @@ import type { Skill, Course } from "../../types/curriculum";
 
 const CurriculumDetailPage = () => {
   const { program, curriculum_year } = useParams<{ program: string; curriculum_year: string }>();
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState<"skills" | "courses">("skills");
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -52,28 +53,31 @@ const CurriculumDetailPage = () => {
           <CurriculumHeader
             program={decodeURIComponent(program)}
             curriculum_year={curriculum_year}
-            onEdit={() => console.log("Edit clicked")}
+            onEdit={() =>
+              navigate(
+                `/curriculum/${program}/${curriculum_year}/edit`
+              )
+            }
           />
 
-          {/* TABS */}
-          <div className="flex border-b border-gray-200 mb-6">
+          {/* TABS — connected to content below */}
+          <div className="flex">
             <button
               onClick={() => setActiveTab("skills")}
-              className={`px-8 py-3 font-bold text-sm transition-colors relative ${
+              className={`px-8 py-3 font-bold text-sm transition-colors ${
                 activeTab === "skills"
-                  ? "text-[#5b4085] bg-[#EBEAED]" // Selected style
-                  : "text-gray-500 hover:text-gray-700 bg-gray-100" // Unselected style
+                  ? "bg-[#5b4085] text-white"
+                  : "bg-gray-200 text-gray-600 hover:text-gray-800"
               }`}
             >
               Skill List
-              {/* Purple active bar handled by bg color, but let's match exact design if needed */}
             </button>
             <button
               onClick={() => setActiveTab("courses")}
               className={`px-8 py-3 font-bold text-sm transition-colors ${
                 activeTab === "courses"
-                  ? "text-[#5b4085] bg-[#EBEAED]"
-                  : "text-gray-500 hover:text-gray-700 bg-gray-100"
+                  ? "bg-[#5b4085] text-white"
+                  : "bg-gray-200 text-gray-600 hover:text-gray-800"
               }`}
             >
               Course List

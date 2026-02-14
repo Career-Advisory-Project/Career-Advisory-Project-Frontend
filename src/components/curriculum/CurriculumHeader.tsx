@@ -11,7 +11,7 @@ const CurriculumHeader: React.FC<CurriculumHeaderProps> = ({
   onEdit,
 }) => {
   return (
-    <div className="flex items-center justify-between mb-6">
+    <div className="flex items-center justify-between mb-4">
       <h2 className="text-[#5b4085] font-bold text-2xl">
         {program} - {curriculum_year}
       </h2>
