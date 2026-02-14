@@ -9,10 +9,10 @@ export interface CurriculumListResponse {
   curriculums: Curriculum[];
 }
 
-export interface Skill {
-  skillID: string;
-  name: string;
-  max_level: number;
+export interface CurriculumCoursesResponse {
+  curriculum_year: string;
+  program: string;
+  course_list: Course[];
 }
 
 export interface Course {
@@ -27,8 +27,8 @@ export interface CurriculumSkillsResponse {
   skill_list: Skill[];
 }
 
-export interface CurriculumCoursesResponse {
-  curriculum_year: string;
-  program: string;
-  course_list: Course[];
+export interface Skill {
+  skillID: string;
+  name: string;
+  max_level: number;
 }

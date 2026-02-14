@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import CurriculumHeader from "../../components/curriculum/CurriculumHeader";
-import SkillList from "../../components/curriculum/SkillList";
+import SkillList from "../../components/curriculum/SkillListTab";
 import CourseListTab from "../../components/curriculum/CourseListTab";
 import {
   getCurriculumSkills,
