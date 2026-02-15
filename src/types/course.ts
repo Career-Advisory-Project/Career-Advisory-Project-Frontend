@@ -17,6 +17,7 @@ export interface SkillItem {
 }
 
 export interface SkillRubric {
+  grade: String;
   level: number;
   descTH: string;
   descENG: string;
