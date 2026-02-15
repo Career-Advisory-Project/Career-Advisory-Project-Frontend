@@ -6,6 +6,7 @@ import SearchInput from "../../components/common/SearchInput";
 import { getCourseSkills, getTeacherCourses } from "../../services/course.service";
 import type { CourseSkillResponse } from "../../types/course";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
+import { useNavigate } from "react-router-dom";
 
 const AddCoursePage = () => {
   const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
@@ -13,6 +14,8 @@ const AddCoursePage = () => {
   const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,13 +44,13 @@ const AddCoursePage = () => {
     fetchData();
   }, []);
 
-  const handleToggleCourse = (course: CourseSkillResponse) => {
-    setSelectedCourseIds(prev =>
-      prev.includes(course.courseNo)
-        ? prev.filter(id => id !== course.courseNo)
-        : [...prev, course.courseNo]
-    );
-  };
+  // const handleToggleCourse = (course: CourseSkillResponse) => {
+  //   setSelectedCourseIds(prev =>
+  //     prev.includes(course.courseNo)
+  //       ? prev.filter(id => id !== course.courseNo)
+  //       : [...prev, course.courseNo]
+  //   );
+  // };
 
   const filteredCourses = allCourses.filter(
     (c) =>
@@ -87,7 +90,7 @@ const AddCoursePage = () => {
                     courseNo={course.courseNo}
                     name={course.name}
                     isChecked={selectedCourseIds.includes(course.courseNo)}
-                    onToggle={() => handleToggleCourse(course)}
+                    // onToggle={() => handleToggleCourse(course)}
                     onClick={() => setViewedCourse(course)}
                   />
                 ))
@@ -142,7 +145,9 @@ const AddCoursePage = () => {
 
             {/* Finish Button Area */}
             <div className="flex justify-end">
-                <button className="bg-[#5b4085] text-white font-bold px-12 py-3 rounded-lg hover:bg-[#4a3370] transition shadow-md">
+                <button 
+                onClick={() => navigate('/dashboard')}
+                className="bg-[#5b4085] text-white font-bold px-12 py-3 rounded-lg hover:bg-[#4a3370] transition shadow-md">
                   Finish
                 </button>
             </div>
