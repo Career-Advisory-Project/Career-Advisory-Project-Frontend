@@ -1,5 +1,3 @@
-import React from "react";
-
 type SearchInputProps = {
   placeholder?: string;
   value?: string;

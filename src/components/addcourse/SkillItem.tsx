@@ -1,5 +1,3 @@
-import React from "react";
-
 type SkillItemProps = {
   name: string;
   level: string | number;

@@ -5,6 +5,7 @@ import SkillItem from "../../components/addcourse/SkillItem";
 import SearchInput from "../../components/common/SearchInput";
 import { getCourseSkills, getTeacherCourses } from "../../services/course.service";
 import type { CourseSkillResponse } from "../../types/course";
+import SkillRadarChart from "../../components/common/SkillRadarChart";
 
 const AddCoursePage = () => {
   const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
@@ -105,8 +106,15 @@ const AddCoursePage = () => {
                     {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">Skill List</h3>
+
+                    {/* Radar Chart */}
+                    {viewedCourse.skills && viewedCourse.skills.length > 0 && (
+                      <div className="mb-4">
+                        <SkillRadarChart skills={viewedCourse.skills} />
+                      </div>
+                    )}
                     
                     <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (

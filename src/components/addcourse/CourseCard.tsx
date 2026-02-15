@@ -1,5 +1,3 @@
-import React from "react";
-
 type CourseCardProps = {
   courseNo: string;
   name: string;
@@ -50,7 +48,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
           ${isChecked ? "bg-[#5b4085]" : "bg-gray-200 hover:bg-gray-300"}
         `}
       >
-        {isChecked && (
+        {isChecked 
+        && (
           <svg
             className="w-6 h-6 text-white"
             fill="none"
@@ -65,7 +64,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
               d="M5 13l4 4L19 7"
             />
           </svg>
-        )}
+        )
+        }
       </div>
     </div>
   );

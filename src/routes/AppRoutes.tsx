@@ -4,8 +4,8 @@ import Dashboard from "../pages/dashboard/Dashboard";
 // import AuthRedirect from "../pages/auth/AuthRedirect";
 import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to your Callback component
 import MePage from "../app/api/profile/page";
-import AddCoursePage from "../pages/addcourse/addcourse";
-import ConfigSkillPage from "../pages/configskill/configskill";
+import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
+import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
 import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";

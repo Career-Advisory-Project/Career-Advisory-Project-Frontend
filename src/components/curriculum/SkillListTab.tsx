@@ -1,10 +1,10 @@
 import type { Skill } from "../../types/curriculum";
 
-type SkillListProps = {
+type SkillListTabProps = {
   skills: Skill[];
 };
 
-const SkillList: React.FC<SkillListProps> = ({ skills }) => {
+const SkillListTab: React.FC<SkillListTabProps> = ({ skills }) => {
   return (
     <div className="bg-gray-100 p-6 space-y-3">
       {skills.map((skill) => (
@@ -32,4 +32,4 @@ const SkillList: React.FC<SkillListProps> = ({ skills }) => {
   );
 };
 
-export default SkillList;
+export default SkillListTab;
