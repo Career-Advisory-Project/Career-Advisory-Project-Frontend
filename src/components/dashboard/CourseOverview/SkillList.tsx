@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { SkillItem } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import { useAppContext } from "../../../context/AppContext";
+import SkillRadarChart from "../../common/SkillRadarChart";
 
 type Props = {
   courseNo: string;
@@ -66,6 +67,11 @@ const SkillList = ({ courseNo }: Props) => {
 
   return (
     <div className="space-y-3">
+      {/* Radar Chart */}
+      <div className="mb-2">
+        <SkillRadarChart skills={skills} />
+      </div>
+
       {skills.map((skill) => (
         <div key={skill.id} className="skill-card w-[669px] h-[53px]">
           <div className="flex justify-between items-center border-b pb-1">

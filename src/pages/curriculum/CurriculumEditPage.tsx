@@ -14,6 +14,7 @@ import {
 import { getCourseSkills } from "../../services/course.service";
 import type { CourseSkillResponse } from "../../types/course";
 import type { Course } from "../../types/curriculum";
+import SkillRadarChart from "../../components/common/SkillRadarChart";
 
 const CurriculumEditPage = () => {
   const { program, curriculum_year } = useParams<{
@@ -202,6 +203,13 @@ const CurriculumEditPage = () => {
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">
                       Skill List
                     </h3>
+
+                    {/* Radar Chart */}
+                    {viewedCourse.skills && viewedCourse.skills.length > 0 && (
+                      <div className="mb-4">
+                        <SkillRadarChart skills={viewedCourse.skills} />
+                      </div>
+                    )}
 
                     <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
