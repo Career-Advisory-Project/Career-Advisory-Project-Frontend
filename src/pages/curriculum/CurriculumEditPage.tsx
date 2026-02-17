@@ -23,10 +23,8 @@ const CurriculumEditPage = () => {
   }>();
   const navigate = useNavigate();
 
-  const [curriculumName, setCurriculumName] = useState(
-    program ? decodeURIComponent(program) : ""
-  );
-  const [startYear, setStartYear] = useState(curriculum_year ?? "");
+  const curriculumName = program ? decodeURIComponent(program) : "";
+  const startYear = curriculum_year ?? "";
 
   // All courses from the system
   const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
@@ -134,23 +132,17 @@ const CurriculumEditPage = () => {
             <label className="text-[#5b4085] font-bold text-sm block mb-2">
               Curriculum Name
             </label>
-            <input
-              type="text"
-              value={curriculumName}
-              onChange={(e) => setCurriculumName(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b4085] focus:border-transparent"
-            />
+            <div className="w-full border border-gray-200 bg-gray-50 rounded-lg px-4 py-2.5 text-sm text-gray-700">
+              {curriculumName}
+            </div>
           </div>
           <div>
             <label className="text-[#5b4085] font-bold text-sm block mb-2">
               Start Year
             </label>
-            <input
-              type="text"
-              value={startYear}
-              onChange={(e) => setStartYear(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b4085] focus:border-transparent"
-            />
+            <div className="w-full border border-gray-200 bg-gray-50 rounded-lg px-4 py-2.5 text-sm text-gray-700">
+              {startYear}
+            </div>
           </div>
         </div>
 
