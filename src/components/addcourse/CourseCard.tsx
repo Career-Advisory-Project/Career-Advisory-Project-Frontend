@@ -30,12 +30,12 @@ const CourseCard: React.FC<CourseCardProps> = ({
         className="flex-1 p-3 flex flex-col justify-center cursor-pointer select-none"
       >
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-[#7a6aa6] font-extrabold uppercase">{courseNo}</span>
+          <span className="text-sm text-[#7a6aa6] font-extrabold uppercase ">{courseNo}</span>
           <div className="h-[2px] bg-[#dcdbe6] flex-1 mx-3 rounded-full"></div>
           <span className="text-xs text-[#7a6aa6] font-bold whitespace-nowrap">{credits} Credits</span>
         </div>
         
-        <h3 className="font-bold text-sm text-black truncate leading-tight">{name}</h3>
+        <h3 className="font-bold text-sm text-black text-clip leading-tight">{name}</h3>
       </div>
 
       {/* Selection Indicator (Right Side) - Clicks here toggle selection */}

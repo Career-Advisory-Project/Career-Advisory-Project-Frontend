@@ -67,7 +67,7 @@ const AddCoursePage = () => {
         <div className="flex gap-8 max-w-[1200px] w-full h-[80vh]">
           
           {/* LEFT: ALL COURSE LIST */}
-          <div className="w-[45%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-[60%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
 
             <SearchInput 
@@ -99,7 +99,7 @@ const AddCoursePage = () => {
           </div>
 
           {/* RIGHT: COURSE DETAIL & SKILLS */}
-          <div className="w-[55%] flex flex-col">
+          <div className="w-[40%] flex flex-col">
               
             {/* White Container for Details */}
             <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
@@ -110,7 +110,7 @@ const AddCoursePage = () => {
                   </h2>
 
                   <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto">
-                    <h3 className="text-center font-bold text-[#5b4085] mb-4">Skill List</h3>
+                    <h3 className="text-center font-bold text-[#5b4085] mb-4">{viewedCourse.skills.length === 0 ? "" : "Skill List"}</h3>
 
                     {/* Radar Chart */}
                     {viewedCourse.skills && viewedCourse.skills.length > 0 && (
