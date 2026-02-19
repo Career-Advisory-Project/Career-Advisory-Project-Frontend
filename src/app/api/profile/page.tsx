@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-'use client'
-import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-=======
 "use client";
 import axios, { AxiosError } from "axios";
->>>>>>> 53e280fb4f7ac4e31476885a6e9c591796fbaa08
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -41,19 +35,6 @@ export default function MePage() {
   const [cmuBasicInfo, setCmuBasicInfo] = useState<CmuBasicInfo | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-<<<<<<< HEAD
-  useEffect(() => {
-    // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
-    axios
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", { 
-      withCredentials: true // <--- ADD THIS
-    }) 
-      .then((response) => {
-        if (response.data.ok && response.data.user) {
-          setCmuBasicInfo(response.data.user);
-        } else {
-            setErrorMessage("Failed to fetch user info");}
-=======
   function signOut() {
     // FIX 2: Use absolute path
     axios
@@ -101,7 +82,6 @@ export default function MePage() {
         } else {
           setErrorMessage("Failed to fetch user info");
         }
->>>>>>> 53e280fb4f7ac4e31476885a6e9c591796fbaa08
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
         if (!error.response) {
@@ -109,66 +89,6 @@ export default function MePage() {
         } else if (error.response.status === 401) {
           setErrorMessage("Authentication failed");
           // Optional: Redirect to login automatically
-<<<<<<< HEAD
-          // router.push("/"); 
-        } else {
-          setErrorMessage("An unknown error occurred");}
-      });
-  }, []); // Empty dependency array = run once on mount
-
-  function signOut() {
-    // FIX 2: Use absolute path
-    axios.post("http://localhost:3000/auth/me").then((response) => {   
-      if (response.data.ok) {
-         // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
-         // Or you can hardcode the URL if the env var isn't working
-         const logoutUrl = process.env.NEXT_PUBLIC_CMU_ENTRAID_LOGOUT_URL || "/";
-        //  router.push(logoutUrl); 
-          navigate(logoutUrl);
-      } else {
-        //  router.push('/');  
-        navigate('/');
-      }   
-    }).catch(() => {
-      // router.push('/');
-      navigate('/');
-    });
-  }
-
-  return (
-    <div className="p-10 font-sans text-gray-800">
-        <h1 className="text-2xl font-bold mb-4">
-          Hi, {cmuBasicInfo ? `${cmuBasicInfo.firstname_EN} ${cmuBasicInfo.lastname_EN}` : "Loading..."}
-        </h1>
-        
-        {errorMessage && (
-           <div className="p-3 mb-4 bg-red-100 text-red-700 rounded">
-             {errorMessage}
-           </div>
-        )}
-
-        {/* FIX 4: Render the single object directly, removed .map() */}
-        {cmuBasicInfo && (
-          <div className="bg-white p-6 rounded shadow-md border border-gray-200 space-y-2">
-             <h3 className="font-semibold text-lg border-b pb-2 mb-2">Student Info</h3>
-             <p><strong>Account Name:</strong> {cmuBasicInfo.cmuitaccount_name}</p>
-             <p><strong>Email:</strong> {cmuBasicInfo.cmuitaccount}</p>
-             <p><strong>Student ID:</strong> {cmuBasicInfo.student_id || "No Student ID"}</p>
-             <p><strong>Organization:</strong> {cmuBasicInfo.organization_name_EN}</p>
-             <p><strong>Account Type:</strong> {cmuBasicInfo.itaccounttype_EN}</p>
-          </div>
-        )}
-
-        <button 
-          className="mt-6 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition" 
-          onClick={signOut}
-        >
-          {errorMessage ? "Go back" : "Sign out"}
-        </button>
-    </div>
-  );
-}
-=======
           // router.push("/");
         } else {
           setErrorMessage("An unknown error occurred");
@@ -250,4 +170,3 @@ export default function MePage() {
     </div>
   );
 }
->>>>>>> 53e280fb4f7ac4e31476885a6e9c591796fbaa08
