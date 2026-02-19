@@ -3,13 +3,13 @@ import Navbar from "../../components/layout/Navbar";
 import CourseCard from "../../components/addcourse/CourseCard";
 import SkillItem from "../../components/addcourse/SkillItem";
 import SearchInput from "../../components/common/SearchInput";
-import { getCourseSkills, getTeacherCourses } from "../../services/course.service";
-import type { CourseSkillResponse } from "../../types/course";
+import { getAllCourses, getTeacherCourses, getCourseSkillsByCourseNo } from "../../services/course.service";
+import type { CourseInfo, CourseSkillResponse } from "../../types/course";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
 import { useNavigate } from "react-router-dom";
 
 const AddCoursePage = () => {
-  const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
+  const [allCourses, setAllCourses] = useState<CourseInfo[]>([]);
   const [viewedCourse, setViewedCourse] = useState<CourseSkillResponse | null>(null);
   const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,11 +21,10 @@ const AddCoursePage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch all courses
-        const data = await getCourseSkills();
-        setAllCourses(data);
+        const data = await getAllCourses();
+        setAllCourses(data.courses);
 
-        // Fetch teacher's courses and pre-select them (purple)
+        // Pre-select courses already in the dashboard
         const teacherId = import.meta.env.VITE_EXAMPLE_TEACHER_ID;
         if (teacherId) {
           const teacherData = await getTeacherCourses(teacherId);
@@ -43,6 +42,15 @@ const AddCoursePage = () => {
 
     fetchData();
   }, []);
+
+  const handleCourseClick = async (course: CourseInfo) => {
+    try {
+      const courseDetail = await getCourseSkillsByCourseNo(course.courseNo);
+      setViewedCourse(courseDetail);
+    } catch (error) {
+      console.error("Failed to fetch course skills:", error);
+    }
+  };
 
   // const handleToggleCourse = (course: CourseSkillResponse) => {
   //   setSelectedCourseIds(prev =>
@@ -91,7 +99,7 @@ const AddCoursePage = () => {
                     name={course.name}
                     isChecked={selectedCourseIds.includes(course.courseNo)}
                     // onToggle={() => handleToggleCourse(course)}
-                    onClick={() => setViewedCourse(course)}
+                    onClick={() => handleCourseClick(course)}
                   />
                 ))
               )}

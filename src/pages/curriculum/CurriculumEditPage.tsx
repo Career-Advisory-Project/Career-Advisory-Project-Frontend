@@ -9,10 +9,8 @@ import {
   addCoursesToCurriculum,
   removeCoursesFromCurriculum,
 } from "../../services/curriculum.service";
-// TODO: Replace getCourseSkills() with a dedicated getAllCourses() endpoint
-// from the backend once it's available. (e.g. GET /admin/courses)
-import { getCourseSkills } from "../../services/course.service";
-import type { CourseSkillResponse } from "../../types/course";
+import { getAllCourses, getCourseSkillsByCourseNo } from "../../services/course.service";
+import type { CourseInfo, CourseSkillResponse } from "../../types/course";
 import type { Course } from "../../types/curriculum";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
 
@@ -27,7 +25,7 @@ const CurriculumEditPage = () => {
   const startYear = curriculum_year ?? "";
 
   // All courses from the system
-  const [allCourses, setAllCourses] = useState<CourseSkillResponse[]>([]);
+  const [allCourses, setAllCourses] = useState<CourseInfo[]>([]);
   // Initial course numbers that were in the curriculum when the page loaded
   const [initialCourseNos, setInitialCourseNos] = useState<string[]>([]);
   // Currently selected/toggled course numbers
@@ -47,9 +45,8 @@ const CurriculumEditPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // TODO: Replace with getAllCourses() once backend endpoint is ready
-        const allCoursesData = await getCourseSkills();
-        setAllCourses(allCoursesData);
+        const allCoursesData = await getAllCourses();
+        setAllCourses(allCoursesData.courses);
 
         // Fetch courses already in this curriculum
         const currData = await getCurriculumCourses(program, curriculum_year);
@@ -68,12 +65,21 @@ const CurriculumEditPage = () => {
     fetchData();
   }, [program, curriculum_year]);
 
-  const handleToggleCourse = (course: CourseSkillResponse) => {
+  const handleToggleCourse = (course: CourseInfo) => {
     setSelectedCourseNos((prev) =>
       prev.includes(course.courseNo)
         ? prev.filter((no) => no !== course.courseNo)
         : [...prev, course.courseNo]
     );
+  };
+
+  const handleCourseClick = async (course: CourseInfo) => {
+    try {
+      const courseDetail = await getCourseSkillsByCourseNo(course.courseNo);
+      setViewedCourse(courseDetail);
+    } catch (error) {
+      console.error("Failed to fetch course skills:", error);
+    }
   };
 
   const handleFinish = async () => {
@@ -175,7 +181,7 @@ const CurriculumEditPage = () => {
                     name={course.name}
                     isChecked={selectedCourseNos.includes(course.courseNo)}
                     onToggle={() => handleToggleCourse(course)}
-                    onClick={() => setViewedCourse(course)}
+                    onClick={() => handleCourseClick(course)}
                   />
                 ))
               )}
@@ -193,7 +199,7 @@ const CurriculumEditPage = () => {
 
                   <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">
-                      Skill List
+                       {viewedCourse.skills.length === 0 ? "No Skill Config" : "Skill List"}
                     </h3>
 
                     {/* Radar Chart */}

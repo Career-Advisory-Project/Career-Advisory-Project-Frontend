@@ -1,18 +1,15 @@
 import type {
-  CourseOverviewResponse,
+  AllCourseData ,
   CourseSkillResponse,
 } from "../types/course";
 import type { TeacherCourseResponse } from "../types/course";
 
-export const getCourseOverview = async (
-  courseId: string
-): Promise<CourseOverviewResponse> => {
-  const response = await fetch(`/api/courseskills/${courseId}`);
+export const getAllCourses = async (): Promise<AllCourseData> => {
+  const response = await fetch("/api/all_course");
 
   if (!response.ok) {
-    throw new Error("Failed to fetch course overview");
+    throw new Error("Failed to fetch all courses");
   }
-
   return response.json();
 };
 
