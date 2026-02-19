@@ -1,3 +1,15 @@
+export interface AllCourseData{
+  courses:CourseInfo[];
+}
+
+export interface CourseInfo {
+  courseNo: string;
+  name:string;
+  descTH: string;
+  descENG: string;
+  credit: number;
+  hasCourse:boolean;
+}
 export interface CourseSkillResponse {
   id: string;
   courseNo: string;
@@ -20,21 +32,6 @@ export interface SkillRubric {
   level: number;
   descTH: string;
   descENG: string;
-}
-
-export interface CourseInfo {
-  courseNo: string;
-  courseNameTH: string;
-  courseNameEN: string;
-  detailTH: string;
-  detailEN: string;
-  credit: CourseCredit;
-}
-
-export interface CourseOverviewResponse {
-  ok: boolean;
-  course: CourseInfo;
-  skillList: SkillItem[];
 }
 
 export interface CourseCredit {

@@ -4,8 +4,11 @@ import Dashboard from "../pages/dashboard/Dashboard";
 // import AuthRedirect from "../pages/auth/AuthRedirect";
 import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to your Callback component
 import MePage from "../app/api/profile/page";
-import AddCoursePage from "../pages/addcourse/addcourse";
-import ConfigSkillPage from "../pages/configskill/configskill";
+import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
+import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
+import CurriculumPage from "../pages/curriculum/CurriculumPage";
+import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
+import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +26,15 @@ const AppRoutes = () => {
 
       <Route path="/addcourse" element={<AddCoursePage />} />
       <Route path="/configskill" element={<ConfigSkillPage />} />
+      <Route path="/curriculum" element={<CurriculumPage />} />
+      <Route
+        path="/curriculum/:program/:curriculum_year"
+        element={<CurriculumDetailPage />}
+      />
+      <Route
+        path="/curriculum/:program/:curriculum_year/edit"
+        element={<CurriculumEditPage />}
+      />
     </Routes>
   );
 };

@@ -17,7 +17,7 @@ const Dashboard = () => {
         <div className="flex gap-6 max-w-[1200px] w-full items-stretch">
           <aside className="w-[360px] min-w-[360px] flex-shrink-0">
             <CourseList
-              teacherId="63aa69183bb80ed3492d3083"
+              teacherId={import.meta.env.VITE_EXAMPLE_TEACHER_ID}
               onSelectCourse={setSelectedCourse}
             />
           </aside>

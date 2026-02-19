@@ -9,12 +9,20 @@ const CourseItem = ({ course, onClick }: Props) => {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-lg shadow-sm px-4 py-3 flex justify-between items-center cursor-pointer
-                 hover:bg-[#f0ecfa] transition"
+      className="rounded-lg transition flex justify-between items-stretch overflow-hidden h-[80px] hover:bg-gray-50 bg-white cursor-pointer"
     >
-      <div>
-        <p className="text-sm text-gray-500">{course.courseNo}</p>
-        <p className="font-semibold text-gray-800">{course.name}</p>
+      <div className="flex-1 p-3 flex flex-col justify-center">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm text-[#7a6aa6] font-extrabold uppercase">
+            {course.courseNo}
+          </span>
+          {/* Separator Line */}
+          <div className="h-[2px] bg-[#dcdbe6] flex-1 mx-3 rounded-full"></div>
+        </div>
+
+        <h3 className="font-bold text-sm text-black truncate leading-tight">
+          {course.name}
+        </h3>
       </div>
     </div>
   );
