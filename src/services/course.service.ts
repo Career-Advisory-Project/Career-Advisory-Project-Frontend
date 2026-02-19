@@ -1,8 +1,65 @@
 import type {
   AllCourseData ,
   CourseSkillResponse,
+  DashboardResponse,
+  CourseDetailResponse,
 } from "../types/course";
 import type { TeacherCourseResponse } from "../types/course";
+
+export const getDashboardCourses = async (
+  cmuitaccount: string
+): Promise<DashboardResponse> => {
+  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard/${cmuitaccount}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch dashboard courses");
+  }
+
+  return response.json();
+};
+
+export const getCourseDetail = async (
+  courseNo: string
+): Promise<CourseDetailResponse> => {
+  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/all_course/${courseNo}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch course detail");
+  }
+
+  return response.json();
+};
+
+//for add / remove dashboard courses
+export const addDashboardCourses = async ( 
+  cmuitaccount: string,
+  coursesNoList: string[]
+): Promise<void> => {
+  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cmuitaccount, coursesNoList }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to add dashboard courses");
+  }
+};
+
+export const removeDashboardCourses = async (
+  cmuitaccount: string,
+  coursesNoList: string[]
+): Promise<void> => {
+  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cmuitaccount, coursesNoList }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to remove dashboard courses");
+  }
+};
 
 export const getAllCourses = async (): Promise<AllCourseData> => {
   const response = await fetch("/api/all_course");

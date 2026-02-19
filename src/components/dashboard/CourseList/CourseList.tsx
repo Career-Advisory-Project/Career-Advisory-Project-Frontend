@@ -1,25 +1,15 @@
 import { useEffect, useState } from "react";
-import { getTeacherCourses } from "../../../services/course.service";
+import { getDashboardCourses, getCourseDetail } from "../../../services/course.service";
 import CourseItem from "../CourseItem/CourseItem";
 import type { TeacherCourse } from "../../../types/course";
-import { useAppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
-const MOCK_NO_SKILL_COURSE: TeacherCourse = {
-  courseNo: "__MOCK_NO_SKILL__",
-  descENG: "This is descENG",
-  descTH: "นี่คือ descTH",
-  name: "Phantom Course",
-};
-
 type Props = {
-  teacherId: string;
-  // onSelectCourse: (courseId: string | null) => void;
+  cmuitaccount: string;
   onSelectCourse: (course: TeacherCourse | null) => void;
 };
 
-const CourseList = ({ teacherId, onSelectCourse }: Props) => {
-  const { lang } = useAppContext();
+const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,13 +18,36 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const result = await getTeacherCourses(teacherId);
-        console.log("API data (teacher courses):", result);
-        // setCourses(result.teacherCourse);
-        setCourses([
-          ...result.courses,
-          MOCK_NO_SKILL_COURSE, // 👈 TEMP MOCK
-        ]);
+        const result = await getDashboardCourses(cmuitaccount);
+        console.log("API data (dashboard courses):", result);
+
+        // Fetch full details for each course in parallel
+        const detailPromises = result.courseNoList.map(async (c) => {
+          try {
+            const detail = await getCourseDetail(c.courseId);
+            const d = detail.course.courseDetails[0];
+            if (d) {
+              return {
+                courseNo: d.courseNo,
+                name: d.courseNameEN,
+                descENG: d.detailEN,
+                descTH: d.detailTH,
+              } as TeacherCourse;
+            }
+          } catch (err) {
+            console.warn(`Failed to fetch detail for ${c.courseId}:`, err);
+          }
+          // Fallback if detail fetch fails
+          return {
+            courseNo: c.courseId,
+            name: c.courseName,
+            descENG: "Failed to load details",
+            descTH: "ไม่สามารถโหลดรายละเอียดได้",
+          } as TeacherCourse;
+        });
+
+        const mapped = await Promise.all(detailPromises);
+        setCourses(mapped);
       } catch (err) {
         console.error("CourseList API error:", err);
         setError("Failed to load courses");
@@ -44,20 +57,12 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
     };
 
     fetchCourses();
-  }, [teacherId]);
+  }, [cmuitaccount]);
 
   if (loading)
     return <div className="p-6 text-center text-gray-500">Loading...</div>;
 
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
-
-  const unfinishedCourses = courses.filter(
-    (course) => course.courseNo === "__MOCK_NO_SKILL__"
-  );
-
-  const finishedCourses = courses.filter(
-    (course) => course.courseNo !== "__MOCK_NO_SKILL__"
-  );
 
   return (
     <div className="h-[793px] w-[360px] min-w-[360px] flex-shrink-0 bg-[#f6f4fb] rounded-xl p-4 flex flex-col gap-4">
@@ -66,49 +71,20 @@ const CourseList = ({ teacherId, onSelectCourse }: Props) => {
       </h2>
 
       <div className="flex flex-col gap-4 overflow-auto no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-        {/* ===== UNFINISHED ===== */}
-        {unfinishedCourses.length > 0 && (
-          <>
-            <h3 className="text-center text-[#5b4085] italic font-semibold border-b">
-              {lang === "en" ? "Unfinished" : "ยังไม่เสร็จ"}
-            </h3>
-
-            <div className="flex flex-col gap-3">
-              {unfinishedCourses.map((course) => (
-                <CourseItem
-                  key={course.courseNo}
-                  course={course}
-                  onClick={() => {
-                    onSelectCourse(course);
-                    console.log("Selected unfinished course:", course.courseNo);
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* ===== FINISHED ===== */}
-        {finishedCourses.length > 0 && (
-          <>
-            <h3 className="text-center text-[#5b4085] italic font-semibold border-b">
-              {lang === "en" ? "Finished" : "เสร็จสิ้นแล้ว"}
-            </h3>
-
-            <div className="flex flex-col gap-3">
-              {finishedCourses.map((course) => (
-                <CourseItem
-                  key={course.courseNo}
-                  course={course}
-                  onClick={() => {
-                    onSelectCourse(course);
-                    console.log("Selected finished course:", course.courseNo);
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        )}
+        <>
+          <div className="flex flex-col gap-3">
+            {courses.map((course) => (
+              <CourseItem
+                key={course.courseNo}
+                course={course}
+                onClick={() => {
+                  onSelectCourse(course);
+                  console.log("Selected course:", course.courseNo);
+                }}
+              />
+            ))}
+          </div>
+        </>
       </div>
 
       <button

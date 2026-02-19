@@ -59,3 +59,36 @@ export interface TeacherCourseResponse {
   lastNameEN: string;
   courses: TeacherCourse[];
 }
+
+// Dashboard Course List from all courses
+export interface DashboardCourse {
+  courseId: string;
+  courseName: string;
+}
+
+export interface DashboardResponse {
+  cmuitaccount: string;
+  courseNoList: DashboardCourse[];
+}
+
+// Course Detail from all course/{courseNo}
+export interface CourseDetail {
+  courseNo: string;
+  updatedYear: number;
+  updatedSemester: number;
+  courseNameEN: string;
+  courseNameTH: string;
+  curCodeEN: string;
+  curCodeTH: string;
+  detailEN: string;
+  detailTH: string;
+  credits: CourseCredit;
+  selectedTopicSubjects: unknown[];
+}
+
+export interface CourseDetailResponse {
+  course: {
+    ok: boolean;
+    courseDetails: CourseDetail[];
+  };
+}
