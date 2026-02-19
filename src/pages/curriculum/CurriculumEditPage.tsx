@@ -95,19 +95,23 @@ const CurriculumEditPage = () => {
 
     setSaving(true);
     try {
+      const promises: Promise<unknown>[] = [];
+
       // POST: Add newly checked courses
       if (coursesToAdd.length > 0) {
-        await addCoursesToCurriculum(curriculum_year, program, coursesToAdd);
+        promises.push(addCoursesToCurriculum(curriculum_year, program, coursesToAdd));
       }
 
       // DELETE: Remove newly unchecked courses
       if (coursesToRemove.length > 0) {
-        await removeCoursesFromCurriculum(
+        promises.push(removeCoursesFromCurriculum(
           curriculum_year,
           program,
           coursesToRemove
-        );
+        ));
       }
+
+      await Promise.all(promises);
 
       // Navigate back to detail page on success
       navigate(`/curriculum/${program}/${curriculum_year}`);

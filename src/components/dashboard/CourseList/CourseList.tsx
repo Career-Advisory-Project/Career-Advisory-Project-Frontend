@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { getDashboardCourses, getCourseDetail } from "../../../services/course.service";
 import CourseItem from "../CourseItem/CourseItem";
-import type { TeacherCourse } from "../../../types/course";
+import type { CourseDetail } from "../../../types/course";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
   cmuitaccount: string;
-  onSelectCourse: (course: TeacherCourse | null) => void;
+  onSelectCourse: (course: CourseDetail | null) => void;
 };
 
 const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
-  const [courses, setCourses] = useState<TeacherCourse[]>([]);
+  const [courses, setCourses] = useState<CourseDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -27,12 +27,7 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
             const detail = await getCourseDetail(c.courseId);
             const d = detail.course.courseDetails[0];
             if (d) {
-              return {
-                courseNo: d.courseNo,
-                name: d.courseNameEN,
-                descENG: d.detailEN,
-                descTH: d.detailTH,
-              } as TeacherCourse;
+              return d;
             }
           } catch (err) {
             console.warn(`Failed to fetch detail for ${c.courseId}:`, err);
@@ -40,10 +35,17 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
           // Fallback if detail fetch fails
           return {
             courseNo: c.courseId,
-            name: c.courseName,
-            descENG: "Failed to load details",
-            descTH: "ไม่สามารถโหลดรายละเอียดได้",
-          } as TeacherCourse;
+            courseNameEN: c.courseName,
+            courseNameTH: "",
+            detailEN: "Failed to load details",
+            detailTH: "ไม่สามารถโหลดรายละเอียดได้",
+            curCodeEN: "",
+            curCodeTH: "",
+            updatedYear: 0,
+            updatedSemester: 0,
+            credits: { credits: 0, lecture: 0, practice: 0, selfStudy: 0 },
+            selectedTopicSubjects: [],
+          } as CourseDetail;
         });
 
         const mapped = await Promise.all(detailPromises);

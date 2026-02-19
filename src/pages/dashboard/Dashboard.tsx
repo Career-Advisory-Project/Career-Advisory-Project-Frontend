@@ -3,10 +3,10 @@ import axios from "axios";
 import Navbar from "../../components/layout/Navbar";
 import CourseOverview from "../../components/dashboard/CourseOverview/CourseOverview";
 import CourseList from "../../components/dashboard/CourseList/CourseList";
-import type { TeacherCourse } from "../../types/course";
+import type { CourseDetail } from "../../types/course";
 
 const Dashboard = () => {
-  const [selectedCourse, setSelectedCourse] = useState<TeacherCourse | null>(
+  const [selectedCourse, setSelectedCourse] = useState<CourseDetail | null>(
     null
   );
   const [cmuitaccount, setCmuitaccount] = useState<string | null>(null);

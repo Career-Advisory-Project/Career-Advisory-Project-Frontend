@@ -1,10 +1,10 @@
-import type { TeacherCourse } from "../../../types/course";
+import type { CourseDetail } from "../../../types/course";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
 
 type Props = {
-  course: TeacherCourse | null;
+  course: CourseDetail | null;
 };
 
 const CourseOverview = ({ course }: Props) => {
@@ -18,8 +18,8 @@ const CourseOverview = ({ course }: Props) => {
     );
   }
 
-  const title = course.name;
-  const detail = lang === "en" ? course.descENG : course.descTH;
+  const title = course.courseNameEN;
+  const detail = lang === "en" ? course.detailEN : course.detailTH;
 
   return (
     <div className="flex items-center justify-end font-['CMU']">

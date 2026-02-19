@@ -1,7 +1,7 @@
-import type { TeacherCourse } from "../../../types/course";
+import type { CourseDetail } from "../../../types/course";
 
 type Props = {
-  course: TeacherCourse;
+  course: CourseDetail;
   onClick: () => void;
 };
 
@@ -21,7 +21,7 @@ const CourseItem = ({ course, onClick }: Props) => {
         </div>
 
         <h3 className="font-bold text-sm text-black truncate leading-tight">
-          {course.name}
+          {course.courseNameEN}
         </h3>
       </div>
     </div>
