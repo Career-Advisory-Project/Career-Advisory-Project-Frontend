@@ -7,7 +7,7 @@ import type {
 
 export const getCurriculums = async (): Promise<Curriculum[]> => {
   const response = await fetch(
-    `${import.meta.env.VITE_MOCK_API_URL}/admin/curriculum`
+    `/api/admin/curriculum`
   );
 
   if (!response.ok) {
@@ -23,9 +23,7 @@ export const getCurriculumSkills = async (
   curriculum_year: string
 ): Promise<CurriculumSkillsResponse> => {
   const response = await fetch(
-    `${
-      import.meta.env.VITE_MOCK_API_URL
-    }/admin/curriculum/${program}/${curriculum_year}/skills`
+    `/api/admin/curriculum/${program}/${curriculum_year}/skills`
   );
 
   if (!response.ok) {
@@ -40,9 +38,7 @@ export const getCurriculumCourses = async (
   curriculum_year: string
 ): Promise<CurriculumCoursesResponse> => {
   const response = await fetch(
-    `${
-      import.meta.env.VITE_MOCK_API_URL
-    }/admin/curriculum/${program}/${curriculum_year}/courses`
+    `/api/admin/curriculum/${program}/${curriculum_year}/courses`
   );
 
   if (!response.ok) {
@@ -50,10 +46,7 @@ export const getCurriculumCourses = async (
   }
 
   return response.json();
-};
-
-// TODO: Replace getCourseSkills() usage in CurriculumEditPage with a dedicated
-// getAllCourses() endpoint from backend once it's available.
+};  
 
 /** POST /admin/curriculum — Add courses to a curriculum */
 export const addCoursesToCurriculum = async (
@@ -62,7 +55,7 @@ export const addCoursesToCurriculum = async (
   courses: string[]
 ): Promise<{ ok: boolean }> => {
   const response = await fetch(
-    `${import.meta.env.VITE_MOCK_API_URL}/admin/curriculum`,
+    `/api/admin/curriculum`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -84,7 +77,7 @@ export const removeCoursesFromCurriculum = async (
   courses: string[]
 ): Promise<{ ok: boolean }> => {
   const response = await fetch(
-    `${import.meta.env.VITE_MOCK_API_URL}/admin/curriculum`,
+    `/api/admin/curriculum`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },

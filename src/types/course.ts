@@ -62,13 +62,13 @@ export interface TeacherCourseResponse {
 
 // Dashboard Course List from all courses
 export interface DashboardCourse {
-  courseId: string;
-  courseName: string;
+  courseNo: string;
+  name: string;
 }
 
 export interface DashboardResponse {
   cmuitaccount: string;
-  courseNoList: DashboardCourse[];
+  courses: DashboardCourse[];
 }
 
 // Course Detail from all course/{courseNo}

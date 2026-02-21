@@ -36,8 +36,8 @@ const AddCoursePage = () => {
           cmuitaccountRef.current = cmuitaccount;
 
           const dashboardData = await getDashboardCourses(cmuitaccount);
-          const dashboardCourseIds = (dashboardData.courseNoList || []).map(
-            (c) => c.courseId
+          const dashboardCourseIds = (dashboardData.courses || []).map(
+            (c) => c.courseNo
           );
           initialCourseIdsRef.current = dashboardCourseIds;
           setSelectedCourseIds(dashboardCourseIds);

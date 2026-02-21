@@ -9,7 +9,7 @@ import type { TeacherCourseResponse } from "../types/course";
 export const getDashboardCourses = async (
   cmuitaccount: string
 ): Promise<DashboardResponse> => {
-  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard/${cmuitaccount}`);
+  const response = await fetch(`/api/dashboard/${cmuitaccount}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch dashboard courses");
@@ -21,7 +21,7 @@ export const getDashboardCourses = async (
 export const getCourseDetail = async (
   courseNo: string
 ): Promise<CourseDetailResponse> => {
-  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/all_course/${courseNo}`);
+  const response = await fetch(`/api/all_course/${courseNo}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch course detail");
@@ -35,7 +35,7 @@ export const addDashboardCourses = async (
   cmuitaccount: string,
   coursesNoList: string[]
 ): Promise<void> => {
-  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard`, {
+  const response = await fetch(`/api/dashboard`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ cmuitaccount, coursesNoList }),
@@ -50,7 +50,7 @@ export const removeDashboardCourses = async (
   cmuitaccount: string,
   coursesNoList: string[]
 ): Promise<void> => {
-  const response = await fetch(`${import.meta.env.VITE_MOCK_API_URL}/dashboard`, {
+  const response = await fetch(`/api/dashboard`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ cmuitaccount, coursesNoList }),
@@ -62,7 +62,7 @@ export const removeDashboardCourses = async (
 };
 
 export const getAllCourses = async (): Promise<AllCourseData> => {
-  const response = await fetch("/api/all_course");
+  const response = await fetch(`/api/all_course`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch all courses");
@@ -83,7 +83,7 @@ export const getTeacherCourses = async (
 };
 
 export const getCourseSkills = async (): Promise<CourseSkillResponse[]> => {
-  const response = await fetch("/api/courseskills");
+  const response = await fetch(`/api/courseskills`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch course skills");

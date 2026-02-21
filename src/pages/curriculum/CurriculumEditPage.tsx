@@ -45,8 +45,8 @@ const CurriculumEditPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const allCoursesData = await getAllCourses();
-        setAllCourses(allCoursesData.courses);
+        const data = await getAllCourses();
+        setAllCourses(data.courses);
 
         // Fetch courses already in this curriculum
         const currData = await getCurriculumCourses(program, curriculum_year);

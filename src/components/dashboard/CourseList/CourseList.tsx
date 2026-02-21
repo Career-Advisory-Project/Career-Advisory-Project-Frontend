@@ -22,20 +22,20 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
         console.log("API data (dashboard courses):", result);
 
         // Fetch full details for each course in parallel
-        const detailPromises = result.courseNoList.map(async (c) => {
+        const detailPromises = result.courses.map(async (c) => {
           try {
-            const detail = await getCourseDetail(c.courseId);
+            const detail = await getCourseDetail(c.courseNo);
             const d = detail.course.courseDetails[0];
             if (d) {
               return d;
             }
           } catch (err) {
-            console.warn(`Failed to fetch detail for ${c.courseId}:`, err);
+            console.warn(`Failed to fetch detail for ${c.courseNo}:`, err);
           }
           // Fallback if detail fetch fails
           return {
-            courseNo: c.courseId,
-            courseNameEN: c.courseName,
+            courseNo: c.courseNo,
+            courseNameEN: c.name,
             courseNameTH: "",
             detailEN: "Failed to load details",
             detailTH: "ไม่สามารถโหลดรายละเอียดได้",
