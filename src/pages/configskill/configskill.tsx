@@ -1,69 +1,140 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../components/layout/Navbar";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getAllSkill,
+  getCourseSkillsByCourseNo,
+  deleteCourseSkill,
+  postCourseSkill,
+  patchCourseSkill } from "../../services/course.service";
 
-//Mock รอ API
+
 interface LocationState {
   courseNo?: string;
   courseName?: string;
   updatedSkill?: {
-    id: number;
+    id: string; 
     scores: (number | null)[]; 
   };
 }
-//Mock รอ API
-interface Skill {
-  id: number;
+interface LocalSkill {
+  id: string;
   name: string;
   expanded: boolean;
   scores?: (number | null)[];
 }
-
-const mockSkills = [
-  { 
-    id: 1, 
-    name: "Programming", 
-    expanded: true, 
-    scores: [5, 4, 3, 3, 3, 3, 3]
-  },
-  { 
-    id: 2, 
-    name: "Skill Name", 
-    expanded: true, 
-    scores: [null, null, null, null, null, null, null] 
-  },
-  { id: 3, name: "Skill Name", expanded: false },
-  { id: 4, name: "Skill Name", expanded: false },
-  { id: 5, name: "Skill Name", expanded: false },
-  { id: 6, name: "Skill Name", expanded: false },
-  { id: 7, name: "Skill Name", expanded: false },
-];
-
 const grades = ["A", "B+", "B", "C+", "C", "D+", "D"];
 
 const ConfigSkillPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [skills, setSkills] = useState<Skill[]>(mockSkills);
-  const [searchTerm, setSearchTerm] = useState("");
   const stateData = location.state as LocationState | null;
+  const [skills, setSkills] = useState<LocalSkill[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true); 
+  const [skillsToRemove, setSkillsToRemove] = useState<string[]>([]);
+  const [existingSkillIds, setExistingSkillIds] = useState<string[]>([]);
 
-  useEffect(() => {
+useEffect(() => {
+    const courseNo = stateData?.courseNo;
+    if (!courseNo) return;
+
+    const DRAFT_REMOVE_KEY = `draft_remove_${courseNo}`;
+    const DRAFT_SCORES_KEY = `draft_scores_${courseNo}`;
+
+    let currentRemoved: string[] = JSON.parse(sessionStorage.getItem(DRAFT_REMOVE_KEY) || "[]");
+    let currentScoresDraft: Record<string, (number | null)[]> = JSON.parse(sessionStorage.getItem(DRAFT_SCORES_KEY) || "{}");
+
     if (stateData?.updatedSkill) {
-       console.log("Updated data received:", stateData.updatedSkill);
-       
-       setSkills((prevSkills) => 
-         prevSkills.map((skill) => {
-           if (Number(skill.id) === Number(stateData.updatedSkill!.id)) {
-             return { ...skill, scores: stateData.updatedSkill!.scores };
-           }
-           return skill;
-         })
-       );
-       
-    }
-  }, [location.state]);
+      const { id, scores } = stateData.updatedSkill;
+      const isRemoved = scores.every((s) => s === null);
 
+      if (isRemoved) {
+       
+        if (!currentRemoved.includes(id)) currentRemoved.push(id);
+        delete currentScoresDraft[id]; 
+      } else {
+        currentRemoved = currentRemoved.filter((remId) => remId !== id);
+        currentScoresDraft[id] = scores; 
+      }
+
+      sessionStorage.setItem(DRAFT_REMOVE_KEY, JSON.stringify(currentRemoved));
+      sessionStorage.setItem(DRAFT_SCORES_KEY, JSON.stringify(currentScoresDraft));
+    }
+
+    setSkillsToRemove(currentRemoved); 
+
+    const fetchSkillsData = async () => {
+          setIsLoading(true);
+          try {
+            const [allSkill, courseSkillsResult] = await Promise.all([
+              getAllSkill(courseNo),
+              getCourseSkillsByCourseNo(courseNo)
+            ]);
+
+            const configuredSkills = Array.isArray(courseSkillsResult) 
+              ? courseSkillsResult 
+              : (courseSkillsResult as any).data || (courseSkillsResult as any).skills || [];
+
+            const dbSkillIds: string[] = [];
+
+            const formattedSkills: LocalSkill[] = allSkill.map((apiSkill) => {
+              const strApiId = String(apiSkill.id);
+              const defaultScores = Array(7).fill(null);
+              let isConfigured = false;
+
+              const matchedCourseSkill = configuredSkills.find(
+                (cs: any) => String(cs.id) === strApiId || String(cs.skillId) === strApiId
+              );
+
+              if (matchedCourseSkill) {
+                dbSkillIds.push(strApiId);
+              }
+
+              const isMarkedForRemove = currentRemoved.includes(strApiId);
+              const draftScores = currentScoresDraft[strApiId];
+
+              if (isMarkedForRemove) {
+                 isConfigured = false;
+              } else if (draftScores) {
+                 isConfigured = true;
+                 for(let i = 0; i < 7; i++) defaultScores[i] = draftScores[i];
+              } else if (matchedCourseSkill) {
+                 isConfigured = true;
+                 const rubricsData = matchedCourseSkill.rublics || matchedCourseSkill.rubrics 
+                                  || apiSkill.rubrics || (apiSkill as any).rubrics;
+
+                 if (rubricsData && Array.isArray(rubricsData)) {
+                    grades.forEach((gradeName, index) => {
+                       const matchedRubric = rubricsData.find((r: any) => r.grade === gradeName);
+                       if (matchedRubric && matchedRubric.level) {
+                         defaultScores[index] = matchedRubric.level;
+                       }
+                    });
+                 }
+              }
+
+              return {
+                id: strApiId,
+                name: apiSkill.name,
+                expanded: isConfigured,
+                scores: defaultScores, 
+              };
+            });
+
+            setExistingSkillIds(dbSkillIds);
+            setSkills(formattedSkills);
+
+          } catch (error) {
+            console.error("Error fetching skills:", error);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+
+    fetchSkillsData();
+  }, [stateData?.courseNo, stateData?.updatedSkill]);
+
+  // Handle No Course
   if (!stateData?.courseNo) {
      return (
         <div className="min-h-screen flex items-center justify-center flex-col gap-4">
@@ -75,9 +146,16 @@ const ConfigSkillPage = () => {
 
   const filteredSkills = skills.filter((skill) =>
     skill.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );  
+  );
 
-  const handleSkillClick = (skill: any) => {
+  const sortedSkills = [...filteredSkills].sort((a, b) => {
+    if (a.expanded && !b.expanded) return -1;
+    if (!a.expanded && b.expanded) return 1;
+    
+    return a.name.localeCompare(b.name);
+  });
+
+  const handleSkillClick = (skill: LocalSkill) => {
     navigate("/editskill", { 
       state: { 
         id: skill.id,
@@ -89,8 +167,73 @@ const ConfigSkillPage = () => {
     });
   };
 
+  const handleConfirm = async () => {
+    if (!stateData?.courseNo) return;
+
+    try {
+      setIsLoading(true);
+
+      // --- DELETE ---
+      if (skillsToRemove.length > 0) {
+        for (const skillId of skillsToRemove) {
+          await deleteCourseSkill(stateData.courseNo!, skillId);
+        }
+        console.log("Deleted all selected skills successfully.");
+      }
+
+      // --- POST & PATCH ---
+      const skillsToSave = skills.filter(skill => skill.expanded);
+      
+      for (const skill of skillsToSave) {
+        const rubricsPayload: { grade: string; level: number }[] = [];
+        
+        grades.forEach((gradeName, index) => {
+          const levelScore = skill.scores?.[index];
+          if (levelScore !== null && levelScore !== undefined) {
+            rubricsPayload.push({
+              grade: gradeName,
+              level: levelScore
+            });
+          }
+        });
+
+        const payload = {
+          courseNo: stateData.courseNo!,
+          skillID: skill.id, 
+          rubrics: rubricsPayload
+        };
+        if (existingSkillIds.includes(String(skill.id))) {
+          console.log(`PATCHing skill: ${skill.name}`, payload);
+          await patchCourseSkill(payload);
+        } else {
+          console.log(`POSTing new skill: ${skill.name}`, payload);
+          await postCourseSkill(payload);
+        }
+      }
+      sessionStorage.removeItem(`draft_remove_${stateData.courseNo}`);
+      sessionStorage.removeItem(`draft_scores_${stateData.courseNo}`);
+
+      navigate("/dashboard"); 
+
+    } catch (error) {
+      console.error("Error saving config:", error);
+      alert("ERROR TO SAVE");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (stateData?.courseNo) {
+      sessionStorage.removeItem(`draft_remove_${stateData.courseNo}`);
+      sessionStorage.removeItem(`draft_scores_${stateData.courseNo}`);
+    }
+    navigate("/dashboard"); 
+  };
+  
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gray-100 flex flex-col font-['CMU']">
       <Navbar />
       
       <div className="flex-1 flex justify-center px-6 py-8">
@@ -117,8 +260,8 @@ const ConfigSkillPage = () => {
           {/* List */}
           <div className="flex-1 px-10 pb-24 space-y-4 custom-scrollbar">
             <div className="flex-1 bg-gray-200 space-y-4 overflow-auto px-10 py-8 rounded-[5px] pb-24 h-[550px]">
-            {filteredSkills.length > 0 ? (
-              filteredSkills.map((skill) => (
+            {sortedSkills.length > 0 ? (
+              sortedSkills.map((skill) => (
                 <div 
                   key={skill.id} 
                   onClick={() => handleSkillClick(skill)}
@@ -155,19 +298,22 @@ const ConfigSkillPage = () => {
             {/* Buttons */}
             <div className="flex justify-end gap-4 pt-6 mt-4">
                   <button 
-                    onClick={() => navigate(-1)}
+                    onClick={handleCancel}
                     className="w-[180px] h-[50px] bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-lg shadow transition-colors"
                   >
                     Cancel
                   </button>
-                  <button className="w-[180px] h-[50px] bg-[#5E4481] hover:bg-[#4a3370] text-white font-bold rounded-lg shadow transition-colors">
-                    Confirm
-                  </button>
+                  <button 
+                  onClick={handleConfirm}
+                  disabled={isLoading} 
+                  className={`w-[180px] h-[50px] text-white font-bold rounded-lg shadow transition-colors ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#5E4481] hover:bg-[#4a3370]'}`}>
+                  {isLoading ? 'Saving...' : 'Confirm'}
+                </button>
+          </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

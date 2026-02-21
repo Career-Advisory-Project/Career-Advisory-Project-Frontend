@@ -63,3 +63,23 @@ export interface TeacherCourseResponse {
   lastNameEN: string;
   courses: TeacherCourse[];
 }
+
+export interface AllSkill{
+  rubrics: SkillRubric[];
+  id: string;
+  name: string;
+  descTH: string;
+  descENG: string;
+  tags: string[];
+}
+
+export interface PostRubricPayload {
+  grade: string;
+  level: number;
+}
+
+export interface PostCourseSkillPayload {
+  courseNo: string;
+  skillID: string; 
+  rubrics: PostRubricPayload[];
+}
