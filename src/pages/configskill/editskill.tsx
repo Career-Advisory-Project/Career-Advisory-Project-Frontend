@@ -26,7 +26,7 @@ const EditSkillPage = () => {
   );
   
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
-  const [skillDetail, setSkillDetail] = useState<any>(null);
+  const [skillDetail, setSkillDetail] = useState<AllSkill | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const EditSkillPage = () => {
       
       setIsLoading(true);
       try {
-        const allSkill: AllSkill[] = await getAllSkill(skillData.courseNo);
+        const allSkill: AllSkill[] = await getAllSkill();
         const currentSkillInfo = allSkill.find(s => String(s.id) === String(skillData.id));
         
         if (currentSkillInfo) {

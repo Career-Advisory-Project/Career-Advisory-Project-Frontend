@@ -106,9 +106,7 @@ export const getCourseSkillsByCourseNo = async (
 
 
 //CONFIG SKILL RELATED
-export const getAllSkill = async (
-  id: string
-): Promise<AllSkill[]> => {
+export const getAllSkill = async (): Promise<AllSkill[]> => {
   const response = await fetch(`/api/courseskills/allskill`);
 
   if (!response.ok) {

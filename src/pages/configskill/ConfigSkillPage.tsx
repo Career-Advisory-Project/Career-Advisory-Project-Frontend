@@ -67,7 +67,7 @@ useEffect(() => {
           setIsLoading(true);
           try {
             const [allSkill, courseSkillsResult] = await Promise.all([
-              getAllSkill(courseNo),
+              getAllSkill(),
               getCourseSkillsByCourseNo(courseNo)
             ]);
 
