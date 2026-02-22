@@ -24,11 +24,12 @@ export interface SkillItem {
   name: string;
   descTH: string;
   descENG: string;
-  tags: string[];
+  tag: string[];
   rubrics: SkillRubric[];
 }
 
 export interface SkillRubric {
+  grade: string;
   level: number;
   descTH: string;
   descENG: string;

@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import type { CourseDetail } from "../../../types/course";
+import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
@@ -9,6 +11,35 @@ type Props = {
 
 const CourseOverview = ({ course }: Props) => {
   const { lang } = useAppContext();
+  const [courseDesc, setCourseDesc] = useState<{
+    descTH?: string;
+    descENG?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!course) {
+      setCourseDesc(null);
+      return;
+    }
+
+    const fetchDesc = async () => {
+      try {
+        const data = await getCourseSkillsByCourseNo(course.courseNo);
+        setCourseDesc({
+          descTH: data.descTH,
+          descENG: data.descENG,
+        });
+      } catch {
+        // Fallback to CourseDetail description
+        setCourseDesc({
+          descTH: course.detailTH,
+          descENG: course.detailEN,
+        });
+      }
+    };
+
+    fetchDesc();
+  }, [course]);
 
   if (!course) {
     return (
@@ -19,7 +50,10 @@ const CourseOverview = ({ course }: Props) => {
   }
 
   const title = course.courseNameEN;
-  const detail = lang === "en" ? course.detailEN : course.detailTH;
+  const detail =
+    lang === "en"
+      ? courseDesc?.descENG ?? course.detailEN
+      : courseDesc?.descTH ?? course.detailTH;
 
   return (
     <div className="flex items-center justify-end font-['CMU']">
