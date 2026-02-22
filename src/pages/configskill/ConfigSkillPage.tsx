@@ -173,9 +173,10 @@ useEffect(() => {
     try {
       setIsLoading(true);
 
-      // --- DELETE ---
-      if (skillsToRemove.length > 0) {
-        for (const skillId of skillsToRemove) {
+      // --- DELETE (only skills that exist in DB) ---
+      const actualSkillsToRemove = skillsToRemove.filter(id => existingSkillIds.includes(id));
+      if (actualSkillsToRemove.length > 0) {
+        for (const skillId of actualSkillsToRemove) {
           await deleteCourseSkill(stateData.courseNo!, skillId);
         }
         // console.log("Deleted all selected skills successfully.");

@@ -49,6 +49,7 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
         });
 
         const mapped = await Promise.all(detailPromises);
+        mapped.sort((a, b) => a.courseNo.localeCompare(b.courseNo));
         setCourses(mapped);
       } catch (err) {
         console.error("CourseList API error:", err);
