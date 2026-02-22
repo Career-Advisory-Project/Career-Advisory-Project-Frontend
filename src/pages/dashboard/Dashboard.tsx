@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Navbar from "../../components/layout/Navbar";
 import CourseOverview from "../../components/dashboard/CourseOverview/CourseOverview";
 import CourseList from "../../components/dashboard/CourseList/CourseList";
 import type { CourseDetail } from "../../types/course";
+import { useAuth } from "../../hooks/useAuth";
 
 const Dashboard = () => {
   const [selectedCourse, setSelectedCourse] = useState<CourseDetail | null>(
     null
   );
-  const [cmuitaccount, setCmuitaccount] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("/api/auth/me");
-        if (response.data.ok && response.data.user) {
-          setCmuitaccount(response.data.user.cmuitaccount);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user info:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -40,7 +22,7 @@ const Dashboard = () => {
     );
   }
 
-  if (!cmuitaccount) {
+  if (!user) {
     return (
       <div className="min-h-screen">
         <Navbar />
@@ -59,7 +41,7 @@ const Dashboard = () => {
         <div className="flex gap-6 max-w-[1200px] w-full items-stretch">
           <aside className="w-[360px] min-w-[360px] flex-shrink-0">
             <CourseList
-              cmuitaccount={cmuitaccount}
+              cmuitaccount={user.cmuitaccount}
               onSelectCourse={setSelectedCourse}
             />
           </aside>

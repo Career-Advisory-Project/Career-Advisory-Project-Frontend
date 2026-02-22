@@ -6,6 +6,7 @@ import { getAllSkill,
   deleteCourseSkill,
   postCourseSkill,
   patchCourseSkill } from "../../services/course.service";
+import type { CourseSkillResponse, SkillItem, SkillRubric } from "../../types/course";
 
 
 interface LocationState {
@@ -71,9 +72,7 @@ useEffect(() => {
               getCourseSkillsByCourseNo(courseNo)
             ]);
 
-            const configuredSkills = Array.isArray(courseSkillsResult) 
-              ? courseSkillsResult 
-              : (courseSkillsResult as any).data || (courseSkillsResult as any).skills || [];
+            const configuredSkills: SkillItem[] = (courseSkillsResult as CourseSkillResponse).skills || [];
 
             const dbSkillIds: string[] = [];
 
@@ -83,7 +82,7 @@ useEffect(() => {
               let isConfigured = false;
 
               const matchedCourseSkill = configuredSkills.find(
-                (cs: any) => String(cs.id) === strApiId || String(cs.skillId) === strApiId
+                (cs: SkillItem) => String(cs.id) === strApiId
               );
 
               if (matchedCourseSkill) {
@@ -100,12 +99,11 @@ useEffect(() => {
                  for(let i = 0; i < 7; i++) defaultScores[i] = draftScores[i];
               } else if (matchedCourseSkill) {
                  isConfigured = true;
-                 const rubricsData = matchedCourseSkill.rublics || matchedCourseSkill.rubrics 
-                                  || apiSkill.rubrics || (apiSkill as any).rubrics;
+                 const rubricsData: SkillRubric[] = matchedCourseSkill.rubrics || apiSkill.rubrics || [];
 
                  if (rubricsData && Array.isArray(rubricsData)) {
                     grades.forEach((gradeName, index) => {
-                       const matchedRubric = rubricsData.find((r: any) => r.grade === gradeName);
+                       const matchedRubric = rubricsData.find((r: SkillRubric) => r.grade === gradeName);
                        if (matchedRubric && matchedRubric.level) {
                          defaultScores[index] = matchedRubric.level;
                        }

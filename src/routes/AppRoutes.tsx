@@ -10,35 +10,31 @@ import EditSkillPage from "../pages/configskill/editskill";
 import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      {/* <Route path="/auth/redirect" element={<AuthRedirect />} /> */}
-      {/* The Login Page */}
+      {/* Public routes */}
       <Route path="/" element={<Login />} />
-
-      {/* You MUST add this line for the white screen to go away */}
       <Route path="/cmuEntraIDCallback" element={<CmuEntraIDCallback />} />
 
-      {/* The Profile Page */}
-      <Route path="/me" element={<MePage />} />
-
-      <Route path="/addcourse" element={<AddCoursePage />} />
-      <Route path="/configskill" element={<ConfigSkillPage />} />
-      <Route path="/curriculum" element={<CurriculumPage />} />
+      {/* Protected routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/me" element={<ProtectedRoute><MePage /></ProtectedRoute>} />
+      <Route path="/addcourse" element={<ProtectedRoute><AddCoursePage /></ProtectedRoute>} />
+      <Route path="/configskill" element={<ProtectedRoute><ConfigSkillPage /></ProtectedRoute>} />
+      <Route path="/editskill" element={<ProtectedRoute><EditSkillPage /></ProtectedRoute>} />
+      <Route path="/curriculum" element={<ProtectedRoute><CurriculumPage /></ProtectedRoute>} />
       <Route
         path="/curriculum/:program/:curriculum_year"
-        element={<CurriculumDetailPage />}
+        element={<ProtectedRoute><CurriculumDetailPage /></ProtectedRoute>}
       />
       <Route
         path="/curriculum/:program/:curriculum_year/edit"
-        element={<CurriculumEditPage />}
+        element={<ProtectedRoute><CurriculumEditPage /></ProtectedRoute>}
       />
-      <Route path="/editskill" element={<EditSkillPage />} />
     </Routes>
-    
   );
 };
 

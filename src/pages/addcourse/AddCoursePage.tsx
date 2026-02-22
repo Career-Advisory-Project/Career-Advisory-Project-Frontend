@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
 import Navbar from "../../components/layout/Navbar";
 import CourseCard from "../../components/addcourse/CourseCard";
 import SkillItem from "../../components/addcourse/SkillItem";
@@ -18,9 +18,9 @@ const AddCoursePage = () => {
   const [saving, setSaving] = useState(false);
 
   const initialCourseIdsRef = useRef<string[]>([]);
-  const cmuitaccountRef = useRef<string>("");
 
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,12 +30,8 @@ const AddCoursePage = () => {
         setAllCourses(data.courses);
 
         // Pre-select courses already in the dashboard
-        const authRes = await axios.get("/api/auth/me");
-        if (authRes.data.ok && authRes.data.user) {
-          const cmuitaccount = authRes.data.user.cmuitaccount;
-          cmuitaccountRef.current = cmuitaccount;
-
-          const dashboardData = await getDashboardCourses(cmuitaccount);
+        if (user) {
+          const dashboardData = await getDashboardCourses(user.cmuitaccount);
           const dashboardCourseIds = (dashboardData.courses || []).map(
             (c) => c.courseNo
           );
@@ -50,7 +46,7 @@ const AddCoursePage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   const handleCourseClick = async (course: CourseInfo) => {
     try {
@@ -70,12 +66,11 @@ const AddCoursePage = () => {
   };
 
   const handleFinish = async () => {
-    const cmuitaccount = cmuitaccountRef.current;
-    if (!cmuitaccount) {
-      console.error("No cmuitaccount available");
+    if (!user) {
       navigate("/dashboard");
       return;
     }
+    const cmuitaccount = user.cmuitaccount;
 
     setSaving(true);
     try {
