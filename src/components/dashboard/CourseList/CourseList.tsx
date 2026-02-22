@@ -19,7 +19,7 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
     const fetchCourses = async () => {
       try {
         const result = await getDashboardCourses(cmuitaccount);
-        console.log("API data (dashboard courses):", result);
+        // console.log("API data (dashboard courses):", result);
 
         // Fetch full details for each course in parallel
         const detailPromises = result.courses.map(async (c) => {
@@ -81,7 +81,7 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
                 course={course}
                 onClick={() => {
                   onSelectCourse(course);
-                  console.log("Selected course:", course.courseNo);
+                  // console.log("Selected course:", course.courseNo);
                 }}
               />
             ))}

@@ -89,12 +89,12 @@ const AddCoursePage = () => {
       const promises: Promise<void>[] = [];
 
       if (toAdd.length > 0) {
-        console.log("Adding courses:", toAdd);
+        // console.log("Adding courses:", toAdd);
         promises.push(addDashboardCourses(cmuitaccount, toAdd));
       }
 
       if (toRemove.length > 0) {
-        console.log("Removing courses:", toRemove);
+        // console.log("Removing courses:", toRemove);
         promises.push(removeDashboardCourses(cmuitaccount, toRemove));
       }
 

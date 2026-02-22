@@ -178,7 +178,7 @@ useEffect(() => {
         for (const skillId of skillsToRemove) {
           await deleteCourseSkill(stateData.courseNo!, skillId);
         }
-        console.log("Deleted all selected skills successfully.");
+        // console.log("Deleted all selected skills successfully.");
       }
 
       // --- POST & PATCH ---
@@ -203,10 +203,10 @@ useEffect(() => {
           rubrics: rubricsPayload
         };
         if (existingSkillIds.includes(String(skill.id))) {
-          console.log(`PATCHing skill: ${skill.name}`, payload);
+          // console.log(`PATCHing skill: ${skill.name}`, payload);
           await patchCourseSkill(payload);
         } else {
-          console.log(`POSTing new skill: ${skill.name}`, payload);
+          // console.log(`POSTing new skill: ${skill.name}`, payload);
           await postCourseSkill(payload);
         }
       }

@@ -19,7 +19,7 @@ export default function CmuEntraIDCallback() {
 
     axios
       .post<SignInResponse>(
-        "http://localhost:3000/auth/signIn",
+        "/api/auth/signIn",
         { authorizationCode: code },
         { withCredentials: true }
       )

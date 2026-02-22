@@ -93,7 +93,7 @@ const EditSkillPage = () => {
   };
 
   const handleSave = () => {
-    console.log("Saved Scores:", currentScores);
+    // console.log("Saved Scores:", currentScores);
     navigate("/configskill", {
         state: {
             courseNo: skillData.courseNo,
@@ -110,7 +110,7 @@ const EditSkillPage = () => {
     const isConfirmed = window.confirm("Are you sure you want to remove this skill?");
     if (!isConfirmed) return;
 
-    console.log("Removed Skill:", skillData.name);
+    // console.log("Removed Skill:", skillData.name);
     navigate("/configskill", {
         state: {
             courseNo: skillData.courseNo,

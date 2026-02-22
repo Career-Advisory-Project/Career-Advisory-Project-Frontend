@@ -38,7 +38,7 @@ export default function MePage() {
   function signOut() {
     // FIX 2: Use absolute path
     axios
-      .post("http://localhost:3000/auth/me")
+      .post("/api/auth/me")
       .then((response) => {
         if (response.data.ok) {
           // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
@@ -61,7 +61,7 @@ export default function MePage() {
   useEffect(() => {
     // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
     axios
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", {
+      .get<WhoAmIResponse>("/api/auth/me", {
         withCredentials: true, // <--- ADD THIS
       })
       .then((response) => {
