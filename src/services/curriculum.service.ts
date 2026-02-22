@@ -55,7 +55,7 @@ export const addCoursesToCurriculum = async (
   courses: string[]
 ): Promise<{ ok: boolean }> => {
   const response = await fetch(
-    `/api/admin/curriculum`,
+    `/api/admin/curriculum/courses`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -77,7 +77,7 @@ export const removeCoursesFromCurriculum = async (
   courses: string[]
 ): Promise<{ ok: boolean }> => {
   const response = await fetch(
-    `/api/admin/curriculum`,
+    `/api/admin/curriculum/courses`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
