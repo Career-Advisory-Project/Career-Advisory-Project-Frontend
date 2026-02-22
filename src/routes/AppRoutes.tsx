@@ -6,6 +6,7 @@ import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to
 import MePage from "../app/api/profile/page";
 import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
 import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
+import EditSkillPage from "../pages/configskill/editskill";
 import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
@@ -35,7 +36,9 @@ const AppRoutes = () => {
         path="/curriculum/:program/:curriculum_year/edit"
         element={<CurriculumEditPage />}
       />
+      <Route path="/editskill" element={<EditSkillPage />} />
     </Routes>
+    
   );
 };
 

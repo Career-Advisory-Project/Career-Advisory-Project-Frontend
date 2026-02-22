@@ -93,3 +93,24 @@ export interface CourseDetailResponse {
     courseDetails: CourseDetail[];
   };
 }
+
+//CONFIG SKILL RELATED TYPE
+export interface AllSkill{
+  rubrics: SkillRubric[];
+  id: string;
+  name: string;
+  descTH: string;
+  descENG: string;
+  tags: string[];
+}
+
+export interface PostRubricPayload {
+  grade: string;
+  level: number;
+}
+
+export interface PostCourseSkillPayload {
+  courseNo: string;
+  skillID: string; 
+  rubrics: PostRubricPayload[];
+}

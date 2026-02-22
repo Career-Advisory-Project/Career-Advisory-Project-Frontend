@@ -4,6 +4,7 @@ import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   course: CourseDetail | null;
@@ -11,6 +12,7 @@ type Props = {
 
 const CourseOverview = ({ course }: Props) => {
   const { lang } = useAppContext();
+  const navigate = useNavigate();
   const [courseDesc, setCourseDesc] = useState<{
     descTH?: string;
     descENG?: string;
@@ -49,6 +51,9 @@ const CourseOverview = ({ course }: Props) => {
     );
   }
 
+
+  const courseNo =  course.courseNo;
+  
   const title = course.courseNameEN;
   const detail =
     lang === "en"
@@ -91,15 +96,21 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Config Button (still disabled) */}
-        <div className="flex justify-end mt-3 px-4">
-          <button
-            disabled
-            className="font-bold py-2 px-8 rounded shadow-md w-[232px] h-[50px]
-              bg-gray-300 cursor-not-allowed text-gray-500"
-          >
-            Config Skill
-          </button>
-        </div>
+        <div className="flex justify-end mt-3 px-8">
+        <button
+              onClick={() => {
+                navigate("/configskill", { 
+                  state: { 
+                    courseNo: courseNo,
+                    courseName: title 
+                  } 
+                });
+              }}
+              className="font-bold py-2 px-8 rounded shadow-md w-[232px] h-[50px] bg-[#5E4481] text-white hover:bg-[#4a3370]"
+            >
+          Config Skill
+        </button>
+      </div>
       </div>
     </div>
   );
