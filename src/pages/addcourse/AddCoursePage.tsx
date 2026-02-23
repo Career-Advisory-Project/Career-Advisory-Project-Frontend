@@ -169,7 +169,7 @@ const AddCoursePage = () => {
                         <SkillRadarChart skills={viewedCourse.skills} />
                       </div>
                     )}
-                    
+{/*                     
                     <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
                         viewedCourse.skills.map((skill, idx) => (
@@ -184,7 +184,7 @@ const AddCoursePage = () => {
                           <p className="text-black text-lg">No Skill Config</p>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </>
               ) : (

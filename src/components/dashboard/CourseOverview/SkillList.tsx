@@ -72,20 +72,41 @@ const SkillList = ({ courseNo }: Props) => {
         <SkillRadarChart skills={skills} />
       </div>
 
-      {skills.map((skill) => (
-        <div key={skill.id} className="skill-card w-[669px] h-[53px]">
-          <div className="flex justify-between items-center border-b pb-1">
-            <span className="text-[#6a5acd] font-bold text-lg">
-              {skill.name}
-            </span>
-            <span className="text-gray-800 font-bold text-sm">
-              {skill.rubrics[0]?.level != null
-                ? `Level ${skill.rubrics[0].level}`
-                : "No level assigned"}
-            </span>
+      {/* {skills.map((skill) => {
+        const sortedRubrics = [...skill.rubrics].sort((a, b) => b.level - a.level);
+
+        return (
+          <div key={skill.id} className="border border-gray-300 rounded-lg p-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-[#6a5acd] font-bold text-lg">
+                {skill.name}
+              </span>
+            </div>
+
+            {sortedRubrics.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {sortedRubrics.map((rubric) => (
+                  <div
+                    key={rubric.grade}
+                    className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-md px-3 py-1.5 text-sm"
+                  >
+                    <span className="font-semibold text-[#5b4085]">
+                      {rubric.grade}
+                    </span>
+                    <span className="text-gray-400">→</span>
+                    <span className="text-gray-700">
+                      Lv.{rubric.level}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <span className="text-gray-400 text-sm">No level assigned</span>
+            )
+            }
           </div>
-        </div>
-      ))}
+        ); */}
+      {/* }) */}
     </div>
   );
 };

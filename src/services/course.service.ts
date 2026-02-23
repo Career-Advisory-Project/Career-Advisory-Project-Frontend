@@ -13,6 +13,11 @@ export const getDashboardCourses = async (
 ): Promise<DashboardResponse> => {
   const response = await fetch(`/api/dashboard/${cmuitaccount}`);
 
+  // New user with no courses — backend returns 404
+  if (response.status === 404) {
+    return { cmuitaccount, courses: [] } as DashboardResponse;
+  }
+
   if (!response.ok) {
     throw new Error("Failed to fetch dashboard courses");
   }

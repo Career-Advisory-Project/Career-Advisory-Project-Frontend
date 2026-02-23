@@ -72,7 +72,7 @@ const SkillRadarChart: React.FC<SkillRadarChartProps> = ({ skills }) => {
       {/* Radar Chart */}
       <div className="flex-1">
         <ResponsiveContainer width="100%" height={300}>
-          <RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}>
+          <RadarChart cx="55%" cy="50%" outerRadius="70%" data={chartData}>
             <PolarGrid stroke="#c4b5d9" />
             <PolarAngleAxis
               dataKey="name"
