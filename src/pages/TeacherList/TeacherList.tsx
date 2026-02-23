@@ -3,7 +3,9 @@ import Navbar from "../../components/layout/Navbar";
 
 const TeacherList = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+
   // Mock data
   const initialTeachers = Array(9).fill({
     name: "Firstname Lastname",
@@ -11,11 +13,11 @@ const TeacherList = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 relative">
       <Navbar />
 
       <div className="flex justify-center py-[35px]">
-        {/* Main Card Container (1240px) */}
+        {/* Main Card Container */}
         <div 
           className="bg-white flex flex-col items-center" 
           style={{
@@ -29,12 +31,15 @@ const TeacherList = () => {
           {/* Title & Add Button Row */}
           <div className="flex justify-between items-center w-[1140px] mb-4">
             <h1 className="text-3xl font-bold text-[#5D4685]">Teacher List</h1>
-            <button className="bg-[#5D4685] text-white px-10 py-2 rounded-md font-bold text-lg hover:bg-[#4a386a] transition-colors">
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#5D4685] flex items-center justify-center w-[200px] h-[50px] text-white px-10 py-2 rounded-md font-bold text-lg hover:bg-[#4a386a] transition-colors"
+            >
               Add
             </button>
           </div>
 
-          {/* THE SPECIFIC FRAME (1140px x 666px) */}
+          {/* Table Frame */}
           <div 
             className="flex flex-col items-center"
             style={{
@@ -44,11 +49,9 @@ const TeacherList = () => {
               gap: '16px',
               padding: '16px',
               border: '1px solid #B9B9B9',
-              opacity: '1',
               backgroundColor: '#FFFFFF'
             }}
           >
-            {/* Search Bar inside the frame */}
             <div className="w-full">
               <input
                 type="text"
@@ -59,15 +62,13 @@ const TeacherList = () => {
               />
             </div>
 
-            {/* Table Header inside the frame */}
             <div className="flex w-full bg-[#EFEFEF] px-4 py-2 rounded-sm text-sm font-semibold text-gray-700">
               <div className="flex-1">Name</div>
               <div className="flex-1">Mail</div>
               <div className="w-10"></div>
             </div>
 
-            {/* Teacher List Scrollable Area */}
-            <div className="w-full flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+            <div className="w-full flex-1 overflow-y-auto space-y-2 pr-1">
               {initialTeachers.map((teacher, index) => (
                 <div 
                   key={index} 
@@ -82,10 +83,100 @@ const TeacherList = () => {
               ))}
             </div>
           </div>
-          {/* End of Frame */}
-          
         </div>
       </div>
+
+      {/* --- ADD TEACHER MODAL --- */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 flex justify-center items-center z-50"
+          style={{ backgroundColor: '#3F3F3F80' }} // Custom background color
+        >
+          <div 
+            style={{
+              width: '1034px',
+              height: '408px',
+              borderRadius: '8px',
+              background: '#FFFFFF',
+              padding: '40px',
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'relative'
+            }}
+          >
+            {/* Modal Header */}
+            <h2 
+              style={{
+                width: '952px',
+                height: '46px',
+                color: '#5E4481',
+                fontSize: '24px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '10px'
+              }}
+            >
+              Add Teacher
+            </h2>
+
+            {/* Textarea Input Area */}
+            <textarea
+              className="w-full p-4 resize-none outline-none border-none placeholder-[#8C8989]"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              placeholder={`add list of cmu mail to add to teacher list, each line at most 1 cmu mail\ni.e.\nname_sur1@cmu.ac.th\nname_sur2@cmu.ac.th\n.\n.\n.\nname_surN@cmu.ac.th`}
+              style={{
+                height: '261px',
+                borderRadius: '4px',
+                background: '#ECECEC',
+                fontSize: '16px',
+                fontWeight: '300',
+                lineHeight: '100%',
+                color: '#8C8989'
+              }}
+            />
+
+            {/* Button Row */}
+            <div className="flex justify-end gap-5 mt-4">
+              {/* Cancel Button */}
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="flex items-center justify-center text-white transition-opacity hover:opacity-90"
+                style={{
+                  width: '200px',
+                  height: '46px',
+                  background: '#818181',
+                  borderRadius: '4px',
+                  fontWeight: '700',
+                  fontSize: '16px'
+                }}
+              >
+                Cancel
+              </button>
+              
+              {/* Add Button */}
+              <button 
+                onClick={() => {
+                  // Logic to add emails goes here
+                  setIsModalOpen(false);
+                }}
+                className="flex items-center justify-center text-white transition-opacity hover:opacity-90"
+                style={{
+                  width: '200px',
+                  height: '46px',
+                  background: '#5E4481',
+                  borderRadius: '4px',
+                  fontWeight: '700',
+                  fontSize: '16px'
+                }}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
