@@ -6,18 +6,12 @@ import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to
 import MePage from "../app/api/profile/page";
 import AddCoursePage from "../pages/addcourse/addcourse";
 import ConfigSkillPage from "../pages/configskill/configskill";
-import TeacherList from "../pages/TeacherList/TeacherList";
-import AdminList from "../pages/AdminList/AdminList";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      {/* <Route path="/auth/redirect" element={<AuthRedirect />} /> */}
-      {/* The Login Page */}
+      {/* Public routes */}
       <Route path="/" element={<Login />} />
-
-      {/* You MUST add this line for the white screen to go away */}
       <Route path="/cmuEntraIDCallback" element={<CmuEntraIDCallback />} />
 
       {/* The Profile Page */}
@@ -25,9 +19,6 @@ const AppRoutes = () => {
 
       <Route path="/addcourse" element={<AddCoursePage />} />
       <Route path="/configskill" element={<ConfigSkillPage />} />
-      <Route path="/TeacherList" element={<TeacherList />} />
-      <Route path="/AdminList" element={<AdminList />} />
-      
     </Routes>
   );
 };

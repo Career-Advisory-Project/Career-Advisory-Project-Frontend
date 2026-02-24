@@ -19,14 +19,14 @@ export default function CmuEntraIDCallback() {
 
     axios
       .post<SignInResponse>(
-        "http://localhost:3000/auth/signIn",
+        "/api/auth/signIn",
         { authorizationCode: code },
         { withCredentials: true }
       )
       .then((resp) => {
         if (resp.data.ok) {
-          // FIX 3: Use navigate() instead of router.push()
-          navigate("/dashboard");
+          // Full page reload so AuthContext re-fetches with the new cookie
+          window.location.href = "/dashboard";
         } else {
           setMessage(resp.data.message || "Login failed");
         }
