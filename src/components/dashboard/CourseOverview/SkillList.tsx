@@ -72,7 +72,7 @@ const SkillList = ({ courseNo }: Props) => {
         <SkillRadarChart skills={skills} />
       </div>
 
-      {/* {skills.map((skill) => {
+      {skills.map((skill) => {
         const sortedRubrics = [...skill.rubrics].sort((a, b) => b.level - a.level);
 
         return (
@@ -105,8 +105,8 @@ const SkillList = ({ courseNo }: Props) => {
             )
             }
           </div>
-        ); */}
-      {/* }) */}
+        );
+      })}
     </div>
   );
 };

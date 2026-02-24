@@ -4,8 +4,15 @@ import Dashboard from "../pages/dashboard/Dashboard";
 // import AuthRedirect from "../pages/auth/AuthRedirect";
 import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to your Callback component
 import MePage from "../app/api/profile/page";
-import AddCoursePage from "../pages/addcourse/addcourse";
-import ConfigSkillPage from "../pages/configskill/configskill";
+import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
+import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
+import EditSkillPage from "../pages/configskill/editskill";
+import CurriculumPage from "../pages/curriculum/CurriculumPage";
+import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
+import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+import TeacherList from "../pages/TeacherList/TeacherList";
+import AdminList from "../pages/AdminList/AdminList";
 
 const AppRoutes = () => {
   return (
@@ -14,11 +21,23 @@ const AppRoutes = () => {
       <Route path="/" element={<Login />} />
       <Route path="/cmuEntraIDCallback" element={<CmuEntraIDCallback />} />
 
-      {/* The Profile Page */}
-      <Route path="/me" element={<MePage />} />
-
-      <Route path="/addcourse" element={<AddCoursePage />} />
-      <Route path="/configskill" element={<ConfigSkillPage />} />
+      {/* Protected routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/me" element={<ProtectedRoute><MePage /></ProtectedRoute>} />
+      <Route path="/addcourse" element={<ProtectedRoute><AddCoursePage /></ProtectedRoute>} />
+      <Route path="/configskill" element={<ProtectedRoute><ConfigSkillPage /></ProtectedRoute>} />
+      <Route path="/editskill" element={<ProtectedRoute><EditSkillPage /></ProtectedRoute>} />
+      <Route path="/curriculum" element={<ProtectedRoute><CurriculumPage /></ProtectedRoute>} />
+      <Route
+        path="/curriculum/:program/:curriculum_year"
+        element={<ProtectedRoute><CurriculumDetailPage /></ProtectedRoute>}
+      />
+      <Route
+        path="/curriculum/:program/:curriculum_year/edit"
+        element={<ProtectedRoute><CurriculumEditPage /></ProtectedRoute>}
+      />
+      <Route path="/TeacherList" element={<ProtectedRoute><TeacherList /></ProtectedRoute>} />
+      <Route path="/AdminList" element={<ProtectedRoute><AdminList /></ProtectedRoute>} />
     </Routes>
   );
 };

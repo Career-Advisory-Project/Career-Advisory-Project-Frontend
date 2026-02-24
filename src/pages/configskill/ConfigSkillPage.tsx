@@ -236,7 +236,7 @@ useEffect(() => {
       <Navbar />
       
       <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="w-[1240px] h-[855px] bg-white rounded-[8px] shadow-lg relative ">
+        <div className="w-full max-w-[1240px] min-h-[600px] bg-white rounded-[8px] shadow-lg relative ">
           {/* Header */}
           <div className="px-10 pt-10 pb-4">
             <h1 className="text-[#5E4481] text-2xl font-bold mb-4">
@@ -258,7 +258,7 @@ useEffect(() => {
 
           {/* List */}
           <div className="flex-1 px-10 pb-24 space-y-4 custom-scrollbar">
-            <div className="flex-1 bg-gray-200 space-y-4 overflow-auto px-10 py-8 rounded-[5px] pb-24 h-[550px]">
+            <div className="flex-1 bg-gray-200 space-y-4 overflow-auto px-4 sm:px-10 py-8 rounded-[5px] pb-24 max-h-[550px] min-h-[300px]">
             {sortedSkills.length > 0 ? (
               sortedSkills.map((skill) => (
                 <div 

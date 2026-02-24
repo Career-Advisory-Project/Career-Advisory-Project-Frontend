@@ -157,9 +157,9 @@ const CurriculumEditPage = () => {
         </div>
 
         {/* BOTTOM: Two-Column Layout */}
-        <div className="flex gap-8 max-w-[1200px] w-full h-[90vh]">
+        <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] w-full min-h-[60vh] lg:h-[80vh]">
           {/* LEFT: All Course List */}
-          <div className="w-[45%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-full lg:w-[45%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">
               All Course
             </h2>
@@ -183,6 +183,7 @@ const CurriculumEditPage = () => {
                     key={index}
                     courseNo={course.courseNo}
                     name={course.name}
+                    credits={course.credit}
                     isChecked={selectedCourseNos.includes(course.courseNo)}
                     onToggle={() => handleToggleCourse(course)}
                     onClick={() => handleCourseClick(course)}
@@ -193,7 +194,7 @@ const CurriculumEditPage = () => {
           </div>
 
           {/* RIGHT: Course Detail & Skills */}
-          <div className="w-[55%] flex flex-col">
+          <div className="w-full lg:w-[55%] flex flex-col">
             <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
               {viewedCourse ? (
                 <>

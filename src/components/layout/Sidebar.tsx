@@ -45,7 +45,7 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
 
       {/* Sidebar panel */}
       <div
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-[280px] max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
