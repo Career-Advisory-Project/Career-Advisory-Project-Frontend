@@ -11,7 +11,7 @@ const ConfigSkillModal = ({ open, onClose }: Props) => {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl w-[520px] max-h-[80vh] p-6 overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-[520px] mx-4 max-h-[80vh] p-6 overflow-y-auto">
         <h2 className="text-[#5b4085] font-bold text-xl mb-6 text-center">
           Skill Levels
         </h2>

@@ -37,9 +37,9 @@ const Dashboard = () => {
     <div className="min-h-screen">
       <Navbar />
 
-      <div className="flex justify-center px-6 py-8">
-        <div className="flex gap-6 max-w-[1200px] w-full items-stretch">
-          <aside className="w-[360px] min-w-[360px] flex-shrink-0">
+      <div className="flex justify-center px-4 sm:px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-6 max-w-[1200px] w-full items-stretch">
+          <aside className="w-full lg:w-[360px] lg:min-w-[360px] lg:flex-shrink-0">
             <CourseList
               cmuitaccount={user.cmuitaccount}
               onSelectCourse={setSelectedCourse}

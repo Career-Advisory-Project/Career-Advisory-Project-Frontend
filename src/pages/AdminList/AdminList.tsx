@@ -19,17 +19,10 @@ const AdminList = () => {
       <div className="flex justify-center py-[35px]">
         {/* Main Card Container (1240px) */}
         <div 
-          className="bg-white flex flex-col items-center" 
-          style={{
-            width: '1240px',
-            minHeight: '793px',
-            borderRadius: '8px',
-            padding: '32px 50px',
-            boxShadow: '0px 4px 4px 0px #00000040',
-          }}
+          className="bg-white flex flex-col items-center w-full max-w-[1240px] min-h-[400px] rounded-lg px-4 py-6 sm:px-[50px] sm:py-8 shadow-[0px_4px_4px_0px_#00000040]"
         >
           {/* Title & Add Button Row */}
-          <div className="flex justify-between items-center w-[1140px] mb-4">
+          <div className="flex justify-between items-center w-full mb-4">
             <h1 className="text-3xl font-bold text-[#5D4685]">Admin List</h1>
             <button 
               onClick={() => setIsModalOpen(true)}
@@ -41,17 +34,7 @@ const AdminList = () => {
 
           {/* THE SPECIFIC FRAME (1140px x 666px) */}
           <div 
-            className="flex flex-col items-center"
-            style={{
-              width: '1140px',
-              height: '666.527px',
-              borderRadius: '4px',
-              gap: '16px',
-              padding: '16px',
-              border: '1px solid #B9B9B9',
-              opacity: '1',
-              backgroundColor: '#FFFFFF'
-            }}
+            className="flex flex-col items-center w-full min-h-[300px] max-h-[666px] rounded p-4 gap-4 border border-[#B9B9B9] bg-white"
           >
             {/* Search Bar inside the frame */}
             <div className="w-full">
@@ -99,29 +82,11 @@ const AdminList = () => {
           style={{ backgroundColor: '#3F3F3F80' }} // Custom background color
         >
           <div 
-            style={{
-              width: '1034px',
-              height: '408px',
-              borderRadius: '8px',
-              background: '#FFFFFF',
-              padding: '40px',
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'relative'
-            }}
+            className="w-full max-w-[1034px] mx-4 rounded-lg bg-white p-6 sm:p-10 flex flex-col relative"
           >
             {/* Modal Header */}
             <h2 
-              style={{
-                width: '952px',
-                height: '46px',
-                color: '#5E4481',
-                fontSize: '24px',
-                fontWeight: '700',
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '10px'
-              }}
+              className="w-full text-[#5E4481] text-xl sm:text-2xl font-bold flex items-center mb-2.5"
             >
               Add Admin
             </h2>
@@ -148,15 +113,7 @@ const AdminList = () => {
               {/* Cancel Button */}
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="flex items-center justify-center text-white transition-opacity hover:opacity-90"
-                style={{
-                  width: '200px',
-                  height: '46px',
-                  background: '#818181',
-                  borderRadius: '4px',
-                  fontWeight: '700',
-                  fontSize: '16px'
-                }}
+                className="flex items-center justify-center text-white transition-opacity hover:opacity-90 w-full sm:w-[200px] h-[46px] bg-[#818181] rounded font-bold text-base"
               >
                 Cancel
               </button>
@@ -167,15 +124,7 @@ const AdminList = () => {
                   // Logic to add emails goes here
                   setIsModalOpen(false);
                 }}
-                className="flex items-center justify-center text-white transition-opacity hover:opacity-90"
-                style={{
-                  width: '200px',
-                  height: '46px',
-                  background: '#5E4481',
-                  borderRadius: '4px',
-                  fontWeight: '700',
-                  fontSize: '16px'
-                }}
+                className="flex items-center justify-center text-white transition-opacity hover:opacity-90 w-full sm:w-[200px] h-[46px] bg-[#5E4481] rounded font-bold text-base"
               >
                 Add
               </button>

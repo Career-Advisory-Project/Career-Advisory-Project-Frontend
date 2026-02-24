@@ -61,8 +61,8 @@ const CourseOverview = ({ course }: Props) => {
       : courseDesc?.descTH ?? course.detailTH;
 
   return (
-    <div className="flex items-center justify-end font-['CMU']">
-      <div className="dashboard-card w-[819px] h-[793px] overflow-auto">
+    <div className="w-full">
+      <div className="dashboard-card w-full h-auto lg:h-[calc(100vh-160px)] overflow-auto">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
@@ -73,11 +73,11 @@ const CourseOverview = ({ course }: Props) => {
             {title}
           </h1>
 
-          <hr className="border-gray-300 w-[718px] my-4 mx-auto" />
+          <hr className="border-gray-300 w-full max-w-[718px] my-4 mx-auto" />
         </div>
 
         {/* Course Detail */}
-        <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[150px] mx-auto">
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
             {detail ??
               (lang === "en"
@@ -87,7 +87,7 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Skill List */}
-        <div className="dashboard-panel w-[719px] min-h-[341px] mt-3 mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[200px] mt-3 mx-auto">
           <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
             Skill List
           </h3>

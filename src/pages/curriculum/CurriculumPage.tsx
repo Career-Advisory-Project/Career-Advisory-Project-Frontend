@@ -31,11 +31,11 @@ const CurriculumPage = () => {
       <div className="flex-1 flex justify-center px-6 py-8">
         <div className="max-w-[1000px] w-full bg-white rounded-xl shadow-sm p-8">
           {/* Header Row */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <h2 className="text-[#5b4085] font-bold text-2xl">
               Curriculum List
             </h2>
-            <button className="bg-[#5b4085] text-white px-20 py-2.5 rounded-lg hover:bg-[#4a3370] transition">
+            <button className="bg-[#5b4085] text-white px-6 sm:px-20 py-2.5 rounded-lg hover:bg-[#4a3370] transition">
               Fetch Curriculum
             </button>
           </div>

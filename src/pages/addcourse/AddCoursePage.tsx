@@ -114,11 +114,11 @@ const AddCoursePage = () => {
       <Navbar />
       
       {/* CONTENT */}
-      <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="flex gap-8 max-w-[1200px] w-full h-[80vh]">
+      <div className="flex-1 flex justify-center px-4 sm:px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] w-full min-h-[60vh] lg:h-[80vh]">
           
           {/* LEFT: ALL COURSE LIST */}
-          <div className="w-[60%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-full lg:w-[60%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
 
             <SearchInput 
@@ -151,7 +151,7 @@ const AddCoursePage = () => {
           </div>
 
           {/* RIGHT: COURSE DETAIL & SKILLS */}
-          <div className="w-[40%] flex flex-col">
+          <div className="w-full lg:w-[40%] flex flex-col">
               
             {/* White Container for Details */}
             <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
