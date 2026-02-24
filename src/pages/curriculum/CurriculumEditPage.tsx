@@ -183,6 +183,7 @@ const CurriculumEditPage = () => {
                     key={index}
                     courseNo={course.courseNo}
                     name={course.name}
+                    credits={course.credit}
                     isChecked={selectedCourseNos.includes(course.courseNo)}
                     onToggle={() => handleToggleCourse(course)}
                     onClick={() => handleCourseClick(course)}

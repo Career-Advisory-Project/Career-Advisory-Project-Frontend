@@ -140,6 +140,7 @@ const AddCoursePage = () => {
                     key={index}
                     courseNo={course.courseNo}
                     name={course.name}
+                    credits={course.credit}
                     isChecked={selectedCourseIds.includes(course.courseNo)}
                     onToggle={() => handleToggleCourse(course)}
                     onClick={() => handleCourseClick(course)}

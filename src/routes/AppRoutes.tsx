@@ -11,6 +11,8 @@ import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import TeacherList from "../pages/TeacherList/TeacherList";
+import AdminList from "../pages/AdminList/AdminList";
 
 const AppRoutes = () => {
   return (
@@ -34,6 +36,8 @@ const AppRoutes = () => {
         path="/curriculum/:program/:curriculum_year/edit"
         element={<ProtectedRoute><CurriculumEditPage /></ProtectedRoute>}
       />
+      <Route path="/TeacherList" element={<ProtectedRoute><TeacherList /></ProtectedRoute>} />
+      <Route path="/AdminList" element={<ProtectedRoute><AdminList /></ProtectedRoute>} />
     </Routes>
   );
 };
