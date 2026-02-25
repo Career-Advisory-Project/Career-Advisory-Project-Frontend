@@ -232,13 +232,13 @@ useEffect(() => {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col font-['CMU']">
+    <div className="h-screen bg-gray-100 flex flex-col font-['CMU']">
       <Navbar />
       
-      <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="w-full max-w-[1240px] min-h-[600px] bg-white rounded-[8px] shadow-lg relative ">
+      <div className="flex-1 flex justify-center px-6 py-8 min-h-0">
+        <div className="w-full max-w-[1240px] bg-white rounded-[8px] shadow-lg flex flex-col min-h-0">
           {/* Header */}
-          <div className="px-10 pt-10 pb-4">
+          <div className="px-10 pt-10 pb-4 shrink-0">
             <h1 className="text-[#5E4481] text-2xl font-bold mb-4">
               {stateData.courseName} - Skill
             </h1>
@@ -246,7 +246,7 @@ useEffect(() => {
           </div>
 
           {/* Search Bar */}
-          <div className="px-10 mb-4">
+          <div className="px-10 mb-4 shrink-0">
             <input 
               type="text"
               placeholder="Search Skill ..."
@@ -256,9 +256,9 @@ useEffect(() => {
             />
           </div>
 
-          {/* List */}
-          <div className="flex-1 px-10 pb-24 space-y-4 custom-scrollbar">
-            <div className="flex-1 bg-gray-200 space-y-4 overflow-auto px-4 sm:px-10 py-8 rounded-[5px] pb-24 max-h-[550px] min-h-[300px]">
+          {/* Scrollable Skill List */}
+          <div className="flex-1 px-10 min-h-0">
+            <div className="h-full bg-gray-200 overflow-y-auto px-4 sm:px-10 py-8 rounded-[5px] space-y-4">
             {sortedSkills.length > 0 ? (
               sortedSkills.map((skill) => (
                 <div 
@@ -293,26 +293,26 @@ useEffect(() => {
               <div className="text-center text-gray-400 mt-10">Skill not found</div>
             )}
             </div>
-
-            {/* Buttons */}
-            <div className="flex justify-end gap-4 pt-6 mt-4">
-                  <button 
-                    onClick={handleCancel}
-                    className="w-[180px] h-[50px] bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-lg shadow transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                  onClick={handleConfirm}
-                  disabled={isLoading} 
-                  className={`w-[180px] h-[50px] text-white font-bold rounded-lg shadow transition-colors ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#5E4481] hover:bg-[#4a3370]'}`}>
-                  {isLoading ? 'Saving...' : 'Confirm'}
-                </button>
           </div>
-            </div>
+
+          {/* Buttons — pinned at bottom */}
+          <div className="flex justify-end gap-4 px-10 py-6 shrink-0">
+                <button 
+                  onClick={handleCancel}
+                  className="w-[180px] h-[50px] bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-lg shadow transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                onClick={handleConfirm}
+                disabled={isLoading} 
+                className={`w-[180px] h-[50px] text-white font-bold rounded-lg shadow transition-colors ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#5E4481] hover:bg-[#4a3370]'}`}>
+                {isLoading ? 'Saving...' : 'Confirm'}
+              </button>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

@@ -36,7 +36,7 @@ const CurriculumPage = () => {
               Curriculum List
             </h2>
             <button className="bg-[#5b4085] text-white px-6 sm:px-20 py-2.5 rounded-lg hover:bg-[#4a3370] transition">
-              Fetch Curriculum
+              Update Curriculum
             </button>
           </div>
 

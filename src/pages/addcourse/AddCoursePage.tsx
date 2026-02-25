@@ -118,7 +118,7 @@ const AddCoursePage = () => {
         <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] w-full min-h-[60vh] lg:h-[80vh]">
           
           {/* LEFT: ALL COURSE LIST */}
-          <div className="w-full lg:w-[60%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-full lg:w-[45%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
 
             <SearchInput 
@@ -151,17 +151,17 @@ const AddCoursePage = () => {
           </div>
 
           {/* RIGHT: COURSE DETAIL & SKILLS */}
-          <div className="w-full lg:w-[40%] flex flex-col">
+          <div className="w-full lg:w-[55%] flex flex-col min-h-0">
               
             {/* White Container for Details */}
-            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
+            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4 min-h-0 overflow-hidden">
               {viewedCourse ? (
                 <>
                   <h2 className="text-center text-[#5b4085] font-bold text-xl p-8">
                     {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto min-h-0">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">{viewedCourse.skills.length === 0 ? "" : "Skill List"}</h3>
 
                     {/* Radar Chart */}
@@ -170,14 +170,14 @@ const AddCoursePage = () => {
                         <SkillRadarChart skills={viewedCourse.skills} />
                       </div>
                     )}
-{/*                     
+                    
                     <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
                         viewedCourse.skills.map((skill, idx) => (
                           <SkillItem
                             key={idx}
                             name={skill.name}
-                            level={skill.rubrics[0]?.level ?? "?"}
+                            rubrics={skill.rubrics}
                           />
                         ))
                       ) : (
@@ -185,7 +185,7 @@ const AddCoursePage = () => {
                           <p className="text-black text-lg">No Skill Config</p>
                         </div>
                       )}
-                    </div> */}
+                    </div>
                   </div>
                 </>
               ) : (

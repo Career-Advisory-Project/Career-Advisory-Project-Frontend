@@ -45,8 +45,8 @@ export default function MePage() {
           // Or you can hardcode the URL if the env var isn't working
           const logoutUrl =
             process.env.NEXT_PUBLIC_CMU_ENTRAID_LOGOUT_URL || "/";
-          //  router.push(logoutUrl);
-          navigate(logoutUrl);
+          // External URL needs window.location.href, not React Router navigate
+          window.location.href = logoutUrl;
         } else {
           //  router.push('/');
           navigate("/");

@@ -46,22 +46,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(data.user);
 
             // Check admin status from backend API
-            try {
-              const adminRes = await fetch(
-                `/api/admin/check/${data.user.cmuitaccount}`,
-                { signal: controller.signal }
-              );
-              if (adminRes.ok) {
-                const adminData = await adminRes.json();
-                setIsAdmin(adminData.isAdmin === true);
-              }
-            } catch {
+            // try {
+            //   const adminRes = await fetch(
+            //     `/api/admin/check/${data.user.cmuitaccount}`,
+            //     { signal: controller.signal }
+            //   );
+            //   if (adminRes.ok) {
+            //     const adminData = await adminRes.json();
+            //     setIsAdmin(adminData.isAdmin === true);
+            //   }
+            // } catch {
               // Admin API not available yet — default to false
             setIsAdmin(true);
           }
-        } else {
-          setUser(null);
-        }
+        // } else {
+        //   setUser(null);
+        // }
       } catch (error) {
         if ((error as Error).name !== "AbortError") {
           console.error("Auth check failed:", error);

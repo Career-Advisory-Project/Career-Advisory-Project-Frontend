@@ -68,9 +68,9 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
           {isAdmin && (
             <>
               <button
-                onClick={() => handleNavigate("/admin/users")}
+                onClick={() => handleNavigate("/TeacherList")}
                 className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-                  isActive("/admin/users")
+                  isActive("/TeacherList")
                     ? "bg-[#f0ebf5] text-[#5b4085]"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
@@ -78,9 +78,9 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
                 User Manage
               </button>
               <button
-                onClick={() => handleNavigate("/admin/manage")}
+                onClick={() => handleNavigate("/AdminList")}
                 className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-                  isActive("/admin/manage")
+                  isActive("/AdminList")
                     ? "bg-[#f0ebf5] text-[#5b4085]"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}

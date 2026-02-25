@@ -194,15 +194,15 @@ const CurriculumEditPage = () => {
           </div>
 
           {/* RIGHT: Course Detail & Skills */}
-          <div className="w-full lg:w-[55%] flex flex-col">
-            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
+          <div className="w-full lg:w-[55%] flex flex-col min-h-0">
+            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4 min-h-0 overflow-hidden">
               {viewedCourse ? (
                 <>
                   <h2 className="text-center text-[#5b4085] font-bold text-xl p-8">
                     {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto min-h-0">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">
                        {viewedCourse.skills.length === 0 ? "No Skill Config" : "Skill List"}
                     </h3>
@@ -214,15 +214,13 @@ const CurriculumEditPage = () => {
                       </div>
                     )}
 
-                    {/* <div className="space-y-3 flex-1">
+                    <div className="space-y-3 flex-1">
                       {viewedCourse.skills && viewedCourse.skills.length > 0 ? (
                         viewedCourse.skills.map((skill, idx) => (
                           <SkillItem
                             key={idx}
                             name={skill.name}
-                            level={
-                              skill.rubrics[0]?.level ?? "?"
-                            }
+                            rubrics={skill.rubrics}
                           />
                         ))
                       ) : (
@@ -230,7 +228,7 @@ const CurriculumEditPage = () => {
                           <p className="text-black text-lg">No Skill Config</p>
                         </div>
                       )}
-                    </div> */}
+                    </div>
                   </div>
                 </>
               ) : (

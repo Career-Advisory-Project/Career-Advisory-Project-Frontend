@@ -1,12 +1,10 @@
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate();
   const CmuentraidURL = (import.meta.env.VITE_CMU_ENTRAID_URL as string) || "#";
   const handleLogin = () => {
-      // console.log("CMU Entra ID URL:", CmuentraidURL);
-      navigate(CmuentraidURL);
+      // Redirect to external Microsoft Entra ID login page
+      window.location.href = CmuentraidURL;
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#A69FB8]">

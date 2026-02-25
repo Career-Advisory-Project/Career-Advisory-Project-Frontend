@@ -84,11 +84,11 @@ const SkillList = ({ courseNo }: Props) => {
             </div>
 
             {sortedRubrics.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-nowrap gap-1.5 overflow-x-auto">
                 {sortedRubrics.map((rubric) => (
                   <div
                     key={rubric.grade}
-                    className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-md px-3 py-1.5 text-sm"
+                    className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-md px-2 py-1 text-xs whitespace-nowrap"
                   >
                     <span className="font-semibold text-[#5b4085]">
                       {rubric.grade}
