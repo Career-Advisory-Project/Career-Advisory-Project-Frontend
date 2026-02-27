@@ -3,6 +3,7 @@ import type {
   CurriculumListResponse,
   CurriculumSkillsResponse,
   CurriculumCoursesResponse,
+  CurriculumSyncResponse,
 } from "../types/curriculum";
 
 export const getCurriculums = async (): Promise<Curriculum[]> => {
@@ -87,6 +88,20 @@ export const removeCoursesFromCurriculum = async (
 
   if (!response.ok) {
     throw new Error("Failed to remove courses from curriculum");
+  }
+
+  return response.json();
+};
+
+/** POST /admin/curriculum/sync — Sync all curriculums from CPE API */
+
+export const syncCurriculums = async (): Promise<CurriculumSyncResponse> => {
+  const response = await fetch(`/api/admin/curriculum/sync`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to sync curriculums");
   }
 
   return response.json();

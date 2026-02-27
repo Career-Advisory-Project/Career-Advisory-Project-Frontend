@@ -1,7 +1,14 @@
-import { useState, useEffect ,useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/layout/Navbar";
-import { getAdminlist , addAdmin ,deleteUser} from "../../services/userlist.service"; 
-import type { User } from "../../types/Userlist"; 
+import { getAdminlist, addAdmin, deleteUser } from "../../services/userlist.service";
+import type { User } from "../../types/Userlist";
+
+type ToastType = "success" | "error" | "warning";
+
+interface Toast {
+  message: string;
+  type: ToastType;
+}
 
 const Adminlist = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,6 +18,17 @@ const Adminlist = () => {
   const [admins, setAdmins] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+
+  // Toast notification state
+  const [toast, setToast] = useState<Toast | null>(null);
+
+  // Confirm dialog state
+  const [confirmTarget, setConfirmTarget] = useState<string | null>(null);
+
+  const showToast = (message: string, type: ToastType) => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchAdmins = useCallback(async () => {
     try {
@@ -35,38 +53,33 @@ const Adminlist = () => {
       .filter(email => email !== '');
 
     if (emailsToAdd.length === 0) {
-      alert("Please enter at least one email address.");
+      showToast("Please enter at least one email address.", "warning");
       return;
     }
 
     try {
       setIsAdding(true);
       await addAdmin(emailsToAdd);
-      alert("Admins added successfully!");
+      showToast("Admins added successfully!", "success");
       setIsModalOpen(false);
       setEmailInput("");
-      fetchAdmins(); 
-
+      fetchAdmins();
     } catch (error) {
       console.error("Failed to add admins:", error);
-      alert(error instanceof Error ? error.message : "An unexpected error occurred.");
+      showToast(error instanceof Error ? error.message : "An unexpected error occurred.", "error");
     } finally {
       setIsAdding(false);
     }
   };
 
   const handleDeleteAdmin = async (email: string) => {
-    
-    if (!window.confirm(`Are you sure you want to remove ${email} from the admin list?`)) {
-      return;
-    }
-
     try {
       await deleteUser([email]);
-      fetchAdmins(); 
+      showToast(`${email} has been removed.`, "success");
+      fetchAdmins();
     } catch (error) {
       console.error("Failed to delete admin:", error);
-      alert(error instanceof Error ? error.message : "Failed to delete admin.");
+      showToast(error instanceof Error ? error.message : "Failed to delete admin.", "error");
     }
   };
 
@@ -75,10 +88,10 @@ const Adminlist = () => {
     const fname = admin.fname || "";
     const lname = admin.lname || "";
     const account = admin.cmuitaccount || "";
-    
+
     const fullName = `${fname} ${lname}`.toLowerCase();
     const email = account.toLowerCase();
-    
+
     return fullName.includes(searchLower) || email.includes(searchLower);
   });
 
@@ -90,7 +103,7 @@ const Adminlist = () => {
         <div className="bg-white flex flex-col items-center w-full max-w-[1240px] min-h-[400px] rounded-lg px-4 py-6 sm:px-[50px] sm:py-8 shadow-[0px_4px_4px_0px_#00000040]">
           <div className="flex justify-between items-center w-full mb-4">
             <h1 className="text-3xl font-bold text-[#5D4685]">Admin List</h1>
-            <button 
+            <button
               onClick={() => setIsModalOpen(true)}
               className="bg-[#5D4685] flex items-center justify-center w-[200px] h-[50px] text-white px-10 py-2 rounded-md font-bold text-lg hover:bg-[#4a386a] transition-colors"
             >
@@ -122,8 +135,8 @@ const Adminlist = () => {
                 </div>
               ) : filteredAdmins.length > 0 ? (
                 filteredAdmins.map((admin, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex items-center bg-[#EFEFEF] px-4 py-3 rounded-md border border-transparent hover:border-gray-300 transition-all"
                   >
                     <div className="flex-1 text-gray-800 capitalize">
@@ -132,9 +145,8 @@ const Adminlist = () => {
                     <div className="flex-1 text-gray-800">
                       {admin.cmuitaccount}
                     </div>
-                    {/* 3. Attach the click handler to the button */}
-                    <button 
-                      onClick={() => handleDeleteAdmin(admin.cmuitaccount)}
+                    <button
+                      onClick={() => setConfirmTarget(admin.cmuitaccount)}
                       className="text-red-400 hover:text-red-600 transition-colors"
                       title="Remove Admin"
                     >
@@ -151,6 +163,7 @@ const Adminlist = () => {
           </div>
         </div>
       </div>
+
       {/* --- ADD ADMIN MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 flex justify-center items-center z-50" style={{ backgroundColor: '#3F3F3F80' }}>
@@ -177,15 +190,15 @@ const Adminlist = () => {
             />
 
             <div className="flex justify-end gap-5 mt-4">
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
                 disabled={isAdding}
                 className={`flex items-center justify-center text-white transition-opacity w-full sm:w-[200px] h-[46px] bg-[#818181] rounded font-bold text-base ${isAdding ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'}`}
               >
                 Cancel
               </button>
-              
-              <button 
+
+              <button
                 onClick={handleAddAdmins}
                 disabled={isAdding}
                 className={`flex items-center justify-center text-white transition-opacity w-full sm:w-[200px] h-[46px] bg-[#5E4481] rounded font-bold text-base ${isAdding ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
@@ -196,6 +209,68 @@ const Adminlist = () => {
           </div>
         </div>
       )}
+
+      {/* --- CONFIRM DELETE MODAL --- */}
+      {confirmTarget && (
+        <div className="fixed inset-0 flex justify-center items-center z-50" style={{ backgroundColor: '#3F3F3F80' }}>
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 max-w-[440px] w-full mx-4">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">Remove Admin</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to remove <span className="font-semibold text-gray-800">{confirmTarget}</span> from the admin list?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setConfirmTarget(null)}
+                className="px-6 py-2 rounded font-semibold text-gray-600 bg-gray-200 hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleDeleteAdmin(confirmTarget);
+                  setConfirmTarget(null);
+                }}
+                className="px-6 py-2 rounded font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- TOAST NOTIFICATION --- */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[60] animate-[slideIn_0.3s_ease-out]">
+          <div
+            className={`flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm font-medium ${
+              toast.type === "success"
+                ? "bg-green-500"
+                : toast.type === "error"
+                ? "bg-red-500"
+                : "bg-yellow-500"
+            }`}
+          >
+            <span>
+              {toast.type === "success" ? "✓" : toast.type === "error" ? "✕" : "⚠"}
+            </span>
+            <span>{toast.message}</span>
+            <button
+              onClick={() => setToast(null)}
+              className="ml-2 text-white/70 hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 };
