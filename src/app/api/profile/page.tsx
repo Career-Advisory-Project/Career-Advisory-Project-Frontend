@@ -37,23 +37,6 @@ export default function MePage() {
 
   function signOut() {
     // FIX 2: Use absolute path
-<<<<<<< HEAD
-    axios.post("http://localhost:3000/auth/me").then((response) => {   
-      if (response.data.ok) {
-         // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
-         // Or you can hardcode the URL if the env var isn't working
-         const logoutUrl = process.env.NEXT_PUBLIC_CMU_ENTRAID_LOGOUT_URL || "/";
-        //  router.push(logoutUrl); 
-          navigate(logoutUrl);
-      } else {
-        //  router.push('/');  
-        navigate('/');
-      }   
-    }).catch(() => {
-      // router.push('/');
-      navigate('/');
-    });
-=======
     axios
       .post("/api/auth/me")
       .then((response) => {
@@ -73,21 +56,14 @@ export default function MePage() {
         // router.push('/');
         navigate("/");
       });
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
   }
 
   useEffect(() => {
     // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
     axios
-<<<<<<< HEAD
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", { 
-      withCredentials: true // <--- ADD THIS
-    }) 
-=======
       .get<WhoAmIResponse>("/api/auth/me", {
         withCredentials: true, // <--- ADD THIS
       })
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
       .then((response) => {
         if (response.data.ok && response.data.user) {
           setCmuBasicInfo(response.data.user);

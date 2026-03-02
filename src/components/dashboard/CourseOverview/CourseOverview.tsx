@@ -4,13 +4,7 @@ import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
-<<<<<<< HEAD
-import ConfigSkillPage from "../../../pages/configskill/configskill";
 import { useNavigate } from "react-router-dom";
-
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
 type Props = {
   course: CourseDetail | null;
@@ -19,8 +13,6 @@ type Props = {
 const CourseOverview = ({ course }: Props) => {
   const { lang } = useAppContext();
   const navigate = useNavigate();
-<<<<<<< HEAD
-=======
   const [courseDesc, setCourseDesc] = useState<{
     descTH?: string;
     descENG?: string;
@@ -50,7 +42,6 @@ const CourseOverview = ({ course }: Props) => {
 
     fetchDesc();
   }, [course]);
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
   if (!course) {
     return (
@@ -59,11 +50,6 @@ const CourseOverview = ({ course }: Props) => {
       </div>
     );
   }
-<<<<<<< HEAD
-  const courseNo =  course.courseNo;
-  const title = course.name;
-  const detail = lang === "en" ? course.descENG : course.descTH;
-=======
 
 
   const courseNo =  course.courseNo;
@@ -73,7 +59,6 @@ const CourseOverview = ({ course }: Props) => {
     lang === "en"
       ? courseDesc?.descENG ?? course.detailEN
       : courseDesc?.descTH ?? course.detailTH;
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
   return (
     <div className="w-full">
@@ -110,10 +95,7 @@ const CourseOverview = ({ course }: Props) => {
           <SkillList courseNo={course.courseNo} />
         </div>
 
-<<<<<<< HEAD
-=======
         {/* Config Button (still disabled) */}
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
         <div className="flex justify-end mt-3 px-8">
         <button
               onClick={() => {

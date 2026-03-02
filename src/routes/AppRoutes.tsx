@@ -4,11 +4,6 @@ import Dashboard from "../pages/dashboard/Dashboard";
 // import AuthRedirect from "../pages/auth/AuthRedirect";
 import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to your Callback component
 import MePage from "../app/api/profile/page";
-<<<<<<< HEAD
-import AddCoursePage from "../pages/addcourse/addcourse";
-import ConfigSkillPage from "../pages/configskill/configskill";
-import EditSkillPage from "../pages/configskill/editskill";
-=======
 import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
 import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
 import EditSkillPage from "../pages/configskill/editskill";
@@ -18,7 +13,6 @@ import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import TeacherList from "../pages/TeacherList/TeacherList";
 import AdminList from "../pages/AdminList/AdminList";
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
 const AppRoutes = () => {
   return (
@@ -27,14 +21,6 @@ const AppRoutes = () => {
       <Route path="/" element={<Login />} />
       <Route path="/cmuEntraIDCallback" element={<CmuEntraIDCallback />} />
 
-<<<<<<< HEAD
-      {/* The Profile Page */}
-      <Route path="/me" element={<MePage />} />
-
-      <Route path="/addcourse" element={<AddCoursePage />} />
-      <Route path="/configskill" element={<ConfigSkillPage />} />
-      <Route path="/editskill" element={<EditSkillPage />} />
-=======
       {/* Protected routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/me" element={<ProtectedRoute><MePage /></ProtectedRoute>} />
@@ -52,7 +38,6 @@ const AppRoutes = () => {
       />
       <Route path="/TeacherList" element={<ProtectedRoute><TeacherList /></ProtectedRoute>} />
       <Route path="/AdminList" element={<ProtectedRoute><AdminList /></ProtectedRoute>} />
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
     </Routes>
   );
 };
