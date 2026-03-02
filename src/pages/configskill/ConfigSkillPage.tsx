@@ -4,8 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getAllSkill,
   getCourseSkillsByCourseNo,
   deleteCourseSkill,
-  postCourseSkill,
-  patchCourseSkill } from "../../services/course.service";
+  putCourseSkill } from "../../services/course.service";
 import type { CourseSkillResponse, SkillItem, SkillRubric } from "../../types/course";
 
 
@@ -201,13 +200,9 @@ useEffect(() => {
           skillID: skill.id, 
           rubrics: rubricsPayload
         };
-        if (existingSkillIds.includes(String(skill.id))) {
-          // console.log(`PATCHing skill: ${skill.name}`, payload);
-          await patchCourseSkill(payload);
-        } else {
-          // console.log(`POSTing new skill: ${skill.name}`, payload);
-          await postCourseSkill(payload);
-        }
+        
+          await putCourseSkill(payload);
+        
       }
       sessionStorage.removeItem(`draft_remove_${stateData.courseNo}`);
       sessionStorage.removeItem(`draft_scores_${stateData.courseNo}`);

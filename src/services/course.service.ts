@@ -1,18 +1,12 @@
 import type {
   AllCourseData ,
   CourseSkillResponse,
-<<<<<<< HEAD
-  AllSkill,
-  TeacherCourseResponse,
-  PostCourseSkillPayload} from "../types/course";
-=======
   DashboardResponse,
   CourseDetailResponse,
   AllSkill,
   TeacherCourseResponse,
-  PostCourseSkillPayload
+  PutCourseSkillPayload
 } from "../types/course";
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
 export const getDashboardCourses = async (
   cmuitaccount: string
@@ -83,18 +77,6 @@ export const getAllCourses = async (): Promise<AllCourseData> => {
   return response.json();
 };
 
-export const getAllSkill = async (
-  id: string
-): Promise<AllSkill[]> => {
-  const response = await fetch(`/api/courseskills/allskill`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch skills");
-  }
-
-  return response.json();
-};
-
 export const getTeacherCourses = async (
   teacherId: string
 ): Promise<TeacherCourseResponse> => {
@@ -127,10 +109,6 @@ export const getCourseSkillsByCourseNo = async (
   return response.json();
 };
 
-<<<<<<< HEAD
-export const deleteCourseSkill = async (courseNo: string, skillID: string) => {
-  const response = await fetch(`api/courseskills/delete`, {
-=======
 
 //CONFIG SKILL RELATED
 export const getAllSkill = async (): Promise<AllSkill[]> => {
@@ -145,7 +123,6 @@ export const getAllSkill = async (): Promise<AllSkill[]> => {
 
 export const deleteCourseSkill = async (courseNo: string, skillID: string) => {
   const response = await fetch(`/api/courseskills/delete`, {
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
     method: 'DELETE', 
     headers: {
       'Content-Type': 'application/json',
@@ -163,13 +140,9 @@ export const deleteCourseSkill = async (courseNo: string, skillID: string) => {
   return response.json();
 };
 
-export const postCourseSkill = async (payload: PostCourseSkillPayload) => {
-<<<<<<< HEAD
-  const response = await fetch(`http://localhost:3000/courseskills/`, {
-=======
+export const putCourseSkill = async (payload: PutCourseSkillPayload) => {
   const response = await fetch(`/api/courseskills/`, {
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -177,28 +150,8 @@ export const postCourseSkill = async (payload: PostCourseSkillPayload) => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to post course skill");
+    throw new Error("Failed to put course skill");
   }
-
   return response.json();
 };
 
-export const patchCourseSkill = async (payload: PostCourseSkillPayload) => {
-<<<<<<< HEAD
-  const response = await fetch(`api/courseskills/`, {
-=======
-  const response = await fetch(`/api/courseskills/`, {
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update course skill (PATCH)");
-  }
-
-  return response.json();
-};

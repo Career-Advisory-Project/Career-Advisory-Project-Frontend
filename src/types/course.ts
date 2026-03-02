@@ -29,11 +29,7 @@ export interface SkillItem {
 }
 
 export interface SkillRubric {
-<<<<<<< HEAD
-  grade: String;
-=======
   grade: string;
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
   level: number;
   descTH: string;
   descENG: string;
@@ -65,8 +61,6 @@ export interface TeacherCourseResponse {
   courses: TeacherCourse[];
 }
 
-<<<<<<< HEAD
-=======
 // Dashboard Course List from all courses
 export interface DashboardCourse {
   courseNo: string;
@@ -101,7 +95,6 @@ export interface CourseDetailResponse {
 }
 
 //CONFIG SKILL RELATED TYPE
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 export interface AllSkill{
   rubrics: SkillRubric[];
   id: string;
@@ -111,17 +104,13 @@ export interface AllSkill{
   tags: string[];
 }
 
-export interface PostRubricPayload {
+export interface PutRubricPayload {
   grade: string;
   level: number;
 }
 
-export interface PostCourseSkillPayload {
+export interface PutCourseSkillPayload {
   courseNo: string;
   skillID: string; 
-  rubrics: PostRubricPayload[];
-<<<<<<< HEAD
+  rubrics: PutRubricPayload[];
 }
-=======
-}
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6

@@ -26,11 +26,7 @@ const EditSkillPage = () => {
   );
   
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
-<<<<<<< HEAD
-  const [skillDetail, setSkillDetail] = useState<any>(null);
-=======
   const [skillDetail, setSkillDetail] = useState<AllSkill | null>(null);
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -39,11 +35,7 @@ const EditSkillPage = () => {
       
       setIsLoading(true);
       try {
-<<<<<<< HEAD
-        const allSkill: AllSkill[] = await getAllSkill(skillData.courseNo);
-=======
         const allSkill: AllSkill[] = await getAllSkill();
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
         const currentSkillInfo = allSkill.find(s => String(s.id) === String(skillData.id));
         
         if (currentSkillInfo) {
@@ -101,11 +93,7 @@ const EditSkillPage = () => {
   };
 
   const handleSave = () => {
-<<<<<<< HEAD
-    console.log("Saved Scores:", currentScores);
-=======
     // console.log("Saved Scores:", currentScores);
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
     navigate("/configskill", {
         state: {
             courseNo: skillData.courseNo,
@@ -122,11 +110,7 @@ const EditSkillPage = () => {
     const isConfirmed = window.confirm("Are you sure you want to remove this skill?");
     if (!isConfirmed) return;
 
-<<<<<<< HEAD
-    console.log("Removed Skill:", skillData.name);
-=======
     // console.log("Removed Skill:", skillData.name);
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
     navigate("/configskill", {
         state: {
             courseNo: skillData.courseNo,
@@ -144,11 +128,7 @@ const EditSkillPage = () => {
       <Navbar />
 
       <div className="flex-1 flex justify-center py-8 px-4">
-<<<<<<< HEAD
-        <div className="w-[1240px] bg-white rounded-lg shadow-lg relative flex flex-col pb-24">
-=======
         <div className="w-full max-w-[1240px] bg-white rounded-lg shadow-lg relative flex flex-col pb-24">
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
           
           {/* Header */}
           <div className="px-10 pt-10 pb-4">
@@ -243,11 +223,7 @@ const EditSkillPage = () => {
             </div>
           </div>
 
-<<<<<<< HEAD
-          <div className="px-10 flex gap-4 mt-16">
-=======
           <div className="px-4 sm:px-10 flex flex-wrap gap-4 mt-16">
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
             {[1, 2, 3, 4, 5].map((levelNum) => {
               const detailArray = skillDetail?.rubrics || [];
               const levelData = detailArray.find((l: any) => Number(l.level) === levelNum);
@@ -256,11 +232,7 @@ const EditSkillPage = () => {
                 : null;
               {/* Detail Box */}
               return (
-<<<<<<< HEAD
-                <div key={levelNum} className="flex-1 min-h-[180px] bg-gray-200 rounded p-5 flex flex-col border border-gray-300 shadow-sm">
-=======
                 <div key={levelNum} className="flex-1 min-w-[180px] min-h-[180px] bg-gray-200 rounded p-5 flex flex-col border border-gray-300 shadow-sm">
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
                   <h3 className="text-[#5E4481] font-bold text-lg mb-2">Level {levelNum}</h3>
                   <hr className="border-gray-300 mb-3" />
                   
@@ -283,11 +255,7 @@ const EditSkillPage = () => {
           </div>
 
           {/* Footer Buttons */}
-<<<<<<< HEAD
-          <div className="absolute bottom-8 right-10 flex gap-4 pt-2">
-=======
           <div className="absolute bottom-8 right-4 sm:right-10 flex gap-4 pt-2">
->>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
             <button 
               onClick={() => navigate(-1)}
               className="w-[180px] h-[50px] bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-lg shadow transition-colors"
