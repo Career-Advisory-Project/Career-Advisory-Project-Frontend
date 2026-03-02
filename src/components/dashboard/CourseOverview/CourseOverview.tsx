@@ -1,18 +1,56 @@
-import type { TeacherCourse } from "../../../types/course";
+import { useEffect, useState } from "react";
+import type { CourseDetail } from "../../../types/course";
+import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
+<<<<<<< HEAD
 import ConfigSkillPage from "../../../pages/configskill/configskill";
 import { useNavigate } from "react-router-dom";
 
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
 type Props = {
-  course: TeacherCourse | null;
+  course: CourseDetail | null;
 };
 
 const CourseOverview = ({ course }: Props) => {
   const { lang } = useAppContext();
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+  const [courseDesc, setCourseDesc] = useState<{
+    descTH?: string;
+    descENG?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!course) {
+      setCourseDesc(null);
+      return;
+    }
+
+    const fetchDesc = async () => {
+      try {
+        const data = await getCourseSkillsByCourseNo(course.courseNo);
+        setCourseDesc({
+          descTH: data.descTH,
+          descENG: data.descENG,
+        });
+      } catch {
+        // Fallback to CourseDetail description
+        setCourseDesc({
+          descTH: course.detailTH,
+          descENG: course.detailEN,
+        });
+      }
+    };
+
+    fetchDesc();
+  }, [course]);
+>>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
   if (!course) {
     return (
@@ -21,13 +59,25 @@ const CourseOverview = ({ course }: Props) => {
       </div>
     );
   }
+<<<<<<< HEAD
   const courseNo =  course.courseNo;
   const title = course.name;
   const detail = lang === "en" ? course.descENG : course.descTH;
+=======
+
+
+  const courseNo =  course.courseNo;
+  
+  const title = course.courseNameEN;
+  const detail =
+    lang === "en"
+      ? courseDesc?.descENG ?? course.detailEN
+      : courseDesc?.descTH ?? course.detailTH;
+>>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
 
   return (
-    <div className="flex items-center justify-end font-['CMU']">
-      <div className="dashboard-card w-[819px] h-[793px] overflow-auto">
+    <div className="w-full">
+      <div className="dashboard-card w-full h-auto lg:h-[calc(100vh-160px)] overflow-auto">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
@@ -38,11 +88,11 @@ const CourseOverview = ({ course }: Props) => {
             {title}
           </h1>
 
-          <hr className="border-gray-300 w-[718px] my-4 mx-auto" />
+          <hr className="border-gray-300 w-full max-w-[718px] my-4 mx-auto" />
         </div>
 
         {/* Course Detail */}
-        <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[150px] mx-auto">
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
             {detail ??
               (lang === "en"
@@ -52,7 +102,7 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Skill List */}
-        <div className="dashboard-panel w-[719px] min-h-[341px] mt-3 mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[200px] mt-3 mx-auto">
           <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
             Skill List
           </h3>
@@ -60,6 +110,10 @@ const CourseOverview = ({ course }: Props) => {
           <SkillList courseNo={course.courseNo} />
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Config Button (still disabled) */}
+>>>>>>> 017ac14ca232dfee65aa52a2163ee24c0ac242b6
         <div className="flex justify-end mt-3 px-8">
         <button
               onClick={() => {
