@@ -100,7 +100,7 @@ const TeacherList = () => {
       <Navbar />
 
       <div className="flex justify-center py-[35px]">
-        <div className="bg-white flex flex-col items-center w-full max-w-[1240px] min-h-[400px] rounded-lg px-4 py-6 sm:px-[50px] sm:py-8 shadow-[0px_4px_4px_0px_#00000040]">
+        <div className="bg-white flex flex-col items-center w-full max-w-[1240px] h-[calc(100vh-180px)] rounded-lg px-4 py-6 sm:px-[50px] sm:py-8 shadow-[0px_4px_4px_0px_#00000040]">
           <div className="flex justify-between items-center w-full mb-4">
             <h1 className="text-3xl font-bold text-[#5D4685]">Teacher List</h1>
             <button
@@ -111,7 +111,7 @@ const TeacherList = () => {
             </button>
           </div>
 
-          <div className="flex flex-col items-center w-full min-h-[300px] max-h-[666px] rounded p-4 gap-4 border border-[#B9B9B9] bg-white">
+          <div className="flex flex-col items-center w-full flex-1 overflow-hidden rounded p-4 gap-4 border border-[#B9B9B9] bg-white">
             <div className="w-full">
               <input
                 type="text"
@@ -251,9 +251,6 @@ const TeacherList = () => {
                 : "bg-yellow-500"
             }`}
           >
-            <span>
-              {toast.type === "success" ? "✓" : toast.type === "error" ? "✕" : "⚠"}
-            </span>
             <span>{toast.message}</span>
             <button
               onClick={() => setToast(null)}

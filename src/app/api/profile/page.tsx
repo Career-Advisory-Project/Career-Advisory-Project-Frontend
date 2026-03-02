@@ -21,6 +21,7 @@ type CmuBasicInfo = {
   itaccounttype_id: string;
   itaccounttype_TH: string;
   itaccounttype_EN: string;
+  role: string;
 };
 
 type WhoAmIResponse = {
@@ -157,6 +158,9 @@ export default function MePage() {
           </p>
           <p>
             <strong>Account Type (TH):</strong> {cmuBasicInfo.itaccounttype_TH}
+          </p>
+          <p>
+            <strong>Role:</strong> {cmuBasicInfo.role}
           </p>
         </div>
       )}
