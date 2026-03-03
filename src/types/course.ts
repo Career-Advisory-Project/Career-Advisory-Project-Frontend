@@ -104,13 +104,13 @@ export interface AllSkill{
   tags: string[];
 }
 
-export interface PostRubricPayload {
+export interface PutRubricPayload {
   grade: string;
   level: number;
 }
 
-export interface PostCourseSkillPayload {
+export interface PutCourseSkillPayload {
   courseNo: string;
   skillID: string; 
-  rubrics: PostRubricPayload[];
+  rubrics: PutRubricPayload[];
 }

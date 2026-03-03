@@ -51,12 +51,12 @@ const CurriculumPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
+    <div className="h-screen bg-[#f8f9fa] flex flex-col overflow-hidden">
       <Navbar />
 
       {/* CONTENT */}
-      <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="max-w-[1000px] w-full bg-white rounded-xl shadow-sm p-8">
+      <div className="flex-1 flex justify-center px-4 sm:px-6 py-6 sm:py-8 overflow-hidden">
+        <div className="max-w-[1000px] w-full bg-white rounded-xl shadow-sm p-6 sm:p-8 flex flex-col overflow-hidden">
           {/* Header Row */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <h2 className="text-[#5b4085] font-bold text-2xl">
@@ -78,7 +78,7 @@ const CurriculumPage = () => {
           </div>
 
           {/* Inner List Container */}
-          <div className="border border-gray-200 rounded-lg p-4 min-h-[400px]">
+          <div className="border border-gray-200 rounded-lg p-4 flex-1 overflow-y-auto">
             <SearchInput
               placeholder="search here"
               value={searchQuery}
@@ -116,8 +116,8 @@ const CurriculumPage = () => {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg max-w-[600px] w-full max-h-[80vh] flex flex-col">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-xl font-bold text-[#5b4085]">Update Curriculum For Years</h3>
+            <div className="flex items-center justify-between p-6">
+              <h3 className="text-xl font-bold text-[#5b4085]">Sync Result</h3>
               <button
                 onClick={() => setSyncResult(null)}
                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
@@ -136,12 +136,12 @@ const CurriculumPage = () => {
                   </div>
                   <div className="text-sm text-green-700">Synced</div>
                 </div>
-                <div className="flex-1 bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-red-600">
+                {/* <div className="flex-1 bg-red-50 border border-red-200 rounded-lg p-4 text-center"> */}
+                  {/* <div className="text-2xl font-bold text-red-600">
                     {syncResult.total_failed}
-                  </div>
-                  <div className="text-sm text-red-700">Failed</div>
-                </div>
+                  </div> */}
+                  {/* <div className="text-sm text-red-700">Failed</div>
+                </div> */}
               </div>
 
               {/* Synced List */}
@@ -164,7 +164,7 @@ const CurriculumPage = () => {
               )}
 
               {/* Failed List */}
-              {syncResult.failed.length > 0 && (
+              {/* {syncResult.failed.length > 0 && (
                 <div>
                   <h4 className="font-semibold text-red-700 mb-2">
                     Failed
@@ -183,11 +183,11 @@ const CurriculumPage = () => {
                     ))}
                   </ul>
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t flex justify-end">
+            <div className="p-4 flex justify-end">
               <button
                 onClick={() => setSyncResult(null)}
                 className="bg-[#5b4085] text-white px-8 py-2 rounded-lg hover:bg-[#4a3370] transition"

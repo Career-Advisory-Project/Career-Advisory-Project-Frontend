@@ -45,11 +45,11 @@ const CurriculumDetailPage = () => {
   if (!program || !curriculum_year) return null;
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
+    <div className="h-screen bg-[#f8f9fa] flex flex-col overflow-hidden">
       <Navbar />
 
-      <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="max-w-[1000px] w-full bg-white rounded-xl shadow-sm p-8 flex flex-col">
+      <div className="flex-1 flex justify-center px-4 sm:px-6 py-6 sm:py-8 overflow-hidden">
+        <div className="max-w-[1000px] w-full bg-white rounded-xl shadow-sm p-6 sm:p-8 flex flex-col overflow-hidden">
           <CurriculumHeader
             program={decodeURIComponent(program)}
             curriculum_year={curriculum_year}
@@ -85,7 +85,7 @@ const CurriculumDetailPage = () => {
           </div>
 
           {/* CONTENT */}
-          <div className="flex-1">
+          <div className="flex-1 overflow-y-auto">
             {loading ? (
               <div className="text-center py-12 text-gray-500">Loading...</div>
             ) : activeTab === "skills" ? (

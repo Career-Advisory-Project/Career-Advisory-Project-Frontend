@@ -5,7 +5,7 @@ import type {
   CourseDetailResponse,
   AllSkill,
   TeacherCourseResponse,
-  PostCourseSkillPayload
+  PutCourseSkillPayload,
 } from "../types/course";
 
 export const getDashboardCourses = async (
@@ -140,9 +140,9 @@ export const deleteCourseSkill = async (courseNo: string, skillID: string) => {
   return response.json();
 };
 
-export const postCourseSkill = async (payload: PostCourseSkillPayload) => {
+export const putCourseSkill = async (payload: PutCourseSkillPayload) => {
   const response = await fetch(`/api/courseskills/`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -150,23 +150,7 @@ export const postCourseSkill = async (payload: PostCourseSkillPayload) => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to post course skill");
-  }
-
-  return response.json();
-};
-
-export const patchCourseSkill = async (payload: PostCourseSkillPayload) => {
-  const response = await fetch(`/api/courseskills/`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update course skill (PATCH)");
+    throw new Error("Failed to put course skill");
   }
 
   return response.json();
