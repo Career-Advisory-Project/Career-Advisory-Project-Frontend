@@ -6,6 +6,7 @@ import CurriculumCard from "../../components/curriculum/CurriculumCard";
 import { getCurriculums, syncCurriculums } from "../../services/curriculum.service";
 import type { Curriculum } from "../../types/curriculum";
 import type { CurriculumSyncResponse } from "../../types/curriculum";
+import { useAuth } from "../../hooks/useAuth";
 
 const CurriculumPage = () => {
   const [curriculums, setCurriculums] = useState<Curriculum[]>([]);
@@ -13,6 +14,7 @@ const CurriculumPage = () => {
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<CurriculumSyncResponse | null>(null);
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
 
   const fetchData = async () => {
     const data = await getCurriculums();
@@ -60,17 +62,19 @@ const CurriculumPage = () => {
             <h2 className="text-[#5b4085] font-bold text-2xl">
               Curriculum List
             </h2>
-            <button
-              onClick={handleSync}
-              disabled={syncing}
-              className={`text-white px-6 sm:px-20 py-2.5 rounded-lg transition ${
-                syncing
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#5b4085] hover:bg-[#4a3370]"
-              }`}
-            >
-              {syncing ? "Syncing..." : "Update Curriculum"}
-            </button>
+            {isAdmin && (
+              <button
+                onClick={handleSync}
+                disabled={syncing}
+                className={`text-white px-6 sm:px-20 py-2.5 rounded-lg transition ${
+                  syncing
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#5b4085] hover:bg-[#4a3370]"
+                }`}
+              >
+                {syncing ? "Syncing..." : "Update Curriculum"}
+              </button>
+            )}
           </div>
 
           {/* Inner List Container */}
@@ -113,7 +117,7 @@ const CurriculumPage = () => {
           <div className="bg-white rounded-xl shadow-lg max-w-[600px] w-full max-h-[80vh] flex flex-col">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-xl font-bold text-[#5b4085]">Sync Result</h3>
+              <h3 className="text-xl font-bold text-[#5b4085]">Update Curriculum For Years</h3>
               <button
                 onClick={() => setSyncResult(null)}
                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
@@ -144,7 +148,7 @@ const CurriculumPage = () => {
               {syncResult.synced.length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-semibold text-green-700 mb-2">
-                    ✅ Synced Successfully
+                    Synced Successfully
                   </h4>
                   <ul className="space-y-1">
                     {syncResult.synced.map((key) => (
@@ -163,7 +167,7 @@ const CurriculumPage = () => {
               {syncResult.failed.length > 0 && (
                 <div>
                   <h4 className="font-semibold text-red-700 mb-2">
-                    ❌ Failed
+                    Failed
                   </h4>
                   <ul className="space-y-1">
                     {syncResult.failed.map((item) => (

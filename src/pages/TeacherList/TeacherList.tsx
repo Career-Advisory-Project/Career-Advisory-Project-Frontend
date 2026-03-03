@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/layout/Navbar";
-import { getUserlist, addUser, deleteUser } from "../../services/userlist.service";
+import { getUserlist, addUser, deleteUser, getAdminlist } from "../../services/userlist.service";
 import type { User } from "../../types/Userlist";
 
 type ToastType = "success" | "error" | "warning";
@@ -24,6 +24,10 @@ const TeacherList = () => {
 
   // Confirm dialog state
   const [confirmTarget, setConfirmTarget] = useState<string | null>(null);
+
+  // Role conflict state
+  const [conflictEmails, setConflictEmails] = useState<string[]>([]);
+  const [pendingEmails, setPendingEmails] = useState<string[]>([]);
 
   const showToast = (message: string, type: ToastType) => {
     setToast({ message, type });
@@ -59,6 +63,19 @@ const TeacherList = () => {
 
     try {
       setIsAdding(true);
+      // Check if any emails already exist as admins
+      const admins = await getAdminlist();
+      const adminEmails = admins.map(a => a.cmuitaccount.toLowerCase());
+      const conflicts = emailsToAdd.filter(email => adminEmails.includes(email.toLowerCase()));
+
+      if (conflicts.length > 0) {
+        // Show conflict confirmation dialog
+        setConflictEmails(conflicts);
+        setPendingEmails(emailsToAdd);
+        setIsAdding(false);
+        return;
+      }
+
       await addUser(emailsToAdd);
       showToast("Teachers added successfully!", "success");
       setIsModalOpen(false);
@@ -67,6 +84,27 @@ const TeacherList = () => {
     } catch (error) {
       console.error("Failed to add teachers:", error);
       showToast(error instanceof Error ? error.message : "An unexpected error occurred.", "error");
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleConfirmRoleSwitch = async () => {
+    try {
+      setIsAdding(true);
+      // First, remove conflicting users from the admin list
+      await deleteUser(conflictEmails);
+      // Then add all pending emails as teachers
+      await addUser(pendingEmails);
+      showToast("Teachers added successfully!", "success");
+      setIsModalOpen(false);
+      setEmailInput("");
+      setConflictEmails([]);
+      setPendingEmails([]);
+      fetchTeachers();
+    } catch (error) {
+      console.error("Failed to switch roles:", error);
+      showToast(error instanceof Error ? error.message : "Failed to switch roles.", "error");
     } finally {
       setIsAdding(false);
     }
@@ -233,6 +271,41 @@ const TeacherList = () => {
                 className="px-6 py-2 rounded font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
               >
                 Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- ROLE CONFLICT CONFIRMATION MODAL --- */}
+      {conflictEmails.length > 0 && (
+        <div className="fixed inset-0 flex justify-center items-center z-50" style={{ backgroundColor: '#3F3F3F80' }}>
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 max-w-[520px] w-full mx-4">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">Role Conflict Detected</h3>
+            <p className="text-gray-600 mb-3">
+              The following email(s) are currently in the <span className="font-semibold text-[#5D4685]">Admin</span> list. They must be removed from Admin before they can be added as Teacher:
+            </p>
+            <ul className="list-disc list-inside mb-4 text-gray-700 bg-gray-50 rounded p-3 max-h-[150px] overflow-y-auto">
+              {conflictEmails.map((email, i) => (
+                <li key={i} className="text-sm py-0.5">{email}</li>
+              ))}
+            </ul>
+            <p className="text-gray-600 mb-6 text-sm">
+              Do you want to remove them from Admin and add them as Teacher?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => { setConflictEmails([]); setPendingEmails([]); }}
+                className="px-6 py-2 rounded font-semibold text-gray-600 bg-gray-200 hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmRoleSwitch}
+                disabled={isAdding}
+                className={`px-6 py-2 rounded font-semibold text-white bg-[#5E4481] hover:bg-[#4a386a] transition-colors ${isAdding ? 'opacity-70 cursor-not-allowed' : ''}`}
+              >
+                {isAdding ? 'Switching...' : 'Confirm'}
               </button>
             </div>
           </div>

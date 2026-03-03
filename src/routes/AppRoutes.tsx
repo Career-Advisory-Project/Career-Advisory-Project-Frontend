@@ -28,14 +28,14 @@ const AppRoutes = () => {
       <Route path="/addcourse" element={<ProtectedRoute><AddCoursePage /></ProtectedRoute>} />
       <Route path="/configskill" element={<ProtectedRoute><ConfigSkillPage /></ProtectedRoute>} />
       <Route path="/editskill" element={<ProtectedRoute><EditSkillPage /></ProtectedRoute>} />
-      <Route path="/curriculum" element={<ProtectedRoute><CurriculumPage /></ProtectedRoute>} />
+      <Route path="/curriculum" element={<AdminRoute><CurriculumPage /></AdminRoute>} />
       <Route
         path="/curriculum/:program/:curriculum_year"
-        element={<ProtectedRoute><CurriculumDetailPage /></ProtectedRoute>}
+        element={<AdminRoute><CurriculumDetailPage /></AdminRoute>}
       />
       <Route
         path="/curriculum/:program/:curriculum_year/edit"
-        element={<ProtectedRoute><CurriculumEditPage /></ProtectedRoute>}
+        element={<AdminRoute><CurriculumEditPage /></AdminRoute>}
       />
 
       {/* Admin-only routes */}
