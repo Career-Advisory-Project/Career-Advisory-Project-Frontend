@@ -14,6 +14,7 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import AdminRoute from "../components/auth/AdminRoute";
 import TeacherList from "../pages/TeacherList/TeacherList";
 import AdminList from "../pages/AdminList/AdminList";
+import LogPage from "../pages/Log/LogPage";
 
 const AppRoutes = () => {
   return (
@@ -41,6 +42,7 @@ const AppRoutes = () => {
       {/* Admin-only routes */}
       <Route path="/TeacherList" element={<AdminRoute><TeacherList /></AdminRoute>} />
       <Route path="/AdminList" element={<AdminRoute><AdminList /></AdminRoute>} />
+      <Route path="/admin/log" element={<AdminRoute><LogPage /></AdminRoute>} />
     </Routes>
   );
 };

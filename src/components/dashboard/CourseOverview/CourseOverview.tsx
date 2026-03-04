@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CourseDetail } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
-import "../../../assets/styles/dashboard.css";
+import "../../../assets/styles/Dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";

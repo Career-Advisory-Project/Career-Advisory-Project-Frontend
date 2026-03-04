@@ -1,4 +1,5 @@
 import "./Login.css";
+import logo from "../../assets/images/logo1.svg";
 
 const Login = () => {
   const CmuentraidURL = (import.meta.env.VITE_CMU_ENTRAID_URL as string) || "#";
@@ -12,7 +13,7 @@ const Login = () => {
       <div className="w-full max-w-[818px] bg-white rounded-lg shadow-[0px_4px_4px_0px_#00000040] px-6 py-10 sm:px-[50px] sm:py-[50px] flex flex-col gap-[15px] items-center">
         
         <img 
-          src="src/assets/images/logo1.svg" 
+          src={logo} 
           alt="logo Icon" 
           className="w-[180px] h-[180px] sm:w-[251px] sm:h-[250px] object-contain" 
         />
