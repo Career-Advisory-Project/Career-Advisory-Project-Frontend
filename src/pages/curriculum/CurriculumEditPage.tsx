@@ -45,8 +45,8 @@ const CurriculumEditPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const allCoursesData = await getAllCourses();
-        setAllCourses(allCoursesData.courses);
+        const data = await getAllCourses();
+        setAllCourses(data.courses);
 
         // Fetch courses already in this curriculum
         const currData = await getCurriculumCourses(program, curriculum_year);
@@ -95,19 +95,23 @@ const CurriculumEditPage = () => {
 
     setSaving(true);
     try {
+      const promises: Promise<unknown>[] = [];
+
       // POST: Add newly checked courses
       if (coursesToAdd.length > 0) {
-        await addCoursesToCurriculum(curriculum_year, program, coursesToAdd);
+        promises.push(addCoursesToCurriculum(curriculum_year, program, coursesToAdd));
       }
 
       // DELETE: Remove newly unchecked courses
       if (coursesToRemove.length > 0) {
-        await removeCoursesFromCurriculum(
+        promises.push(removeCoursesFromCurriculum(
           curriculum_year,
           program,
           coursesToRemove
-        );
+        ));
       }
+
+      await Promise.all(promises);
 
       // Navigate back to detail page on success
       navigate(`/curriculum/${program}/${curriculum_year}`);
@@ -153,9 +157,9 @@ const CurriculumEditPage = () => {
         </div>
 
         {/* BOTTOM: Two-Column Layout */}
-        <div className="flex gap-8 max-w-[1200px] w-full h-[90vh]">
+        <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] w-full min-h-[60vh] lg:h-[80vh]">
           {/* LEFT: All Course List */}
-          <div className="w-[45%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-full lg:w-[45%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">
               All Course
             </h2>
@@ -179,6 +183,7 @@ const CurriculumEditPage = () => {
                     key={index}
                     courseNo={course.courseNo}
                     name={course.name}
+                    credits={course.credit}
                     isChecked={selectedCourseNos.includes(course.courseNo)}
                     onToggle={() => handleToggleCourse(course)}
                     onClick={() => handleCourseClick(course)}
@@ -189,15 +194,15 @@ const CurriculumEditPage = () => {
           </div>
 
           {/* RIGHT: Course Detail & Skills */}
-          <div className="w-[55%] flex flex-col">
-            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
+          <div className="w-full lg:w-[55%] flex flex-col min-h-0">
+            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4 min-h-0 overflow-hidden">
               {viewedCourse ? (
                 <>
                   <h2 className="text-center text-[#5b4085] font-bold text-xl p-8">
                     {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto min-h-0">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">
                        {viewedCourse.skills.length === 0 ? "No Skill Config" : "Skill List"}
                     </h3>
@@ -215,9 +220,7 @@ const CurriculumEditPage = () => {
                           <SkillItem
                             key={idx}
                             name={skill.name}
-                            level={
-                              skill.rubrics[0]?.level ?? "?"
-                            }
+                            rubrics={skill.rubrics}
                           />
                         ))
                       ) : (

@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import Navbar from "../../components/layout/Navbar";
 import CourseCard from "../../components/addcourse/CourseCard";
 import SkillItem from "../../components/addcourse/SkillItem";
 import SearchInput from "../../components/common/SearchInput";
-import { getAllCourses, getTeacherCourses, getCourseSkillsByCourseNo } from "../../services/course.service";
+import { getAllCourses, getDashboardCourses, getCourseSkillsByCourseNo, addDashboardCourses, removeDashboardCourses } from "../../services/course.service";
 import type { CourseInfo, CourseSkillResponse } from "../../types/course";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +15,12 @@ const AddCoursePage = () => {
   const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const initialCourseIdsRef = useRef<string[]>([]);
 
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,13 +30,13 @@ const AddCoursePage = () => {
         setAllCourses(data.courses);
 
         // Pre-select courses already in the dashboard
-        const teacherId = import.meta.env.VITE_EXAMPLE_TEACHER_ID;
-        if (teacherId) {
-          const teacherData = await getTeacherCourses(teacherId);
-          const teacherCourseNos = (teacherData.courses || []).map(
+        if (user) {
+          const dashboardData = await getDashboardCourses(user.cmuitaccount);
+          const dashboardCourseIds = (dashboardData.courses || []).map(
             (c) => c.courseNo
           );
-          setSelectedCourseIds(teacherCourseNos);
+          initialCourseIdsRef.current = dashboardCourseIds;
+          setSelectedCourseIds(dashboardCourseIds);
         }
       } catch (error) {
         console.error("Failed to fetch courses:", error);
@@ -41,7 +46,7 @@ const AddCoursePage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   const handleCourseClick = async (course: CourseInfo) => {
     try {
@@ -52,13 +57,51 @@ const AddCoursePage = () => {
     }
   };
 
-  // const handleToggleCourse = (course: CourseSkillResponse) => {
-  //   setSelectedCourseIds(prev =>
-  //     prev.includes(course.courseNo)
-  //       ? prev.filter(id => id !== course.courseNo)
-  //       : [...prev, course.courseNo]
-  //   );
-  // };
+  const handleToggleCourse = (course: CourseInfo) => {
+    setSelectedCourseIds(prev =>
+      prev.includes(course.courseNo)
+        ? prev.filter(id => id !== course.courseNo)
+        : [...prev, course.courseNo]
+    );
+  };
+
+  const handleFinish = async () => {
+    if (!user) {
+      navigate("/dashboard");
+      return;
+    }
+    const cmuitaccount = user.cmuitaccount;
+
+    setSaving(true);
+    try {
+      const initial = initialCourseIdsRef.current;
+
+      // Courses that were added (selected now but not originally)
+      const toAdd = selectedCourseIds.filter(id => !initial.includes(id));
+      // Courses that were removed (originally selected but not now)
+      const toRemove = initial.filter(id => !selectedCourseIds.includes(id));
+
+      const promises: Promise<void>[] = [];
+
+      if (toAdd.length > 0) {
+        // console.log("Adding courses:", toAdd);
+        promises.push(addDashboardCourses(cmuitaccount, toAdd));
+      }
+
+      if (toRemove.length > 0) {
+        // console.log("Removing courses:", toRemove);
+        promises.push(removeDashboardCourses(cmuitaccount, toRemove));
+      }
+
+      await Promise.all(promises);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Failed to save course changes:", error);
+      alert("Failed to save changes. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const filteredCourses = allCourses.filter(
     (c) =>
@@ -71,11 +114,11 @@ const AddCoursePage = () => {
       <Navbar />
       
       {/* CONTENT */}
-      <div className="flex-1 flex justify-center px-6 py-8">
-        <div className="flex gap-8 max-w-[1200px] w-full h-[80vh]">
+      <div className="flex-1 flex justify-center px-4 sm:px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] w-full min-h-[60vh] lg:h-[80vh]">
           
           {/* LEFT: ALL COURSE LIST */}
-          <div className="w-[60%] bg-white rounded-xl ps-8 pe-4 py-6 flex flex-col shadow-sm">
+          <div className="w-full lg:w-[45%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
             <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
 
             <SearchInput 
@@ -97,8 +140,9 @@ const AddCoursePage = () => {
                     key={index}
                     courseNo={course.courseNo}
                     name={course.name}
+                    credits={course.credit}
                     isChecked={selectedCourseIds.includes(course.courseNo)}
-                    // onToggle={() => handleToggleCourse(course)}
+                    onToggle={() => handleToggleCourse(course)}
                     onClick={() => handleCourseClick(course)}
                   />
                 ))
@@ -107,17 +151,17 @@ const AddCoursePage = () => {
           </div>
 
           {/* RIGHT: COURSE DETAIL & SKILLS */}
-          <div className="w-[40%] flex flex-col">
+          <div className="w-full lg:w-[55%] flex flex-col min-h-0">
               
             {/* White Container for Details */}
-            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4">
+            <div className="flex-1 bg-white rounded-xl shadow-sm flex flex-col mb-4 min-h-0 overflow-hidden">
               {viewedCourse ? (
                 <>
                   <h2 className="text-center text-[#5b4085] font-bold text-xl p-8">
                     {viewedCourse.name}
                   </h2>
 
-                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto">
+                  <div className="bg-gray-100 rounded-lg p-6 flex-1 flex flex-col overflow-y-auto min-h-0">
                     <h3 className="text-center font-bold text-[#5b4085] mb-4">{viewedCourse.skills.length === 0 ? "" : "Skill List"}</h3>
 
                     {/* Radar Chart */}
@@ -133,7 +177,7 @@ const AddCoursePage = () => {
                           <SkillItem
                             key={idx}
                             name={skill.name}
-                            level={skill.rubrics[0]?.level ?? "?"}
+                            rubrics={skill.rubrics}
                           />
                         ))
                       ) : (
@@ -154,9 +198,14 @@ const AddCoursePage = () => {
             {/* Finish Button Area */}
             <div className="flex justify-end">
                 <button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-[#5b4085] text-white font-bold px-12 py-3 rounded-lg hover:bg-[#4a3370] transition shadow-md">
-                  Finish
+                onClick={handleFinish}
+                disabled={saving}
+                className={`text-white font-bold px-12 py-3 rounded-lg transition shadow-md ${
+                  saving
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#5b4085] hover:bg-[#4a3370]"
+                }`}>
+                  {saving ? "Saving..." : "Finish"}
                 </button>
             </div>
 
@@ -168,3 +217,4 @@ const AddCoursePage = () => {
 };
 
 export default AddCoursePage;
+

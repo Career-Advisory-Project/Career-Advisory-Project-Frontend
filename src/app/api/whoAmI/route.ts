@@ -16,7 +16,7 @@ type ErrorResponse = {
 export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
 ): Promise<NextResponse<WhoAmIResponse>> {
 
   //This token means apptoke

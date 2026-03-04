@@ -6,35 +6,43 @@ import CmuEntraIDCallback from "../cmuEntraIDCallback/page"; // specific path to
 import MePage from "../app/api/profile/page";
 import AddCoursePage from "../pages/addcourse/AddCoursePage"; 
 import ConfigSkillPage from "../pages/configskill/ConfigSkillPage";
+import EditSkillPage from "../pages/configskill/editskill";
 import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+import AdminRoute from "../components/auth/AdminRoute";
+import TeacherList from "../pages/TeacherList/TeacherList";
+import AdminList from "../pages/AdminList/AdminList";
+import LogPage from "../pages/Log/LogPage";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      {/* <Route path="/auth/redirect" element={<AuthRedirect />} /> */}
-      {/* The Login Page */}
+      {/* Public routes */}
       <Route path="/" element={<Login />} />
-
-      {/* You MUST add this line for the white screen to go away */}
       <Route path="/cmuEntraIDCallback" element={<CmuEntraIDCallback />} />
 
-      {/* The Profile Page */}
-      <Route path="/me" element={<MePage />} />
-
-      <Route path="/addcourse" element={<AddCoursePage />} />
-      <Route path="/configskill" element={<ConfigSkillPage />} />
-      <Route path="/curriculum" element={<CurriculumPage />} />
+      {/* Protected routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/me" element={<AdminRoute><MePage /></AdminRoute>} />
+      <Route path="/addcourse" element={<ProtectedRoute><AddCoursePage /></ProtectedRoute>} />
+      <Route path="/configskill" element={<ProtectedRoute><ConfigSkillPage /></ProtectedRoute>} />
+      <Route path="/editskill" element={<ProtectedRoute><EditSkillPage /></ProtectedRoute>} />
+      <Route path="/curriculum" element={<AdminRoute><CurriculumPage /></AdminRoute>} />
       <Route
         path="/curriculum/:program/:curriculum_year"
-        element={<CurriculumDetailPage />}
+        element={<AdminRoute><CurriculumDetailPage /></AdminRoute>}
       />
       <Route
         path="/curriculum/:program/:curriculum_year/edit"
-        element={<CurriculumEditPage />}
+        element={<AdminRoute><CurriculumEditPage /></AdminRoute>}
       />
+
+      {/* Admin-only routes */}
+      <Route path="/TeacherList" element={<AdminRoute><TeacherList /></AdminRoute>} />
+      <Route path="/AdminList" element={<AdminRoute><AdminList /></AdminRoute>} />
+      <Route path="/admin/log" element={<AdminRoute><LogPage /></AdminRoute>} />
     </Routes>
   );
 };

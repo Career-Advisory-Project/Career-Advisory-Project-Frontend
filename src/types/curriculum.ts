@@ -32,3 +32,12 @@ export interface Skill {
   name: string;
   max_level: number;
 }
+
+//sync curriculum response
+export interface CurriculumSyncResponse {
+  ok: boolean;
+  total_synced: number;
+  total_failed: number;
+  synced: string[];
+  failed: { key: string; error: string }[];
+}

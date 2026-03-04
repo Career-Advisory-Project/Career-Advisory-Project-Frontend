@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Radar,
   RadarChart,
@@ -12,30 +13,57 @@ type SkillRadarChartProps = {
   skills: SkillItem[];
 };
 
-const GRADES = [
-  { label: "A", active: true },
-  { label: "B+", active: false },
-  { label: "B", active: false },
-  { label: "C+", active: false },
-  { label: "C", active: false },
-  { label: "D+", active: false },
-  { label: "D", active: false },
+const GRADES_CONFIG = [
+  { label: "A", color: "#5b4085" },
+  { label: "B+", color: "#5c8df6" },
+  { label: "B", color: "#00b8d9" },
+  { label: "C+", color: "#82db8a" },
+  { label: "C", color: "#f1c40f" },
+  { label: "D+", color: "#e67e22" },
+  { label: "D", color: "#e74c3c" },
 ];
 
 const SkillRadarChart: React.FC<SkillRadarChartProps> = ({ skills }) => {
+  const [activeGrades, setActiveGrades] = useState<string[]>(["A"]);
+
+  const toggleGrade = (gradeValue: string) => {
+    setActiveGrades((prev) =>
+      prev.includes(gradeValue)
+        ? prev.filter((g) => g !== gradeValue)
+        : [...prev, gradeValue]
+    );
+  };
+
   // Transform skills into radar chart data
-  const rawData = skills.map((skill) => ({
-    name: skill.name,
-    level: skill.rubrics[0]?.level ?? 0,
-    fullMark: 5,
-  }));
+  const rawData = skills.map((skill) => {
+    const dataPoint: any = { name: skill.name, fullMark: 5 };
+    
+    skill.rubrics.forEach((r) => {
+      if (r.grade && r.level != null) {
+        dataPoint[r.grade] = r.level;
+      }
+    });
+
+    // Default missing grades to 0
+    GRADES_CONFIG.forEach((g) => {
+      if (dataPoint[g.label] === undefined) {
+        dataPoint[g.label] = 0;
+      }
+    });
+
+    return dataPoint;
+  });
 
   let i = 0;
 
   // Pad to at least 3 data points so the radar forms a polygon
   const chartData = [...rawData];
   while (chartData.length < 3) {
-    chartData.push({ name: `__HIDDEN__${i}`, level: 0, fullMark: 5 });
+    const emptyPoint: any = { name: `__HIDDEN__${i}`, fullMark: 5 };
+    GRADES_CONFIG.forEach((g) => {
+      emptyPoint[g.label] = 0;
+    });
+    chartData.push(emptyPoint);
     i++;
   }
 
@@ -44,7 +72,7 @@ const SkillRadarChart: React.FC<SkillRadarChartProps> = ({ skills }) => {
       {/* Radar Chart */}
       <div className="flex-1">
         <ResponsiveContainer width="100%" height={300}>
-          <RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}>
+          <RadarChart cx="55%" cy="50%" outerRadius="70%" data={chartData}>
             <PolarGrid stroke="#c4b5d9" />
             <PolarAngleAxis
               dataKey="name"
@@ -57,31 +85,42 @@ const SkillRadarChart: React.FC<SkillRadarChartProps> = ({ skills }) => {
               tickCount={6}
               tick={{ fill: "#5b4085", fontSize: 11 }}
             />
-            <Radar
-              name="Skills"
-              dataKey="level"
-              stroke="#7a6aa6"
-              fill="#b8a9d4"
-              fillOpacity={0.5}
-            />
+            {GRADES_CONFIG.map(
+              (g) =>
+                activeGrades.includes(g.label) && (
+                  <Radar
+                    key={g.label}
+                    name={g.label}
+                    dataKey={g.label}
+                    stroke={g.color}
+                    fill={g.color}
+                    fillOpacity={0.4}
+                  />
+                )
+            )}
           </RadarChart>
         </ResponsiveContainer>
       </div>
 
       {/* Grade Badges */}
       <div className="flex flex-col gap-2 pt-2">
-        {GRADES.map((grade) => (
-          <div
-            key={grade.label}
-            className={`w-12 h-8 flex items-center justify-center rounded-md font-bold text-sm border ${
-              grade.active
-                ? "bg-[#5b4085] text-white border-[#5b4085]"
-                : "bg-white text-gray-500 border-gray-300"
-            }`}
-          >
-            {grade.label}
-          </div>
-        ))}
+        {GRADES_CONFIG.map((grade) => {
+          const isActive = activeGrades.includes(grade.label);
+          return (
+            <button
+              key={grade.label}
+              onClick={() => toggleGrade(grade.label)}
+              className={`w-12 h-8 flex items-center justify-center rounded-md font-bold text-sm border cursor-pointer transition-colors shadow-sm ${
+                isActive
+                  ? "text-white border-transparent"
+                  : "bg-white text-[#8a6db1] hover:bg-gray-50 hover:border-[#8a6db1] border-white"
+              }`}
+              style={isActive ? { backgroundColor: grade.color } : {}}
+            >
+              {grade.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

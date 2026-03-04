@@ -21,6 +21,7 @@ type CmuBasicInfo = {
   itaccounttype_id: string;
   itaccounttype_TH: string;
   itaccounttype_EN: string;
+  role: string;
 };
 
 type WhoAmIResponse = {
@@ -38,15 +39,15 @@ export default function MePage() {
   function signOut() {
     // FIX 2: Use absolute path
     axios
-      .post("http://localhost:3000/auth/me")
+      .post("/api/auth/me")
       .then((response) => {
         if (response.data.ok) {
           // FIX 3: Environment variables on client must start with NEXT_PUBLIC_
           // Or you can hardcode the URL if the env var isn't working
           const logoutUrl =
             process.env.NEXT_PUBLIC_CMU_ENTRAID_LOGOUT_URL || "/";
-          //  router.push(logoutUrl);
-          navigate(logoutUrl);
+          // External URL needs window.location.href, not React Router navigate
+          window.location.href = logoutUrl;
         } else {
           //  router.push('/');
           navigate("/");
@@ -61,7 +62,7 @@ export default function MePage() {
   useEffect(() => {
     // FIX 1: Use absolute path '/api/whoAmI' instead of relative '../'
     axios
-      .get<WhoAmIResponse>("http://localhost:3000/auth/me", {
+      .get<WhoAmIResponse>("/api/auth/me", {
         withCredentials: true, // <--- ADD THIS
       })
       .then((response) => {
@@ -157,6 +158,9 @@ export default function MePage() {
           </p>
           <p>
             <strong>Account Type (TH):</strong> {cmuBasicInfo.itaccounttype_TH}
+          </p>
+          <p>
+            <strong>Role:</strong> {cmuBasicInfo.role}
           </p>
         </div>
       )}

@@ -1,14 +1,47 @@
-import type { TeacherCourse } from "../../../types/course";
-import "../../../assets/styles/dashboard.css";
+import { useEffect, useState } from "react";
+import type { CourseDetail } from "../../../types/course";
+import { getCourseSkillsByCourseNo } from "../../../services/course.service";
+import "../../../assets/styles/Dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
-  course: TeacherCourse | null;
+  course: CourseDetail | null;
 };
 
 const CourseOverview = ({ course }: Props) => {
   const { lang } = useAppContext();
+  const navigate = useNavigate();
+  const [courseDesc, setCourseDesc] = useState<{
+    descTH?: string;
+    descENG?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!course) {
+      setCourseDesc(null);
+      return;
+    }
+
+    const fetchDesc = async () => {
+      try {
+        const data = await getCourseSkillsByCourseNo(course.courseNo);
+        setCourseDesc({
+          descTH: data.descTH,
+          descENG: data.descENG,
+        });
+      } catch {
+        // Fallback to CourseDetail description
+        setCourseDesc({
+          descTH: course.detailTH,
+          descENG: course.detailEN,
+        });
+      }
+    };
+
+    fetchDesc();
+  }, [course]);
 
   if (!course) {
     return (
@@ -18,12 +51,18 @@ const CourseOverview = ({ course }: Props) => {
     );
   }
 
-  const title = course.name;
-  const detail = lang === "en" ? course.descENG : course.descTH;
+
+  const courseNo =  course.courseNo;
+  
+  const title = course.courseNameEN;
+  const detail =
+    lang === "en"
+      ? courseDesc?.descENG ?? course.detailEN
+      : courseDesc?.descTH ?? course.detailTH;
 
   return (
-    <div className="flex items-center justify-end font-['CMU']">
-      <div className="dashboard-card w-[819px] h-[793px] overflow-auto">
+    <div className="w-full">
+      <div className="dashboard-card w-full h-auto lg:h-[calc(100vh-160px)] overflow-auto flex flex-col">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
@@ -34,11 +73,11 @@ const CourseOverview = ({ course }: Props) => {
             {title}
           </h1>
 
-          <hr className="border-gray-300 w-[718px] my-4 mx-auto" />
+          <hr className="border-gray-300 w-full max-w-[718px] my-4 mx-auto" />
         </div>
 
         {/* Course Detail */}
-        <div className="dashboard-panel w-[719px] h-[234px] mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[150px] mx-auto">
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
             {detail ??
               (lang === "en"
@@ -48,7 +87,7 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Skill List */}
-        <div className="dashboard-panel w-[719px] min-h-[341px] mt-3 mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[200px] mt-3 mx-auto flex-1 flex flex-col">
           <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
             Skill List
           </h3>
@@ -57,15 +96,21 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Config Button (still disabled) */}
-        <div className="flex justify-end mt-3 px-4">
-          <button
-            disabled
-            className="font-bold py-2 px-8 rounded shadow-md w-[232px] h-[50px]
-              bg-gray-300 cursor-not-allowed text-gray-500"
-          >
-            Config Skill
-          </button>
-        </div>
+        <div className="flex justify-end mt-auto pt-3 px-8">
+        <button
+              onClick={() => {
+                navigate("/configskill", { 
+                  state: { 
+                    courseNo: courseNo,
+                    courseName: title 
+                  } 
+                });
+              }}
+              className="font-bold py-2 px-8 rounded shadow-md w-[232px] h-[50px] bg-[#5E4481] text-white hover:bg-[#4a3370]"
+            >
+          Config Skill
+        </button>
+      </div>
       </div>
     </div>
   );
