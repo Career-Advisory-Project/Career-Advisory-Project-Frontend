@@ -10,6 +10,7 @@ interface PinoLog {
   time: number;
   pid?: number;
   hostname?: string;
+  cmuitaccount?: string;
   method?: string;
   url?: string;
   status?: number;
@@ -231,12 +232,13 @@ const LogPage = () => {
     if (!searchTerm) return true;
     const s = searchTerm.toLowerCase();
     if (log.parsed) {
-      const { method, url, status, msg } = log.parsed;
+      const { method, url, status, msg, cmuitaccount } = log.parsed;
       return (
         (method?.toLowerCase().includes(s) ?? false) ||
         (url?.toLowerCase().includes(s) ?? false) ||
         (status?.toString().includes(s) ?? false) ||
         (msg?.toLowerCase().includes(s) ?? false) ||
+        (cmuitaccount?.toLowerCase().includes(s) ?? false) ||
         log.raw.toLowerCase().includes(s)
       );
     }
@@ -325,6 +327,7 @@ const LogPage = () => {
               <div className="w-[65px]">Level</div>
               <div className="w-[70px]">Method</div>
               <div className="flex-1 min-w-0">URL</div>
+              <div className="w-[180px] shrink-0">Caller</div>
               <div className="w-[65px] text-center">Status</div>
             </div>
 
@@ -342,18 +345,6 @@ const LogPage = () => {
                 </div>
               ) : error ? (
                 <div className="flex flex-col justify-center items-center h-full text-red-500 py-10 px-4 gap-3">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
                   <p className="text-center font-sans text-base">{error}</p>
                   <p className="text-center font-sans text-sm text-gray-500">
                     Make sure you're running via{" "}
@@ -402,6 +393,9 @@ const LogPage = () => {
                         </div>
                         <div className="flex-1 min-w-0 truncate text-gray-800 text-xs px-1">
                           {p.url ?? p.msg ?? "—"}
+                        </div>
+                        <div className="w-[180px] shrink-0 text-xs text-gray-500 truncate px-2">
+                          {p.cmuitaccount ?? "—"}
                         </div>
                         <div className="w-[65px] text-center shrink-0">
                           {p.status ? statusBadge(p.status) : "—"}
