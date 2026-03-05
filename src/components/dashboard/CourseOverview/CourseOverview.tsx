@@ -76,6 +76,7 @@ const CourseOverview = ({ course }: Props) => {
           <hr className="border-gray-300 w-full max-w-[718px] my-4 mx-auto" />
         </div>
 
+        <div className="flex-1 overflow-y-auto">
         {/* Course Detail */}
         <div className="dashboard-panel w-full max-w-[719px] min-h-[150px] mx-auto">
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
@@ -93,6 +94,7 @@ const CourseOverview = ({ course }: Props) => {
           </h3>
 
           <SkillList courseNo={course.courseNo} />
+        </div>
         </div>
 
         {/* Config Button (still disabled) */}
