@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CourseDetail } from "../../../types/course";
+import type { DashboardCourse } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/Dashboard.css";
 import SkillList from "./SkillList";
@@ -7,7 +7,7 @@ import { useAppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  course: CourseDetail | null;
+  course: DashboardCourse | null;
 };
 
 const CourseOverview = ({ course }: Props) => {
@@ -32,10 +32,10 @@ const CourseOverview = ({ course }: Props) => {
           descENG: data.descENG,
         });
       } catch {
-        // Fallback to CourseDetail description
+        // Fallback empty description
         setCourseDesc({
-          descTH: course.detailTH,
-          descENG: course.detailEN,
+          descTH: undefined,
+          descENG: undefined,
         });
       }
     };
@@ -54,11 +54,11 @@ const CourseOverview = ({ course }: Props) => {
 
   const courseNo =  course.courseNo;
   
-  const title = course.courseNameEN;
+  const title = course.name;
   const detail =
     lang === "en"
-      ? courseDesc?.descENG ?? course.detailEN
-      : courseDesc?.descTH ?? course.detailTH;
+      ? courseDesc?.descENG
+      : courseDesc?.descTH;
 
   return (
     <div className="w-full">

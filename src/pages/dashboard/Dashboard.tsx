@@ -2,11 +2,11 @@ import { useState } from "react";
 import Navbar from "../../components/layout/Navbar";
 import CourseOverview from "../../components/dashboard/CourseOverview/CourseOverview";
 import CourseList from "../../components/dashboard/CourseList/CourseList";
-import type { CourseDetail } from "../../types/course";
+import type { DashboardCourse } from "../../types/course";
 import { useAuth } from "../../hooks/useAuth";
 
 const Dashboard = () => {
-  const [selectedCourse, setSelectedCourse] = useState<CourseDetail | null>(
+  const [selectedCourse, setSelectedCourse] = useState<DashboardCourse | null>(
     null
   );
   const { user, loading } = useAuth();
