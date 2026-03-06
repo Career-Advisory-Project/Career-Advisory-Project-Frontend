@@ -19,6 +19,8 @@ export interface Course {
   courseNo: string;
   name: string;
   credit: string;
+  recommendSemester: string;
+  recommendYear: string;
 }
 
 export interface CurriculumSkillsResponse {
