@@ -223,7 +223,7 @@ const Adminlist = () => {
                 fontSize: '16px',
                 fontWeight: '300',
                 lineHeight: '100%',
-                color: '#8C8989'
+                color: '#000000ff'
               }}
             />
 

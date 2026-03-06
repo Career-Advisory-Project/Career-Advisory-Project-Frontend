@@ -56,7 +56,10 @@ const Navbar = () => {
               ? `${user.firstname_TH} ${user.lastname_TH}`
               : `${user.firstname_EN} ${user.lastname_EN}`}
             <span className="text-xs text-gray-500">
-              {user.itaccounttype_EN}
+              {user.itaccounttype_EN.toUpperCase()}
+            </span>
+            <span className="text-xs text-gray-500">
+              {user.role.toUpperCase()}
             </span>
           </div>
           ) : (
