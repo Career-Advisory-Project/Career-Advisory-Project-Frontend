@@ -9,6 +9,7 @@ import {
   getCurriculumCourses,
 } from "../../services/curriculum.service";
 import type { Skill, Course } from "../../types/curriculum";
+import { useAppContext } from "../../context/AppContext";
 
 const CurriculumDetailPage = () => {
   const { program, curriculum_year } = useParams<{ program: string; curriculum_year: string }>();
@@ -21,6 +22,7 @@ const CurriculumDetailPage = () => {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { lang } = useAppContext();
 
     // Close dropdown when clicking outside
   useEffect(() => {
@@ -83,6 +85,12 @@ const availableYears = Array.from(
               )
             }
           />
+
+          <p className="w-full text-left font-light mb-4">
+            {lang === "en" 
+              ? "A summary of all courses and skills within this program. Use the edit button to modify the curriculum." 
+              : "สรุปรายวิชาและทักษะทั้งหมดภายในหลักสูตรนี้ คุณสามารถใช้ปุ่มแก้ไขเพื่อแก้ไขหลักสูตร"}
+          </p>
 
           {/* TABS + FILTER ROW */}
           <div className="flex items-center justify-between">

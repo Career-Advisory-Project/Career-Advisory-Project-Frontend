@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/layout/Navbar";
 import { getAdminlist, addAdmin, deleteUser, getUserlist } from "../../services/userlist.service";
 import type { User } from "../../types/Userlist";
+import { useAppContext } from "../../context/AppContext";
 
 type ToastType = "success" | "error" | "warning";
 
@@ -18,6 +19,8 @@ const Adminlist = () => {
   const [admins, setAdmins] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+
+  const { lang } = useAppContext();
 
   // Toast notification state
   const [toast, setToast] = useState<Toast | null>(null);
@@ -148,6 +151,12 @@ const Adminlist = () => {
               Add
             </button>
           </div>
+                    
+          <p className="w-full text-left font-light mb-4">
+            {lang === "en" 
+              ? "Manage access and view the current list of authorized admins in the system." 
+              : "จัดการสิทธิ์การเข้าถึงและดูรายชื่อผู้ดูแลระบบ"}
+            </p>
 
           <div className="flex flex-col items-center w-full flex-1 overflow-hidden rounded p-4 gap-4 border border-[#B9B9B9] bg-white">
             <div className="w-full">
@@ -209,6 +218,12 @@ const Adminlist = () => {
             <h2 className="w-full text-[#5E4481] text-xl sm:text-2xl font-bold flex items-center mb-2.5">
               Add Admin
             </h2>
+
+            <p className="w-full text-left font-light mb-4">
+              {lang === "en" 
+                ? "Enter CMU email addresses below. Please use one email per line." 
+                : "กรุณากรอกที่อยู่อีเมล CMU ด้านล่าง โดยแยกหนึ่งอีเมลต่อหนึ่งบรรทัด"}
+            </p>
 
             <textarea
               className="w-full p-4 resize-none outline-none border-none placeholder-[#8C8989]"

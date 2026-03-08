@@ -25,6 +25,7 @@ const EditSkillPage = () => {
     skillData.scores.map((s: number | null) => s ?? 1)
   );
   
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [skillDetail, setSkillDetail] = useState<AllSkill | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,22 +107,24 @@ const EditSkillPage = () => {
     });
   };
 
-  const handleRemove = () => {
-    const isConfirmed = window.confirm("Are you sure you want to remove this skill?");
-    if (!isConfirmed) return;
+    const handleRemoveRequest = () => {
+      setIsRemoveModalOpen(true);
+    };
 
-    // console.log("Removed Skill:", skillData.name);
-    navigate("/configskill", {
+
+    const confirmRemove = () => {
+      setIsRemoveModalOpen(false);
+      navigate("/configskill", {
         state: {
-            courseNo: skillData.courseNo,
-            courseName: skillData.courseName,
-            updatedSkill: {
-                id: skillData.id,
-                scores: Array(7).fill(null)
-            }
+          courseNo: skillData.courseNo,
+          courseName: skillData.courseName,
+          updatedSkill: {
+            id: skillData.id,
+            scores: Array(7).fill(null)
+          }
         }
-    });
-  };
+      });
+    };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col font-['CMU'] overflow-x-hidden select-none">
@@ -135,6 +138,11 @@ const EditSkillPage = () => {
             <h1 className="text-[#5E4481] text-2xl font-bold mb-4">
               {skillData.courseName} - Skill
             </h1>
+            <p className="font-light mb-2">
+            {lang === "en" 
+              ? "Define the skill attainment levels by mapping them to the corresponding course grades." 
+              : "กำหนดระดับการบรรลุผลสัมฤทธิ์ของทักษะ โดยการเทียบเคียงกับเกรดของรายวิชา"}
+            </p>
             <hr className="border-black border-1" />
           </div>
 
@@ -146,11 +154,14 @@ const EditSkillPage = () => {
                </h2>
             </div>
             
-            <button 
-            onClick={handleRemove}
-            className="bg-[#C95F5F] hover:bg-[#b14e4e] text-white font-bold py-2 px-6 rounded shadow transition-colors">
-              Remove Skill
-            </button>
+            {skillData.scores && skillData.scores.some((s: number | null) => s !== null) && (
+              <button 
+                onClick={handleRemoveRequest}
+                className="bg-[#C95F5F] hover:bg-[#b14e4e] text-white font-bold py-2 px-6 rounded shadow transition-colors"
+              >
+                Remove Skill
+              </button>
+            )}
           </div>
 
           {/* --- Interactive Chart Section --- */}
@@ -268,7 +279,47 @@ const EditSkillPage = () => {
               Confirm
             </button>
           </div>
+            {isRemoveModalOpen && (
+            <div className="fixed inset-0 flex justify-center items-center z-[100]" style={{ backgroundColor: '#3F3F3F80' }}>
+              <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-[440px] w-full mx-4 animate-[pop_0.2s_ease-out]">
+                <h3 className="text-xl font-bold text-gray-800 mb-2 font-['CMU']">Remove Skill</h3>
+                <p className="text-gray-600 mb-8 leading-relaxed font-['CMU']">
+                  {lang === "en" ? (<> Are you sure you want to remove{" "}
+                  <span className="font-bold text-[#5E4481]">{skillData.name}</span>{" "}
+                  from this course?</>) : (
+                  <>
+                    คุณแน่ใจหรือไม่ว่าต้องการลบสกิล{" "}
+                    <span className="font-bold text-[#5E4481]">{skillData.name}</span>{" "}
+                    ออกจากรายวิชานี้?
+                  </>
+                )}
+                 
+                </p>
+                <div className="flex justify-end gap-3 font-['CMU']">
+                  <button
+                    onClick={() => setIsRemoveModalOpen(false)}
+                    className="px-6 py-2.5 rounded-md font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors w-full sm:w-auto"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmRemove}
+                    className="px-6 py-2.5 rounded-md font-bold text-white bg-[#C95F5F] hover:bg-[#b14e4e] transition-colors w-full sm:w-auto shadow-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+            )
+          }
 
+          <style>{`
+            @keyframes pop {
+              0% { transform: scale(0.95); opacity: 0; }
+              100% { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
         </div>
       </div>
     </div>
