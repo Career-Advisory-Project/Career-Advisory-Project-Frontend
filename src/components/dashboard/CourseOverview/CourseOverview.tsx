@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CourseDetail } from "../../../types/course";
+import type { DashboardCourse } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
 import "../../../assets/styles/Dashboard.css";
 import SkillList from "./SkillList";
@@ -7,7 +7,7 @@ import { useAppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  course: CourseDetail | null;
+  course: DashboardCourse | null;
 };
 
 const CourseOverview = ({ course }: Props) => {
@@ -32,10 +32,10 @@ const CourseOverview = ({ course }: Props) => {
           descENG: data.descENG,
         });
       } catch {
-        // Fallback to CourseDetail description
+        // Fallback empty description
         setCourseDesc({
-          descTH: course.detailTH,
-          descENG: course.detailEN,
+          descTH: undefined,
+          descENG: undefined,
         });
       }
     };
@@ -54,11 +54,11 @@ const CourseOverview = ({ course }: Props) => {
 
   const courseNo =  course.courseNo;
   
-  const title = course.courseNameEN;
+  const title = course.name;
   const detail =
     lang === "en"
-      ? courseDesc?.descENG ?? course.detailEN
-      : courseDesc?.descTH ?? course.detailTH;
+      ? courseDesc?.descENG
+      : courseDesc?.descTH;
 
   return (
     <div className="w-full">
@@ -76,6 +76,7 @@ const CourseOverview = ({ course }: Props) => {
           <hr className="border-gray-300 w-full max-w-[718px] my-4 mx-auto" />
         </div>
 
+        <div className="flex-1 overflow-y-auto">
         {/* Course Detail */}
         <div className="dashboard-panel w-full max-w-[719px] min-h-[150px] mx-auto">
           <p className="text-gray-600 text-sm leading-relaxed text-justify">
@@ -93,6 +94,7 @@ const CourseOverview = ({ course }: Props) => {
           </h3>
 
           <SkillList courseNo={course.courseNo} />
+        </div>
         </div>
 
         {/* Config Button (still disabled) */}

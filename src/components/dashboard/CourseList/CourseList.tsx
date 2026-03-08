@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { getDashboardCourses, getCourseDetail } from "../../../services/course.service";
+import { getDashboardCourses } from "../../../services/course.service";
 import CourseItem from "../CourseItem/CourseItem";
-import type { CourseDetail } from "../../../types/course";
+import type { DashboardCourse } from "../../../types/course";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
   cmuitaccount: string;
-  onSelectCourse: (course: CourseDetail | null) => void;
+  onSelectCourse: (course: DashboardCourse | null) => void;
 };
 
 const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
-  const [courses, setCourses] = useState<CourseDetail[]>([]);
+  const [courses, setCourses] = useState<DashboardCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -19,36 +19,8 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
     const fetchCourses = async () => {
       try {
         const result = await getDashboardCourses(cmuitaccount);
-        // console.log("API data (dashboard courses):", result);
 
-        // Fetch full details for each course in parallel
-        const detailPromises = result.courses.map(async (c) => {
-          try {
-            const detail = await getCourseDetail(c.courseNo);
-            const d = detail.course.courseDetails[0];
-            if (d) {
-              return d;
-            }
-          } catch (err) {
-            console.warn(`Failed to fetch detail for ${c.courseNo}:`, err);
-          }
-          // Fallback if detail fetch fails
-          return {
-            courseNo: c.courseNo,
-            courseNameEN: c.name,
-            courseNameTH: "",
-            detailEN: "Failed to load details",
-            detailTH: "ไม่สามารถโหลดรายละเอียดได้",
-            curCodeEN: "",
-            curCodeTH: "",
-            updatedYear: 0,
-            updatedSemester: 0,
-            credits: { credits: 0, lecture: 0, practice: 0, selfStudy: 0 },
-            selectedTopicSubjects: [],
-          } as CourseDetail;
-        });
-
-        const mapped = await Promise.all(detailPromises);
+        const mapped = result.courses;
         mapped.sort((a, b) => a.courseNo.localeCompare(b.courseNo));
         setCourses(mapped);
       } catch (err) {
@@ -82,7 +54,6 @@ const CourseList = ({ cmuitaccount, onSelectCourse }: Props) => {
                 course={course}
                 onClick={() => {
                   onSelectCourse(course);
-                  // console.log("Selected course:", course.courseNo);
                 }}
               />
             ))}

@@ -10,11 +10,12 @@ interface PinoLog {
   time: number;
   pid?: number;
   hostname?: string;
+  cmuitaccount?: string;
   method?: string;
   url?: string;
   status?: number;
-  response?: Record<string, unknown>;
   msg?: string;
+  date?: string;
   [key: string]: unknown;
 }
 
@@ -146,6 +147,7 @@ const LogPage = () => {
   const [tailCount, setTailCount] = useState(200);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+  const [sortDesc] = useState(true);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -219,28 +221,29 @@ const LogPage = () => {
     };
   }, [autoRefresh, containerId, fetchLogs]);
 
-  /* ---- Auto-scroll to bottom ---- */
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [logs]);
-
   /* ---- Filter logs ---- */
-  const filteredLogs = logs.filter((log) => {
+  const filteredLogs = logs
+  .filter((log) => {
     if (!searchTerm) return true;
     const s = searchTerm.toLowerCase();
     if (log.parsed) {
-      const { method, url, status, msg } = log.parsed;
+      const { method, url, status, msg, cmuitaccount, date } = log.parsed;
       return (
         (method?.toLowerCase().includes(s) ?? false) ||
         (url?.toLowerCase().includes(s) ?? false) ||
         (status?.toString().includes(s) ?? false) ||
         (msg?.toLowerCase().includes(s) ?? false) ||
+        (cmuitaccount?.toLowerCase().includes(s) ?? false) ||
+        (date?.toLowerCase().includes(s) ?? false) ||
         log.raw.toLowerCase().includes(s)
       );
     }
     return log.raw.toLowerCase().includes(s);
+  })
+  .sort((a, b) => {
+    const ta = a.timestamp?.getTime() ?? 0;
+    const tb = b.timestamp?.getTime() ?? 0;
+    return sortDesc ? tb - ta : ta - tb;
   });
 
   /* ---- Render ---- */
@@ -321,10 +324,12 @@ const LogPage = () => {
           <div className="flex flex-col flex-1 overflow-hidden rounded border border-[#B9B9B9] bg-white">
             {/* Table header */}
             <div className="flex bg-[#EFEFEF] px-4 py-2 text-sm font-semibold text-gray-700 shrink-0">
+              <div className="w-[85px]">Date</div>
               <div className="w-[85px]">Time</div>
               <div className="w-[65px]">Level</div>
               <div className="w-[70px]">Method</div>
               <div className="flex-1 min-w-0">URL</div>
+              <div className="w-[180px] shrink-0">Caller</div>
               <div className="w-[65px] text-center">Status</div>
             </div>
 
@@ -342,18 +347,6 @@ const LogPage = () => {
                 </div>
               ) : error ? (
                 <div className="flex flex-col justify-center items-center h-full text-red-500 py-10 px-4 gap-3">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
                   <p className="text-center font-sans text-base">{error}</p>
                   <p className="text-center font-sans text-sm text-gray-500">
                     Make sure you're running via{" "}
@@ -392,6 +385,9 @@ const LogPage = () => {
                         }
                       >
                         <div className="w-[85px] text-gray-500 text-xs shrink-0">
+                          {p.date ?? (log.timestamp ? formatDate(log.timestamp) : "—")}
+                        </div>
+                        <div className="w-[85px] text-gray-500 text-xs shrink-0">
                           {log.timestamp ? formatTime(log.timestamp) : "—"}
                         </div>
                         <div className="w-[65px] shrink-0">
@@ -402,6 +398,9 @@ const LogPage = () => {
                         </div>
                         <div className="flex-1 min-w-0 truncate text-gray-800 text-xs px-1">
                           {p.url ?? p.msg ?? "—"}
+                        </div>
+                        <div className="w-[180px] shrink-0 text-xs text-gray-500 truncate px-2">
+                          {p.cmuitaccount ?? "—"}
                         </div>
                         <div className="w-[65px] text-center shrink-0">
                           {p.status ? statusBadge(p.status) : "—"}
@@ -423,16 +422,9 @@ const LogPage = () => {
                               <span>Host: {String(p.hostname)}</span>
                             )}
                           </div>
-                          {p.response && (
-                            <pre className="bg-gray-900 text-green-400 text-xs p-3 rounded overflow-x-auto max-h-[300px] overflow-y-auto">
-                              {JSON.stringify(p.response, null, 2)}
-                            </pre>
-                          )}
-                          {!p.response && (
-                            <pre className="bg-gray-900 text-green-400 text-xs p-3 rounded overflow-x-auto max-h-[300px] overflow-y-auto">
-                              {JSON.stringify(p, null, 2)}
-                            </pre>
-                          )}
+                          <pre className="bg-gray-900 text-green-400 text-xs p-3 rounded overflow-x-auto max-h-[300px] overflow-y-auto">
+                            {JSON.stringify(p, null, 2)}
+                          </pre>
                         </div>
                       )}
                     </div>
