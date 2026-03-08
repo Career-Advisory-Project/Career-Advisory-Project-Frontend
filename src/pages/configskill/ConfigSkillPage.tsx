@@ -6,6 +6,7 @@ import { getAllSkill,
   deleteCourseSkill,
   putCourseSkill } from "../../services/course.service";
 import type { CourseSkillResponse, SkillItem, SkillRubric } from "../../types/course";
+import { useAppContext } from "../../context/AppContext";
 
 
 interface LocationState {
@@ -33,6 +34,7 @@ const ConfigSkillPage = () => {
   const [isLoading, setIsLoading] = useState(true); 
   const [skillsToRemove, setSkillsToRemove] = useState<string[]>([]);
   const [existingSkillIds, setExistingSkillIds] = useState<string[]>([]);
+  const { lang } = useAppContext();
 
 useEffect(() => {
     const courseNo = stateData?.courseNo;
@@ -237,7 +239,12 @@ useEffect(() => {
             <h1 className="text-[#5E4481] text-2xl font-bold mb-4">
               {stateData.courseName} - Skill
             </h1>
-            <hr className="border-gray-300 border-2" />
+            <p className="font-light mb-2">
+            {lang === "en" 
+              ? "Browse and add skills relevant to this course, then define the criteria for each." 
+              : "เลือกและเพิ่มทักษะที่เกี่ยวข้องกับหลักสูตรนี้ จากนั้นกำหนดเกณฑ์สำหรับแต่ละทักษะ"}
+            </p>
+            <hr className="border-black-300 border-1" />
           </div>
 
           {/* Search Bar */}

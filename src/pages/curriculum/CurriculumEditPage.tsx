@@ -13,6 +13,7 @@ import { getAllCourses, getCourseSkillsByCourseNo } from "../../services/course.
 import type { CourseInfo, CourseSkillResponse } from "../../types/course";
 import type { Course } from "../../types/curriculum";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
+import { useAppContext } from "../../context/AppContext";
 
 const CurriculumEditPage = () => {
   const { program, curriculum_year } = useParams<{
@@ -38,7 +39,8 @@ const CurriculumEditPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
+  const { lang } = useAppContext();
+  
   useEffect(() => {
     if (!program || !curriculum_year) return;
 
@@ -163,7 +165,11 @@ const CurriculumEditPage = () => {
             <h2 className="text-center font-bold text-xl text-black mb-6">
               All Course
             </h2>
-
+            <p className="w-full text-left font-light mb-4">
+              {lang === "en" 
+              ? "Search for courses to add to the curriculum, or remove existing ones using the list below." 
+              : "ค้นหารายวิชาเพื่อเพิ่มเข้าไปในหลักสูตร หรือลบรายวิชาที่มีอยู่ออกโดยใช้รายการด้านล่างนี้"}
+              </p>
             <SearchInput
               placeholder="Search Course ..."
               value={searchQuery}

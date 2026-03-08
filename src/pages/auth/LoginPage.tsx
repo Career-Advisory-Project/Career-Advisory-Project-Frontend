@@ -19,8 +19,15 @@ const Login = () => {
         />
         
         <h1 className="font-['CMU'] font-bold italic text-3xl sm:text-[48px] leading-none text-center text-[#5E4481]">
-          Career Advisory
+          Course Skill Management
         </h1>
+
+        <p className="font-light italic sm:text-[21px] text-center text-[#5E4481]">
+          A professional evaluation suite for educators to audit course content and verify skill coverage.
+          Map your syllabus to core competencies and ensure your curriculum delivers exactly what it promises.
+        </p>
+
+        <hr className="border-gray-300 w-full max-w-[550px] my-4 mx-auto" />
 
         {/* FIX: Use a standard <a> tag for external navigation */}
           <button onClick={handleLogin} className="w-full max-w-[508px] h-[60px] sm:h-[79px] bg-[#5E4481] rounded-lg flex items-center justify-center font-['CMU'] font-semibold text-lg sm:text-[24px] text-white hover:opacity-90 transition-opacity duration-200">

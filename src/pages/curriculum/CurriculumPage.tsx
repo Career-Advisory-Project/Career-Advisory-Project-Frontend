@@ -7,6 +7,7 @@ import { getCurriculums, syncCurriculums } from "../../services/curriculum.servi
 import type { Curriculum } from "../../types/curriculum";
 import type { CurriculumSyncResponse } from "../../types/curriculum";
 import { useAuth } from "../../hooks/useAuth";
+import { useAppContext } from "../../context/AppContext";
 
 const CurriculumPage = () => {
   const [curriculums, setCurriculums] = useState<Curriculum[]>([]);
@@ -15,7 +16,7 @@ const CurriculumPage = () => {
   const [syncResult, setSyncResult] = useState<CurriculumSyncResponse | null>(null);
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
-
+  const { lang } = useAppContext();
   const fetchData = async () => {
     const data = await getCurriculums();
     setCurriculums(data);
@@ -76,7 +77,11 @@ const CurriculumPage = () => {
               </button>
             )}
           </div>
-
+          <p className="w-full text-left font-light mb-4">
+            {lang === "en" 
+              ? "Select a curriculum to view and manage its associated courses and mapped skills." 
+              : "เลือกหลักสูตรเพื่อดูและจัดการรายวิชากับทักษะที่เกี่ยวข้อง"}
+          </p>
           {/* Inner List Container */}
           <div className="border border-gray-200 rounded-lg p-4 flex-1 overflow-y-auto">
             <SearchInput

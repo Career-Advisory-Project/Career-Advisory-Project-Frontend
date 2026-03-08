@@ -8,6 +8,7 @@ import { getAllCourses, getDashboardCourses, getCourseSkillsByCourseNo, addDashb
 import type { CourseInfo, CourseSkillResponse } from "../../types/course";
 import SkillRadarChart from "../../components/common/SkillRadarChart";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
 
 const AddCoursePage = () => {
   const [allCourses, setAllCourses] = useState<CourseInfo[]>([]);
@@ -21,7 +22,7 @@ const AddCoursePage = () => {
 
   const navigate = useNavigate();
   const { user } = useAuth();
-
+  const { lang } = useAppContext();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -119,7 +120,12 @@ const AddCoursePage = () => {
           
           {/* LEFT: ALL COURSE LIST */}
           <div className="w-full lg:w-[45%] bg-white rounded-xl ps-4 sm:ps-8 pe-4 py-6 flex flex-col shadow-sm">
-            <h2 className="text-center font-bold text-xl text-black mb-6">All Course</h2>
+            <h2 className="text-center font-bold text-xl text-black mb-3">All Course</h2>
+            <h2 className="text-center !font-light sm:text-[14px] mb-2">
+              {lang === "en" 
+              ? "Select courses to add to your dashboard for skill mapping and audit." 
+              : "เลือกหลักสูตรที่ต้องการเพิ่มลงในแดชบอร์ดของคุณ เพื่อใช้ในการประเมินทักษะ"}
+            </h2>
 
             <SearchInput 
               placeholder="Search Course ..." 

@@ -9,6 +9,7 @@ import {
   getCurriculumCourses,
 } from "../../services/curriculum.service";
 import type { Skill, Course } from "../../types/curriculum";
+import { useAppContext } from "../../context/AppContext";
 
 const CurriculumDetailPage = () => {
   const { program, curriculum_year } = useParams<{ program: string; curriculum_year: string }>();
@@ -18,6 +19,7 @@ const CurriculumDetailPage = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const { lang } = useAppContext();
 
   useEffect(() => {
     if (!program || !curriculum_year) return;
@@ -59,7 +61,11 @@ const CurriculumDetailPage = () => {
               )
             }
           />
-
+          <p className="w-full text-left font-light mb-4">
+            {lang === "en" 
+              ? "A summary of all courses and skills within this program. Use the edit button to modify the curriculum." 
+              : "สรุปรายวิชาและทักษะทั้งหมดภายในหลักสูตรนี้ คุณสามารถใช้ปุ่มแก้ไขเพื่อปรับปรุงข้อมูลหลักสูตร"}
+          </p>
           {/* TABS — connected to content below */}
           <div className="flex">
             <button

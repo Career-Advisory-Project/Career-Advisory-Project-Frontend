@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/layout/Navbar";
 import { getAdminlist, addAdmin, deleteUser, getUserlist } from "../../services/userlist.service";
 import type { User } from "../../types/Userlist";
+import { useAppContext } from "../../context/AppContext";
 
 type ToastType = "success" | "error" | "warning";
 
@@ -29,6 +30,7 @@ const Adminlist = () => {
   const [conflictEmails, setConflictEmails] = useState<string[]>([]);
   const [pendingEmails, setPendingEmails] = useState<string[]>([]);
 
+  const { lang } = useAppContext();
   const showToast = (message: string, type: ToastType) => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
@@ -148,6 +150,12 @@ const Adminlist = () => {
               Add
             </button>
           </div>
+          
+          <p className="w-full text-left font-light mb-4">
+            {lang === "en" 
+              ? "Manage access and view the current list of authorized admins in the system." 
+              : "จัดการสิทธิ์การเข้าถึงและดูรายชื่อผู้ดูแลระบบในระบบ"}
+            </p>
 
           <div className="flex flex-col items-center w-full flex-1 overflow-hidden rounded p-4 gap-4 border border-[#B9B9B9] bg-white">
             <div className="w-full">
