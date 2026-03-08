@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
             onClick={toggleLang}
             className="mt-2 flex items-center gap-2 text-[#5b4085] font-medium hover:underline text-sm"
           >
-            🌐 {lang === "en" ? "TH" : "EN"}
+            🌐 {lang === "en" ? "EN" : "TH"}
           </button>
         </div>
 
