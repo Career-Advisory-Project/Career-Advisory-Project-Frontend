@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CourseDetail } from "../../../types/course";
 import { getCourseSkillsByCourseNo } from "../../../services/course.service";
-import "../../../assets/styles/dashboard.css";
+import "../../../assets/styles/Dashboard.css";
 import SkillList from "./SkillList";
 import { useAppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +62,7 @@ const CourseOverview = ({ course }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="dashboard-card w-full h-auto lg:h-[calc(100vh-160px)] overflow-auto">
+      <div className="dashboard-card w-full h-auto lg:h-[calc(100vh-160px)] overflow-auto flex flex-col">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-gray-500 font-bold uppercase tracking-wider text-sm">
@@ -87,7 +87,7 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Skill List */}
-        <div className="dashboard-panel w-full max-w-[719px] min-h-[200px] mt-3 mx-auto">
+        <div className="dashboard-panel w-full max-w-[719px] min-h-[200px] mt-3 mx-auto flex-1 flex flex-col">
           <h3 className="text-center text-[#5b4085] text-xl font-bold mb-4">
             Skill List
           </h3>
@@ -96,7 +96,7 @@ const CourseOverview = ({ course }: Props) => {
         </div>
 
         {/* Config Button (still disabled) */}
-        <div className="flex justify-end mt-3 px-8">
+        <div className="flex justify-end mt-auto pt-3 px-8">
         <button
               onClick={() => {
                 navigate("/configskill", { 

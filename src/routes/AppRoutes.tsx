@@ -11,8 +11,10 @@ import CurriculumPage from "../pages/curriculum/CurriculumPage";
 import CurriculumDetailPage from "../pages/curriculum/CurriculumDetailPage";
 import CurriculumEditPage from "../pages/curriculum/CurriculumEditPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import AdminRoute from "../components/auth/AdminRoute";
 import TeacherList from "../pages/TeacherList/TeacherList";
 import AdminList from "../pages/AdminList/AdminList";
+import LogPage from "../pages/Log/LogPage";
 
 const AppRoutes = () => {
   return (
@@ -23,21 +25,24 @@ const AppRoutes = () => {
 
       {/* Protected routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/me" element={<ProtectedRoute><MePage /></ProtectedRoute>} />
+      <Route path="/me" element={<AdminRoute><MePage /></AdminRoute>} />
       <Route path="/addcourse" element={<ProtectedRoute><AddCoursePage /></ProtectedRoute>} />
       <Route path="/configskill" element={<ProtectedRoute><ConfigSkillPage /></ProtectedRoute>} />
       <Route path="/editskill" element={<ProtectedRoute><EditSkillPage /></ProtectedRoute>} />
-      <Route path="/curriculum" element={<ProtectedRoute><CurriculumPage /></ProtectedRoute>} />
+      <Route path="/curriculum" element={<AdminRoute><CurriculumPage /></AdminRoute>} />
       <Route
         path="/curriculum/:program/:curriculum_year"
-        element={<ProtectedRoute><CurriculumDetailPage /></ProtectedRoute>}
+        element={<AdminRoute><CurriculumDetailPage /></AdminRoute>}
       />
       <Route
         path="/curriculum/:program/:curriculum_year/edit"
-        element={<ProtectedRoute><CurriculumEditPage /></ProtectedRoute>}
+        element={<AdminRoute><CurriculumEditPage /></AdminRoute>}
       />
-      <Route path="/TeacherList" element={<ProtectedRoute><TeacherList /></ProtectedRoute>} />
-      <Route path="/AdminList" element={<ProtectedRoute><AdminList /></ProtectedRoute>} />
+
+      {/* Admin-only routes */}
+      <Route path="/TeacherList" element={<AdminRoute><TeacherList /></AdminRoute>} />
+      <Route path="/AdminList" element={<AdminRoute><AdminList /></AdminRoute>} />
+      <Route path="/admin/log" element={<AdminRoute><LogPage /></AdminRoute>} />
     </Routes>
   );
 };

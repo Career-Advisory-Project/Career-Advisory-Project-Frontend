@@ -5,7 +5,11 @@ import type {
   CourseDetailResponse,
   AllSkill,
   TeacherCourseResponse,
+<<<<<<< HEAD
   PutCourseSkillPayload
+=======
+  PutCourseSkillPayload,
+>>>>>>> 48502985a126cc7844856cd417d99f3cbb6ed164
 } from "../types/course";
 
 export const getDashboardCourses = async (
@@ -153,5 +157,9 @@ export const putCourseSkill = async (payload: PutCourseSkillPayload) => {
     throw new Error("Failed to put course skill");
   }
   return response.json();
+<<<<<<< HEAD
 };
 
+=======
+};
+>>>>>>> 48502985a126cc7844856cd417d99f3cbb6ed164

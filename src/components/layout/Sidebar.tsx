@@ -97,6 +97,16 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
               >
                 Log
               </button>
+          <button
+            onClick={() => handleNavigate("/curriculum")}
+            className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
+              isActive("/curriculum")
+                ? "bg-[#f0ebf5] text-[#5b4085]"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            Curriculum
+          </button>
               <hr className="my-3 border-gray-200" />
             </>
           )}
@@ -111,16 +121,6 @@ const Sidebar = ({ isOpen, onClose }: Props) => {
             }`}
           >
             Dashboard
-          </button>
-          <button
-            onClick={() => handleNavigate("/curriculum")}
-            className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-              isActive("/curriculum")
-                ? "bg-[#f0ebf5] text-[#5b4085]"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
-          >
-            Curriculum
           </button>
         </nav>
 

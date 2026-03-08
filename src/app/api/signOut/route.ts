@@ -11,7 +11,7 @@ type ErrorResponse = {
 
 export type signoutResponse = SuccessResponse | ErrorResponse;
 export async function POST(
-  req: NextRequest
+  _req: NextRequest
 ): Promise<NextResponse<signoutResponse>> { 
 // function delete cookie apptoken
  (await cookies()).delete('cmu-entraid-example-token');

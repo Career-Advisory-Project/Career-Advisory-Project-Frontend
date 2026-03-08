@@ -14,12 +14,6 @@ const SkillList = ({ courseNo }: Props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // useEffect(() => {
-  //   if (skills.length > 0) {
-  //     console.log(`Current Skills for ${courseNo}:`, skills);
-  //   }
-  // }, [skills, courseNo]);
-
   useEffect(() => {
     const fetchSkills = async () => {
       try {
@@ -73,7 +67,10 @@ const SkillList = ({ courseNo }: Props) => {
       </div>
 
       {skills.map((skill) => {
-        const sortedRubrics = [...skill.rubrics].sort((a, b) => b.level - a.level);
+        const gradeOrder = ["A", "B+", "B", "C+", "C", "D+", "D"];
+        const sortedRubrics = [...skill.rubrics].sort(
+          (a, b) => gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade)
+        );
 
         return (
           <div key={skill.id} className="border border-gray-300 rounded-lg p-4">

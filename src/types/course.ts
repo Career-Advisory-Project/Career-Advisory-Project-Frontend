@@ -113,4 +113,8 @@ export interface PutCourseSkillPayload {
   courseNo: string;
   skillID: string; 
   rubrics: PutRubricPayload[];
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 48502985a126cc7844856cd417d99f3cbb6ed164

@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="flex items-center gap-4 z-10">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-gray-600 hover:text-[#5b4085] transition-colors p-1"
+            className="text-gray-600 hover:text-[#5b4085] transition-colors p-1 cursor-pointer"
             aria-label="Open menu"
           >
             <svg
@@ -45,8 +45,8 @@ const Navbar = () => {
 
         {/* Right: User info */}
         <div
-          onClick={() => navigate("/me")}
-          className="text-gray-700 font-medium z-10 cursor-pointer"
+          // onClick={() => navigate("/me")}
+          className="text-gray-700 font-medium z-10"
         >
           {loading ? (
             <span className="text-gray-400">Loading...</span>
