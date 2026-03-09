@@ -50,60 +50,34 @@ const columns = useMemo<MRT_ColumnDef<Course>[]>(() => [
 },
 ], []);
 
-const table = useMaterialReactTable({
-  columns,
-  data: courses,
-  positionGlobalFilter: 'left',
-
-  enableColumnActions: false,
-  enableColumnFilters: true,
-  columnFilterDisplayMode: 'popover',
-  enablePagination: true,
-  enableSorting: true,
-  enableHiding: false,
-  enableDensityToggle: false,
-  enableFullScreenToggle: false,
-
-  muiSearchTextFieldProps: {
-    variant: 'outlined',
-    placeholder: 'Search courses...',
-    fullWidth: true,
-    sx: {
-      flexGrow: 1,
-      width: '100%',
-      '& .MuiOutlinedInput-root': {
-        backgroundColor: 'white',
+  const table = useMaterialReactTable({
+    columns,
+    data: courses,
+    enableColumnActions: false,
+    enableColumnFilters: true,
+    columnFilterDisplayMode: 'popover',
+    enablePagination: true,
+    enableSorting: true,
+    enableHiding: false, 
+    enableDensityToggle: false,
+    enableFullScreenToggle: false,
+    muiTablePaperProps: {
+      elevation: 0,
+      sx: {
+        borderRadius: '0',
+        border: '1px solid #e0e0e0',
       },
     },
-  },
-
-  muiTopToolbarProps: {
-    sx: {
-      backgroundColor: '#f8f9fa',
-      padding: '8px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      '& .MuiFormControl-root': {
-        flexGrow: 1,
-      },
+    muiTopToolbarProps: {
+      sx: {
+        backgroundColor: '#f8f9fa',
+      }
     },
-  },
-
-  muiTablePaperProps: {
-    elevation: 0,
-    sx: {
-      borderRadius: '0',
-      border: '1px solid #e0e0e0',
+    initialState: {
+      density: 'compact',
     },
-  },
-
-  initialState: {
-    density: 'compact',
-    showGlobalFilter: true,
-  },
-
-  layoutMode: 'grid',
-});
+    layoutMode: 'grid',
+  });
 
   return (
     <div className="w-full">
