@@ -1,0 +1,100 @@
+"use no memo";
+import { useMemo } from 'react';
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+  type MRT_ColumnDef,
+} from 'material-react-table';
+import type { Skill } from "../../types/curriculum";
+
+type SkillTableTabProps = {
+  skills: Skill[];
+};
+
+const SkillTableTab: React.FC<SkillTableTabProps> = ({ skills }) => {
+const columns = useMemo<MRT_ColumnDef<Skill>[]>(() => [
+  {
+    accessorKey: 'name',
+    header: 'Skill Name',
+    grow: true,
+  },
+  {
+    accessorKey: 'max_level',
+    header: 'Max Level',
+    size: 150,
+    grow: false, 
+    muiTableHeadCellProps: {
+      sx: {
+        '& .Mui-TableHeadCell-Content-Wrapper': {
+          justifyContent: 'flex-end',
+          flex: 1,
+        },
+      }
+    },
+    muiTableBodyCellProps: { align: 'left' },
+  },
+], []);
+
+const table = useMaterialReactTable({
+  columns,
+  data: skills,
+  positionGlobalFilter: 'left',
+
+  enableColumnActions: false,
+  enableColumnFilters: true,
+  columnFilterDisplayMode: 'popover',
+  enablePagination: true,
+  enableSorting: true,
+  enableHiding: false,
+  enableDensityToggle: false,
+  enableFullScreenToggle: false,
+
+  muiSearchTextFieldProps: {
+    variant: 'outlined',
+    placeholder: 'Search skills...',
+    fullWidth: true,
+    sx: {
+      flexGrow: 1,
+      width: '100%',
+      '& .MuiOutlinedInput-root': {
+        backgroundColor: 'white',
+      },
+    },
+  },
+
+  muiTopToolbarProps: {
+    sx: {
+      backgroundColor: '#f8f9fa',
+      padding: '8px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      '& .MuiFormControl-root': {
+        flexGrow: 1,
+      },
+    },
+  },
+
+  muiTablePaperProps: {
+    elevation: 0,
+    sx: {
+      borderRadius: '0',
+      border: '1px solid #e0e0e0',
+    },
+  },
+
+  initialState: {
+    density: 'compact',
+    showGlobalFilter: true,
+  },
+
+  layoutMode: 'grid',
+});
+
+  return (
+    <div className="w-full">
+      <MaterialReactTable table={table} />
+    </div>
+  );
+};
+
+export default SkillTableTab;
